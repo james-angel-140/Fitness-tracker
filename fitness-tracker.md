@@ -375,14 +375,14 @@ Focus: Aerobic base, strength maintenance via Fitbod, leg priority.
 
 | Day | Date | Focus | Session |
 |-----|------|-------|---------|
-| Mon | Apr 7 | Strength — Push (Fitbod) | Bench, OHP, dips. Keep score ≥62 |
-| Tue | Apr 8 | Zone 2 Run | 30–40 min at 120–130 bpm. Log pace — this is your baseline |
-| Wed | Apr 9 | Strength — Legs (Fitbod) | Squats, lunges, leg press, hip hinge. Score ≥60 |
-| Thu | Apr 10 | Strength — Pull (Fitbod) | Rows, pull-ups, curls |
-| Fri | Apr 11 | Hyrox Simulation Run | 2–3km at race pace to feel the effort level. No stations needed |
-| Sat | Apr 12 | Longer Zone 2 Run | 45–50 min. HR control, not pace |
-| Sun | Apr 13 | Rest | Full recovery |
-| Mon | Apr 14 | Strength — Legs (Fitbod) | Second leg session — focus on posterior chain (RDLs, hamstring curls) |
+| Mon | Apr 6 | Strength — Legs (Fitbod) | Squats, leg press, RDLs, hip thrust. 32 days since last leg session — priority. Score ≥60 |
+| Tue | Apr 7 | Strength — Push (Fitbod) | Bench, OHP, dips. Keep score ≥62 |
+| Wed | Apr 8 | Zone 2 Run | 30–40 min at 120–130 bpm. Log pace — this is your baseline |
+| Thu | Apr 9 | Strength — Pull (Fitbod) | Rows, pull-ups, curls |
+| Fri | Apr 10 | Hyrox Simulation Run | 2–3km at race pace to feel the effort level. No stations needed |
+| Sat | Apr 11 | Longer Zone 2 Run | 45–50 min. HR control, not pace |
+| Sun | Apr 12 | Rest | Full recovery |
+| Mon | Apr 13 | Strength — Legs (Fitbod) | Second leg session — focus on posterior chain (RDLs, hamstring curls) |
 
 ---
 
