@@ -1,6 +1,6 @@
 # 🏋️ Fitness Tracker
 
-> Last Updated: April 5, 2026 — Baseline data populated
+> Last Updated: April 6, 2026 — Leg session logged, deadlift est. 1RM PR
 
 ---
 
@@ -228,6 +228,17 @@ Collect these before each recalculation:
 ---
 
 ## 🗓️ Workout Log
+
+#### Apr 6, 2026 — Legs (Return session — 32 days since last leg day)
+
+| Exercise | Sets | Reps | Weight | Notes |
+|----------|------|------|--------|-------|
+| Deadlift | 4 | 10/10/8/8 | 70kg | Est. 1RM 97.7kg — volume & estimated 1RM PR per app |
+| Back Squat | 3 | 10/10/10 | 40/50/50kg | Conservative — appropriate after long break |
+| Leg Extension | 3 | 10/10/10 | 30kg | Light — sensible on return |
+| Hanging Knee Raise | 3 | 10/10/10 | BW | |
+
+---
 
 #### Apr 3, 2026 — Walking
 
@@ -480,7 +491,7 @@ Focus: Arrive fresh. Cut volume ~30–40%, keep intensity. No new stimulus.
 |------|-----------|----------|-------|
 | Barbell Bench Press | 70kg × 5 | Oct 14 & Oct 8, 2025 | Best working weight |
 | Barbell Shoulder Press | 32.5kg × 7 | Feb 23 & Mar 30, 2026 | |
-| Deadlift | 72.5kg × 8 | Feb 20, 2026 | |
+| Deadlift | 72.5kg × 8 (working) / Est. 1RM 97.7kg | Apr 6, 2026 | Est. 1RM PR — 70kg × 10/10/8/8 |
 | Romanian Deadlift | 52.5kg × 9 | Mar 5, 2026 | |
 | Leg Press | 135kg × 6 | Feb 20, 2026 | |
 | Back Squat | 65kg × 4-6 | Nov 4, 2026 | Best working weight |
@@ -491,6 +502,15 @@ Focus: Arrive fresh. Cut volume ~30–40%, keep intensity. No new stimulus.
 | Seated Leg Curl | 57.5kg × 12 | Feb 24, 2026 | |
 
 ### PR History
+
+#### Deadlift
+
+| Date | Weight / Reps | Notes |
+|------|---------------|-------|
+| Feb 20, 2026 | 72.5kg × 8 | Previous working weight PR |
+| Apr 6, 2026 | 70kg × 10/10/8/8 | Est. 1RM 97.7kg — PR per app. Volume: 2,520kg |
+
+---
 
 #### Barbell Bench Press
 
