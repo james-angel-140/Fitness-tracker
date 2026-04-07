@@ -1,6 +1,6 @@
 # 🏋️ Fitness Tracker
 
-> Last Updated: April 6, 2026 — Leg session logged, deadlift est. 1RM PR
+> Last Updated: April 7, 2026 — Upper body session logged
 
 ---
 
@@ -228,6 +228,20 @@ Collect these before each recalculation:
 ---
 
 ## 🗓️ Workout Log
+
+#### Apr 7, 2026 — Upper Body (Push + Pull) — 58 min
+
+| Exercise | Sets | Reps | Weight | Notes |
+|----------|------|------|--------|-------|
+| Pull Up | 4 | 6/6/6/6 | BW | Consistent |
+| Barbell Bench Press | 5 | 5/5/5/5/5 | 60kg | Solid 5×5 strength format |
+| Dip | 5 | 9/9/9/9/9 | BW | Highest set count at this rep range |
+| Cable Row | 3 | 12/10/10 | 45/50/45kg | Hit 50kg on middle set |
+| Barbell Shoulder Press | 4 | 9/6/6/6 | 31/31/26/26kg | Started near PR weight, dropped with fatigue |
+
+**Total Volume:** 3,767kg | **Calories:** 256 kcal
+
+---
 
 #### Apr 6, 2026 — Legs (Return session — 32 days since last leg day)
 
