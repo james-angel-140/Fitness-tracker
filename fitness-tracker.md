@@ -1,6 +1,6 @@
 # 🏋️ Fitness Tracker
 
-> Last Updated: April 5, 2026 — Baseline data populated
+> Last Updated: April 8, 2026 — Zone 2 run baseline logged
 
 ---
 
@@ -229,6 +229,47 @@ Collect these before each recalculation:
 
 ## 🗓️ Workout Log
 
+#### Apr 8, 2026 — Zone 2 Run (Indoor, Technogym) — Baseline session
+
+**Duration:** 40 min | **Distance:** 4.77km | **Avg Pace:** 8:23/km | **Avg HR:** 134 bpm | **Calories:** 358 active / 418 total | **Cadence:** 145 spm
+
+| km | Pace | HR | Notes |
+|----|------|----|-------|
+| 1 | 7:20/km | 130 bpm | Right at Z2 ceiling — good start |
+| 2 | 8:04/km | 136 bpm | Slowed to manage HR drift |
+| 3 | 8:47/km | 136 bpm | Continued to back off |
+| 4 | 9:02/km | 134 bpm | Good HR control |
+| 5 | 8:48/km (partial) | 134 bpm | Final 0.77km |
+
+**Notes:** First genuine Zone 2 attempt. Avg HR 134 bpm — 4 bpm above our 120–130 target but by far the lowest avg HR in the run log. True Zone 2 pace estimated ~9:00–9:30/km. Session completed despite DOMS from Monday's leg session.
+
+---
+
+#### Apr 7, 2026 — Upper Body (Push + Pull) — 58 min
+
+| Exercise | Sets | Reps | Weight | Notes |
+|----------|------|------|--------|-------|
+| Pull Up | 4 | 6/6/6/6 | BW | Consistent |
+| Barbell Bench Press | 5 | 5/5/5/5/5 | 60kg | Solid 5×5 strength format |
+| Dip | 5 | 9/9/9/9/9 | BW | Highest set count at this rep range |
+| Cable Row | 3 | 12/10/10 | 45/50/45kg | Hit 50kg on middle set |
+| Barbell Shoulder Press | 4 | 9/6/6/6 | 31/31/26/26kg | Started near PR weight, dropped with fatigue |
+
+**Total Volume:** 3,767kg | **Calories:** 256 kcal
+
+---
+
+#### Apr 6, 2026 — Legs (Return session — 32 days since last leg day)
+
+| Exercise | Sets | Reps | Weight | Notes |
+|----------|------|------|--------|-------|
+| Deadlift | 4 | 10/10/8/8 | 70kg | Est. 1RM 97.7kg — volume & estimated 1RM PR per app |
+| Back Squat | 3 | 10/10/10 | 40/50/50kg | Conservative — appropriate after long break |
+| Leg Extension | 3 | 10/10/10 | 30kg | Light — sensible on return |
+| Hanging Knee Raise | 3 | 10/10/10 | BW | |
+
+---
+
 #### Apr 3, 2026 — Walking
 
 **Duration:** 29 min | **Distance:** 4.0km
@@ -449,7 +490,7 @@ Focus: Arrive fresh. Cut volume ~30–40%, keep intensity. No new stimulus.
 | Feb 28, 2026 | 41 min | 6.5km | 152 bpm | 6:17/km | Zone 3 — faster pace, HR crept up |
 | Mar 3, 2026 | 27 min | 4.0km | 159 bpm | 6:38/km | Zone 3 |
 | Mar 10, 2026 | 29 min | 5.19km | 169 bpm | 5:37/km | Zone 4 — hard effort |
-| Apr 8, 2026 | TBD | TBD | TBD | TBD | **First true Z2 baseline — keep HR 120–130 bpm** |
+| Apr 8, 2026 | 40 min | 4.77km | 134 bpm | 8:23/km | **First Z2 baseline — indoor treadmill. 4 bpm over target but best HR control to date. True Z2 pace ~9:00–9:30/km** |
 
 > 📌 True Z2 pace will feel uncomfortably slow. Use your watch to enforce the HR ceiling, not perceived effort.
 
@@ -480,7 +521,7 @@ Focus: Arrive fresh. Cut volume ~30–40%, keep intensity. No new stimulus.
 |------|-----------|----------|-------|
 | Barbell Bench Press | 70kg × 5 | Oct 14 & Oct 8, 2025 | Best working weight |
 | Barbell Shoulder Press | 32.5kg × 7 | Feb 23 & Mar 30, 2026 | |
-| Deadlift | 72.5kg × 8 | Feb 20, 2026 | |
+| Deadlift | 72.5kg × 8 (working) / Est. 1RM 97.7kg | Apr 6, 2026 | Est. 1RM PR — 70kg × 10/10/8/8 |
 | Romanian Deadlift | 52.5kg × 9 | Mar 5, 2026 | |
 | Leg Press | 135kg × 6 | Feb 20, 2026 | |
 | Back Squat | 65kg × 4-6 | Nov 4, 2026 | Best working weight |
@@ -491,6 +532,15 @@ Focus: Arrive fresh. Cut volume ~30–40%, keep intensity. No new stimulus.
 | Seated Leg Curl | 57.5kg × 12 | Feb 24, 2026 | |
 
 ### PR History
+
+#### Deadlift
+
+| Date | Weight / Reps | Notes |
+|------|---------------|-------|
+| Feb 20, 2026 | 72.5kg × 8 | Previous working weight PR |
+| Apr 6, 2026 | 70kg × 10/10/8/8 | Est. 1RM 97.7kg — PR per app. Volume: 2,520kg |
+
+---
 
 #### Barbell Bench Press
 
