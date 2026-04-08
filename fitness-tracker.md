@@ -1,6 +1,6 @@
 # 🏋️ Fitness Tracker
 
-> Last Updated: April 7, 2026 — Upper body session logged
+> Last Updated: April 8, 2026 — Zone 2 run baseline logged
 
 ---
 
@@ -228,6 +228,22 @@ Collect these before each recalculation:
 ---
 
 ## 🗓️ Workout Log
+
+#### Apr 8, 2026 — Zone 2 Run (Indoor, Technogym) — Baseline session
+
+**Duration:** 40 min | **Distance:** 4.77km | **Avg Pace:** 8:23/km | **Avg HR:** 134 bpm | **Calories:** 358 active / 418 total | **Cadence:** 145 spm
+
+| km | Pace | HR | Notes |
+|----|------|----|-------|
+| 1 | 7:20/km | 130 bpm | Right at Z2 ceiling — good start |
+| 2 | 8:04/km | 136 bpm | Slowed to manage HR drift |
+| 3 | 8:47/km | 136 bpm | Continued to back off |
+| 4 | 9:02/km | 134 bpm | Good HR control |
+| 5 | 8:48/km (partial) | 134 bpm | Final 0.77km |
+
+**Notes:** First genuine Zone 2 attempt. Avg HR 134 bpm — 4 bpm above our 120–130 target but by far the lowest avg HR in the run log. True Zone 2 pace estimated ~9:00–9:30/km. Session completed despite DOMS from Monday's leg session.
+
+---
 
 #### Apr 7, 2026 — Upper Body (Push + Pull) — 58 min
 
@@ -474,7 +490,7 @@ Focus: Arrive fresh. Cut volume ~30–40%, keep intensity. No new stimulus.
 | Feb 28, 2026 | 41 min | 6.5km | 152 bpm | 6:17/km | Zone 3 — faster pace, HR crept up |
 | Mar 3, 2026 | 27 min | 4.0km | 159 bpm | 6:38/km | Zone 3 |
 | Mar 10, 2026 | 29 min | 5.19km | 169 bpm | 5:37/km | Zone 4 — hard effort |
-| Apr 8, 2026 | TBD | TBD | TBD | TBD | **First true Z2 baseline — keep HR 120–130 bpm** |
+| Apr 8, 2026 | 40 min | 4.77km | 134 bpm | 8:23/km | **First Z2 baseline — indoor treadmill. 4 bpm over target but best HR control to date. True Z2 pace ~9:00–9:30/km** |
 
 > 📌 True Z2 pace will feel uncomfortably slow. Use your watch to enforce the HR ceiling, not perceived effort.
 
