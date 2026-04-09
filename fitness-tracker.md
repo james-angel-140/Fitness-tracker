@@ -1,6 +1,6 @@
 # 🏋️ Fitness Tracker
 
-> Last Updated: April 8, 2026 — Zone 2 run baseline logged
+> Last Updated: April 9, 2026 — Upper body session logged
 
 ---
 
@@ -228,6 +228,21 @@ Collect these before each recalculation:
 ---
 
 ## 🗓️ Workout Log
+
+#### Apr 9, 2026 — Upper Body (Push + Pull) — 40 min
+
+| Exercise | Sets | Reps | Weight | Notes |
+|----------|------|------|--------|-------|
+| Pull Up | 4 | 6/6/6/6 | BW | Consistent — third session in a row holding 4×6 |
+| Barbell Curl | 2 | 12/12 | 20kg | Isolation finisher — light, cut short |
+| Barbell Bench Press ⭐ | 3 | 8/8/8 | 55kg | Focus exercise; down 5kg from Apr 7 (60kg) — fatigue likely |
+| Barbell Shoulder Press | 4 | 12/11/9/9 | 27.5kg | Clear rep drop-off — energy fading fast by end |
+
+**Total Volume:** 2,928kg | **Calories:** 180 kcal
+
+**Notes:** 4th consecutive training day (Legs → Upper → Z2 Run → Upper). Felt low energy throughout — noticeable fatigue-driven decline in shoulder press reps and bench weight vs 2 days ago. Session cut short due to time and lack of drive. Honest session — showed up but running on empty.
+
+---
 
 #### Apr 8, 2026 — Zone 2 Run (Indoor, Technogym) — Baseline session
 
