@@ -10,6 +10,30 @@
       "weight_kg": 69,
       "change_kg": null,
       "notes": "Baseline"
+    },
+    {
+      "date": "2026-04-06",
+      "weight_kg": 69.68,
+      "body_fat_pct": 14.75,
+      "lean_mass_kg": 59.4,
+      "change_kg": 0.68,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-04-07",
+      "weight_kg": 69.75,
+      "body_fat_pct": 15.28,
+      "lean_mass_kg": 59.08,
+      "change_kg": 0.07,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-04-08",
+      "weight_kg": 70.43,
+      "body_fat_pct": 15.09,
+      "lean_mass_kg": 59.79,
+      "change_kg": 0.68,
+      "notes": "Withings (auto-imported)"
     }
   ],
   "monthly_averages": []

@@ -47,4 +47,6 @@ export interface Workout {
   splits?: KmSplit[];
   notes?: string;
   source?: 'manual' | 'fitbod' | 'apple-watch' | 'strava';
+  rpe?: number;    // Rate of Perceived Exertion: 1–10
+  trimp?: number;  // Training Impulse: duration_min × rpe (derived, can be stored or computed)
 }

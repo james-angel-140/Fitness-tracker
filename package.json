@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "score": "tsx cli/calculate-score.ts",
+    "import:health": "tsx cli/import-health-export.ts",
     "typecheck": "tsc --noEmit",
     "dashboard": "npm -w dashboard run dev",
     "dashboard:build": "npm -w dashboard run build"

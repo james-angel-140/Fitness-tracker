@@ -1,0 +1,52 @@
+{
+  "entries": [
+    {
+      "date": "2026-04-04",
+      "duration_hr": 8.9,
+      "sleep_hr": 8.72,
+      "deep_hr": 1.35,
+      "rem_hr": 2,
+      "awake_hr": 0.18,
+      "source": "health-auto-export",
+      "hrv_ms": 129,
+      "resting_hr": 49,
+      "respiratory_rate": 15.72
+    },
+    {
+      "date": "2026-04-07",
+      "duration_hr": 8.36,
+      "sleep_hr": 8.23,
+      "deep_hr": 1.22,
+      "rem_hr": 2.39,
+      "awake_hr": 0.13,
+      "source": "health-auto-export",
+      "hrv_ms": 107,
+      "resting_hr": 48,
+      "respiratory_rate": 15.96
+    },
+    {
+      "date": "2026-04-08",
+      "duration_hr": 7.69,
+      "sleep_hr": 7.45,
+      "deep_hr": 1.33,
+      "rem_hr": 2.3,
+      "awake_hr": 0.24,
+      "source": "health-auto-export",
+      "hrv_ms": 117,
+      "resting_hr": 56,
+      "respiratory_rate": 16.13
+    },
+    {
+      "date": "2026-04-09",
+      "duration_hr": 7.5,
+      "sleep_hr": 7.28,
+      "deep_hr": 0.89,
+      "rem_hr": 2.33,
+      "awake_hr": 0.22,
+      "source": "health-auto-export",
+      "hrv_ms": 95,
+      "resting_hr": 47,
+      "respiratory_rate": 15.83
+    }
+  ]
+}

@@ -7,10 +7,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 npm run score              # Print composite fitness score breakdown
 npm run score -- --save    # Print breakdown and append result to data/composite-scores.json
+npm run import:health      # Import sleep + VO2 from Health Auto Export JSON files
 npm run typecheck          # Type-check CLI + schema TypeScript (no emit)
 npm run dashboard          # Start dashboard dev server (Vite, hot reload)
 npm run dashboard:build    # Production build of dashboard → dashboard/dist/
 ```
+
+Health Auto Export syncs daily JSON files to iCloud. Run `npm run import:health` to pull sleep, HRV, resting HR, and VO2 max into the data files. Safe to run repeatedly — it upserts by date.
 
 No build step for CLI — `tsx` runs TypeScript directly. No test or lint tooling configured.
 
@@ -66,8 +69,9 @@ All data lives in `data/` as JSON. Schemas are in `schema/`.
 | Personal records | `data/personal-records.json` |
 | Nutrition | `data/nutrition/` |
 | Fitness score | `npm run score -- --save` |
+| Sleep / recovery | `data/sleep-log.json` → `entries` array |
 
-Workout files follow `schema/workout.ts`. Stats snapshots are an append-only time-series array.
+Workout files follow `schema/workout.ts`. Stats snapshots are an append-only time-series array. Sleep entries follow `schema/sleep.ts`.
 
 ## Logging a Workout from a Screenshot
 
@@ -88,12 +92,44 @@ When a screenshot of a workout is shared in the chat:
    - Weights in kg — if screenshot shows lbs, convert (`× 0.4536`) and note the conversion
    - Pace as `"mm:ss"` string (e.g. `"8:23"`)
    - `calories_active` + `calories_total` if both shown; `calories` if only one figure
+   - `rpe`: always ask the user "RPE for this session? (1–10)" after logging a workout — this powers the training load chart. If they don't know, omit it (the dashboard will estimate).
 4. **Ask before writing** if any required field is ambiguous or missing:
    - Always required: `date`, `type`, `duration_min`
    - Ask if unclear: workout type classification, exercise names (if abbreviated), whether weights are kg or lbs
    - Do not ask about optional fields that simply aren't present
 5. **Write the file** to `data/workouts/YYYY-MM-DD-slug.json` once confirmed.
 6. **Check for PR updates** — if the session contains a strength exercise, compare against `data/personal-records.json`. If any set beats the current best, flag it and ask whether to update the PR file.
+
+## Logging Sleep from a Screenshot
+
+When a screenshot of Apple Health or Sleep app data is shared:
+
+1. **Extract**: date (the morning woken up), time in bed, time asleep, deep sleep, REM, awake time, sleep score, HRV, overnight HR, respiratory rate — take whatever is visible.
+2. **Build the JSON** matching `schema/sleep.ts`:
+   - `date`: ISO 8601 date of the *morning* (e.g. woke up April 10 → `"2026-04-10"`)
+   - `duration_hr`: total time in bed as decimal hours (e.g. 7h 30m → `7.5`)
+   - `sleep_hr`: actual sleep time (exclude awake periods) — prefer this over `duration_hr` for quality tracking
+   - `source`: `"manual"` for screenshots; `"health-auto-export"` or `"apple-shortcut"` for automated imports
+   - Omit any fields not visible — do not guess
+3. **Append** to the `entries` array in `data/sleep-log.json` (newest last).
+4. **Flag** if HRV is significantly lower than recent average (>15% drop) — this is a recovery warning.
+
+## Proactive Data Reminders
+
+**At the start of every coaching conversation**, check the last entry date of each key data file and proactively flag anything stale. Use today's date from `# currentDate` in context.
+
+| Data | File | Stale if not updated in |
+|---|---|---|
+| Workouts | `data/workouts/` (newest file date) | 3 days |
+| Body weight | `data/body-weight-log.json` | 5 days |
+| Sleep | `data/sleep-log.json` | 2 days |
+| Stats (VO2, RHR, Fitbod) | `data/stats-snapshots.json` | 14 days |
+| Nutrition summary | `data/nutrition/weekly-summaries.json` | 7 days |
+| Composite score | `data/composite-scores.json` | 7 days |
+
+Example reminder format: "⚠️ Sleep hasn't been logged in 4 days — share a Health screenshot or I can walk you through the Apple Shortcut setup."
+
+Also proactively suggest the next planned session from the active program if the user hasn't logged it yet.
 
 ## AI Agent Role
 

@@ -1,10 +1,19 @@
 import { ScoreCard } from '@/components/ScoreCard'
 import { CategoryBreakdown } from '@/components/CategoryBreakdown'
-import { TrendCharts } from '@/components/TrendCharts'
+import { ScoreBreakdownChart, WeightChart, Vo2Chart, RhrChart, TrainingLoadChart } from '@/components/TrendCharts'
 import { WorkoutHistory } from '@/components/WorkoutHistory'
 import { PRTable } from '@/components/PRTable'
 import { HyroxCountdown } from '@/components/HyroxCountdown'
 import { StatTiles } from '@/components/StatTiles'
+import { SleepCard } from '@/components/SleepCard'
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground pt-2">
+      {children}
+    </p>
+  )
+}
 
 export default function App() {
   return (
@@ -17,24 +26,50 @@ export default function App() {
           <p className="text-muted-foreground text-sm mt-1">James Angel · Hyrox 2026 Training</p>
         </div>
 
-        {/* Stat tiles */}
+        {/* Key numbers at a glance */}
         <StatTiles />
 
-        {/* Score + Hyrox — equal height */}
+        {/* ── WHERE DO I STAND? ─────────────────────────────── */}
+        <SectionLabel>Where do I stand?</SectionLabel>
+
+        {/* Score + event countdown */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch">
           <ScoreCard />
           <HyroxCountdown />
         </div>
 
-        {/* Main 3-col grid */}
+        {/* Score history + category breakdown */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
-          <CategoryBreakdown />
-          <WorkoutHistory />
-          <div className="space-y-4">
-            <TrendCharts />
-            <PRTable />
+          <div className="lg:col-span-2">
+            <ScoreBreakdownChart />
           </div>
+          <CategoryBreakdown />
         </div>
+
+        {/* ── HOW IS MY BODY DOING? ─────────────────────────── */}
+        <SectionLabel>How is my body doing?</SectionLabel>
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <WeightChart />
+          <Vo2Chart />
+          <RhrChart />
+          <SleepCard />
+        </div>
+
+        {/* ── WHAT AM I TRAINING & HOW HARD? ───────────────── */}
+        <SectionLabel>What am I training and how hard?</SectionLabel>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+          <div className="lg:col-span-2">
+            <TrainingLoadChart />
+          </div>
+          <WorkoutHistory />
+        </div>
+
+        {/* ── HOW STRONG AM I? ──────────────────────────────── */}
+        <SectionLabel>How strong am I?</SectionLabel>
+
+        <PRTable />
 
       </div>
     </div>

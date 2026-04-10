@@ -14,5 +14,32 @@
       "legs": 60
     },
     "notes": "Baseline snapshot — 5k/10k pace unknown, time trial needed"
+  },
+  {
+    "date": "2026-04-06",
+    "weight_kg": 69.68,
+    "vo2_max": 43.62,
+    "notes": "auto-imported from Health Auto Export",
+    "body_fat_pct": 14.75
+  },
+  {
+    "date": "2026-04-07",
+    "weight_kg": 69.75,
+    "vo2_max": 43.82,
+    "notes": "auto-imported from Health Auto Export",
+    "body_fat_pct": 15.28
+  },
+  {
+    "date": "2026-04-08",
+    "weight_kg": 70.43,
+    "vo2_max": 43.72,
+    "notes": "auto-imported from Health Auto Export",
+    "body_fat_pct": 15.09
+  },
+  {
+    "date": "2026-04-09",
+    "weight_kg": 69,
+    "vo2_max": 43.82,
+    "notes": "auto-imported from Health Auto Export"
   }
 ]

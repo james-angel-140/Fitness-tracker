@@ -11,6 +11,7 @@ import statsSnapshots from '@data/stats-snapshots.json'
 import bodyWeightLog from '@data/body-weight-log.json'
 import personalRecords from '@data/personal-records.json'
 import compositeScores from '@data/composite-scores.json'
+import sleepLogRaw from '@data/sleep-log.json'
 
 // Vite glob import — eager so all workouts are bundled synchronously
 const workoutModules = import.meta.glob('@data/workouts/*.json', { eager: true })
@@ -66,6 +67,31 @@ export interface Workout {
   total_volume_kg?: number
   notes?: string
   source?: string
+  rpe?: number
+  trimp?: number
+}
+
+export interface SleepEntry {
+  date: string
+  duration_hr: number
+  sleep_hr?: number
+  deep_hr?: number
+  rem_hr?: number
+  awake_hr?: number
+  sleep_score?: number
+  hrv_ms?: number
+  resting_hr?: number
+  respiratory_rate?: number
+  notes?: string
+  source: string
+}
+
+export interface TrainingLoadPoint {
+  date: string
+  trimp: number   // raw session load for that day
+  atl: number     // acute training load: 7-day rolling average
+  ctl: number     // chronic training load: 28-day rolling average
+  acwr: number    // acute:chronic workload ratio (ATL / CTL)
 }
 
 export interface CompositeScoreEntry {
@@ -82,6 +108,7 @@ export interface CompositeScoreEntry {
 
 // ─── Processed data ───────────────────────────────────────────────────────────
 
+export const sleepLog = (sleepLogRaw as { entries: SleepEntry[] }).entries
 export const stats = statsSnapshots as StatsSnapshot[]
 export const weightLog = bodyWeightLog as {
   goal_weight_kg: number
@@ -99,6 +126,19 @@ export const workouts: Workout[] = Object.values(workoutModules)
 
 export const latestStats = stats.at(-1)!
 export const latestWeight = weightLog.entries.at(-1)!
+
+/** Scan backwards through stats snapshots to find the most recent non-null value for a field. */
+function latestMetric<K extends keyof StatsSnapshot>(key: K): StatsSnapshot[K] | undefined {
+  for (let i = stats.length - 1; i >= 0; i--) {
+    if (stats[i][key] != null) return stats[i][key]
+  }
+  return undefined
+}
+
+export const latestVo2 = latestMetric('vo2_max')
+export const latestRhr = latestMetric('resting_hr_bpm')
+export const latestBodyFat = latestMetric('body_fat_pct')
+export const latestFitbod = latestMetric('fitbod')
 
 export const latestZone2Run = workouts
   .filter((w) => w.cardio_subtype === 'zone2-run' && w.avg_pace_per_km)
@@ -173,3 +213,54 @@ export const vo2Trend = stats
 export const rhrTrend = stats
   .filter((s) => s.resting_hr_bpm != null)
   .map((s) => ({ date: s.date, value: s.resting_hr_bpm! }))
+
+// ─── Training Load (TRIMP-based) ──────────────────────────────────────────────
+// TRIMP = duration_min × rpe (if rpe absent, estimate from workout type)
+// ATL = 7-day rolling average daily TRIMP
+// CTL = 28-day rolling average daily TRIMP
+// ACWR = ATL / CTL  (>1.3 = elevated injury risk; <0.8 = detraining)
+
+function estimateRpe(w: Workout): number {
+  if (w.rpe != null) return w.rpe
+  if (w.type === 'walk') return 3
+  if (w.cardio_subtype === 'zone2-run') return 4
+  if (w.cardio_subtype === 'hiit') return 8
+  if (w.cardio_subtype === 'run') return 7
+  if (w.cardio_subtype === 'stationary-bike') return 5
+  if (w.type === 'strength') return 6
+  if (w.type === 'cardio') return 6
+  return 5
+}
+
+function rollingAvg(trimpByDate: Map<string, number>, endDate: string, days: number): number {
+  let sum = 0
+  const end = new Date(endDate)
+  for (let i = 0; i < days; i++) {
+    const d = new Date(end)
+    d.setDate(end.getDate() - i)
+    sum += trimpByDate.get(d.toISOString().slice(0, 10)) ?? 0
+  }
+  return sum / days
+}
+
+// Build a map of date → daily TRIMP (sum if multiple sessions in one day)
+const trimpByDate = new Map<string, number>()
+for (const w of workouts) {
+  const t = (w.trimp != null) ? w.trimp : w.duration_min * estimateRpe(w)
+  trimpByDate.set(w.date, (trimpByDate.get(w.date) ?? 0) + t)
+}
+
+// Emit one data point per workout date so the chart is sparse (not every calendar day)
+const workoutDates = Array.from(new Set(workouts.map((w) => w.date))).sort()
+
+export const trainingLoad: TrainingLoadPoint[] = workoutDates.map((date) => {
+  const atl = rollingAvg(trimpByDate, date, 7)
+  const ctl = rollingAvg(trimpByDate, date, 28)
+  return {
+    date,
+    trimp: trimpByDate.get(date) ?? 0,
+    atl: Math.round(atl * 10) / 10,
+    ctl: Math.round(ctl * 10) / 10,
+    acwr: ctl > 0 ? Math.round((atl / ctl) * 100) / 100 : 0,
+  }
+})
