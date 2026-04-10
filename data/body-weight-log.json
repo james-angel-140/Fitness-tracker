@@ -1,0 +1,16 @@
+{
+  "goal_weight_kg": 75,
+  "goal_body_fat_pct": 14,
+  "goal_notes": "Long-term post-Hyrox lean bulk",
+  "starting_weight_kg": 69,
+  "starting_date": "2026-04-05",
+  "entries": [
+    {
+      "date": "2026-04-05",
+      "weight_kg": 69,
+      "change_kg": null,
+      "notes": "Baseline"
+    }
+  ],
+  "monthly_averages": []
+}

@@ -1,0 +1,11 @@
+{
+  "id": "2026-03-14-hiit",
+  "date": "2026-03-14",
+  "type": "cardio",
+  "cardio_subtype": "hiit",
+  "duration_min": 59,
+  "avg_hr": 165,
+  "max_hr": 180,
+  "calories": 652,
+  "notes": "High intensity"
+}

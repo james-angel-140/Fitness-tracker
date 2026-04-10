@@ -1,0 +1,43 @@
+{
+  "id": "2026-03-24-upper-body",
+  "date": "2026-03-24",
+  "type": "strength",
+  "exercises": [
+    {
+      "name": "Barbell Bench Press",
+      "sets": [
+        { "reps": 9, "weight_kg": 60 },
+        { "reps": 9, "weight_kg": 60 },
+        { "reps": 8, "weight_kg": 60 }
+      ],
+      "notes": "Solid session"
+    },
+    {
+      "name": "Pull-up",
+      "sets": [
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null }
+      ]
+    },
+    {
+      "name": "Dip",
+      "sets": [
+        { "reps": 10, "weight_kg": null },
+        { "reps": 10, "weight_kg": null },
+        { "reps": 10, "weight_kg": null },
+        { "reps": 10, "weight_kg": null }
+      ]
+    },
+    {
+      "name": "Cable Lateral Raise",
+      "sets": [
+        { "reps": 5, "weight_kg": 9 },
+        { "reps": 5, "weight_kg": 9 },
+        { "reps": 5, "weight_kg": 9 }
+      ],
+      "notes": "9kg each side"
+    }
+  ],
+  "source": "fitbod"
+}

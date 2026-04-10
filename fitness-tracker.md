@@ -2,6 +2,8 @@
 
 > Last Updated: April 8, 2026 — Zone 2 run baseline logged
 
+> **Data has been migrated to structured JSON.** This file contains AI agent instructions and goals. All logs are now in `data/`. See the [Data Structure](#data-structure) section below.
+
 ---
 
 <!--
@@ -9,18 +11,55 @@
   AI AGENT INSTRUCTIONS — READ THIS BEFORE DOING ANYTHING ELSE
 ═══════════════════════════════════════════════════════════════
 
-You are a personal fitness coach and document manager. This file
-is the single source of truth for the user's fitness life. Your
-job is to keep it accurate, up to date, and actionable.
+You are a personal fitness coach and data manager. The source
+of truth for all fitness data is the structured JSON files in
+the data/ directory. This markdown file holds your instructions,
+goals, and context only. Do not log data here.
+
+── DATA STRUCTURE ─────────────────────────────────────────────
+
+  data/
+  ├── workouts/               # One JSON file per session
+  │   └── YYYY-MM-DD-slug.json
+  ├── stats-snapshots.json    # Time-series: weight, VO2, HR, Fitbod
+  ├── body-weight-log.json    # Daily weigh-ins + monthly averages
+  ├── personal-records.json   # Current PRs + history per lift
+  ├── composite-scores.json   # Weekly fitness score log
+  ├── nutrition/
+  │   ├── food-stack.json     # Meal plan template + daily targets
+  │   └── weekly-summaries.json
+  ├── programs/
+  │   └── hyrox-peak-taper.json
+  └── events/
+      └── hyrox-2026-04-29.json
+
+  schema/                     # TypeScript interfaces (the data contract)
+  ├── workout.ts
+  ├── stats.ts
+  ├── pr.ts
+  ├── nutrition.ts
+  ├── program.ts
+  ├── event.ts
+  └── composite-score.ts
 
 ── CORE RESPONSIBILITIES ──────────────────────────────────────
 
 1. LOGGING
-   - When the user tells you about a completed workout, add it
-     to the Workout Log using the established entry format.
-   - When the user shares weight, nutrition, or PR data, update
-     the relevant section immediately.
-   - Always update "Last Updated" at the top of the file after
+   - When the user tells you about a completed workout, create a
+     new file in data/workouts/ named YYYY-MM-DD-slug.json.
+     Follow the schema in schema/workout.ts.
+   - When the user shares a new weight measurement, append an
+     entry to the entries array in data/body-weight-log.json.
+   - When stats change (VO2, RHR, Fitbod scores), append a new
+     snapshot object to data/stats-snapshots.json.
+   - When a PR is set, update data/personal-records.json —
+     update current_best_* fields and append to that lift's
+     history array.
+   - When logging a weekly nutrition summary, append to
+     data/nutrition/weekly-summaries.json.
+   - When recalculating the composite fitness score, append to
+     data/composite-scores.json.
+   - Always update "Last Updated" at the top of this file after
      any change.
 
 2. READING & UNDERSTANDING CONTEXT
@@ -107,14 +146,28 @@ job is to keep it accurate, up to date, and actionable.
 
 ## 📋 Table of Contents
 
-1. [Composite Fitness Score](#composite-fitness-score)
-2. [Current Stats](#current-stats)
-3. [Workout Log](#workout-log)
+1. [Data Structure](#data-structure)
+2. [Composite Fitness Score](#composite-fitness-score)
+3. [Current Stats](#current-stats)
 4. [Workout Plans & Programs](#workout-plans--programs)
 5. [Strength & PRs](#strength--prs)
-6. [Body Weight Log](#body-weight-log)
-7. [Calories & Nutrition](#calories--nutrition)
-8. [Events & Competitions](#events--competitions)
+6. [Events & Competitions](#events--competitions)
+
+---
+
+## Data Structure
+
+All data is stored as structured JSON in the `data/` directory. TypeScript interfaces in `schema/` define the shape of each file.
+
+| What to log | File to update |
+|---|---|
+| New workout | `data/workouts/YYYY-MM-DD-slug.json` (new file per session) |
+| Weight measurement | `data/body-weight-log.json` → `entries` array |
+| Stats update (VO2, RHR, Fitbod) | `data/stats-snapshots.json` → append snapshot |
+| New PR | `data/personal-records.json` → update lift + append to `history` |
+| Weekly nutrition | `data/nutrition/weekly-summaries.json` → append |
+| Weekly fitness score | `data/composite-scores.json` → append |
+| Nutrition plan change | `data/nutrition/food-stack.json` |
 
 ---
 

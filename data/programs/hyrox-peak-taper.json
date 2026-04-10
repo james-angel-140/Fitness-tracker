@@ -1,0 +1,72 @@
+{
+  "id": "hyrox-peak-taper",
+  "name": "Hyrox Peak & Taper",
+  "goal": "Event readiness for Hyrox on April 29. Maintain strength scores. Improve Zone 2 pace.",
+  "start_date": "2026-04-05",
+  "end_date": "2026-04-28",
+  "days_per_week": 5,
+  "rest_days_per_week": 2,
+  "taper_start_date": "2026-04-22",
+  "phases": [
+    {
+      "name": "Phase 1 — Build",
+      "start_date": "2026-04-05",
+      "end_date": "2026-04-14",
+      "duration_days": 10,
+      "focus": "Aerobic base, strength maintenance via Fitbod, leg priority",
+      "days": [
+        { "day_of_week": "Mon", "date": "2026-04-06", "focus": "Strength — Legs (Fitbod)", "session": "Squats, leg press, RDLs, hip thrust. 32 days since last leg session — priority. Score ≥60" },
+        { "day_of_week": "Tue", "date": "2026-04-07", "focus": "Strength — Push (Fitbod)", "session": "Bench, OHP, dips. Keep score ≥62" },
+        { "day_of_week": "Wed", "date": "2026-04-08", "focus": "Zone 2 Run", "session": "30–40 min at 120–130 bpm. Log pace — this is your baseline" },
+        { "day_of_week": "Thu", "date": "2026-04-09", "focus": "Strength — Pull (Fitbod)", "session": "Rows, pull-ups, curls" },
+        { "day_of_week": "Fri", "date": "2026-04-10", "focus": "Hyrox Simulation Run", "session": "2–3km at race pace to feel the effort level. No stations needed" },
+        { "day_of_week": "Sat", "date": "2026-04-11", "focus": "Longer Zone 2 Run", "session": "45–50 min. HR control, not pace" },
+        { "day_of_week": "Sun", "date": "2026-04-12", "focus": "Rest", "session": "Full recovery" },
+        { "day_of_week": "Mon", "date": "2026-04-13", "focus": "Strength — Legs (Fitbod)", "session": "Second leg session — focus on posterior chain (RDLs, hamstring curls)" }
+      ]
+    },
+    {
+      "name": "Phase 2 — Sharpen",
+      "start_date": "2026-04-15",
+      "end_date": "2026-04-21",
+      "duration_days": 7,
+      "focus": "Race-specific intensity, one full simulation, leg strength maintained",
+      "days": [
+        { "day_of_week": "Tue", "date": "2026-04-15", "focus": "Strength — Legs (Fitbod)", "session": "Heavy — squats and sled-pattern movements. Protect score ≥60" },
+        { "day_of_week": "Wed", "date": "2026-04-16", "focus": "Zone 2 Run", "session": "35–40 min. Compare pace to Apr 8 baseline" },
+        { "day_of_week": "Thu", "date": "2026-04-17", "focus": "Strength — Full Body (Fitbod)", "session": "Moderate weight, higher reps (10–12). Avoid failure" },
+        { "day_of_week": "Fri", "date": "2026-04-18", "focus": "Hyrox Full Simulation", "session": "Run 1km + all 8 stations in sequence at 70% effort. Log total time" },
+        { "day_of_week": "Sat", "date": "2026-04-19", "focus": "Tempo Run", "session": "20–25 min at ~75–80% max HR" },
+        { "day_of_week": "Sun", "date": "2026-04-20", "focus": "Rest", "session": "Full recovery" },
+        { "day_of_week": "Mon", "date": "2026-04-21", "focus": "Strength — Push/Pull (Fitbod)", "session": "Upper body only — moderate load, not to failure" }
+      ]
+    },
+    {
+      "name": "Phase 3 — Taper",
+      "start_date": "2026-04-22",
+      "end_date": "2026-04-28",
+      "duration_days": 7,
+      "focus": "Arrive fresh. Cut volume ~30–40%, keep intensity. No new stimulus.",
+      "days": [
+        { "day_of_week": "Tue", "date": "2026-04-22", "focus": "Short Run", "session": "20 min easy Zone 2. Shake out the legs" },
+        { "day_of_week": "Wed", "date": "2026-04-23", "focus": "Light Hyrox Run-through", "session": "Walk through stations at 50% effort. Mental rehearsal" },
+        { "day_of_week": "Thu", "date": "2026-04-24", "focus": "Rest", "session": "Full recovery" },
+        { "day_of_week": "Fri", "date": "2026-04-25", "focus": "Short Activation", "session": "15 min: light sled, 10 wall balls, 200m ski erg. Just activation" },
+        { "day_of_week": "Sat", "date": "2026-04-26", "focus": "Rest", "session": "Walk, stretch, eat well, sleep early" },
+        { "day_of_week": "Sun", "date": "2026-04-27", "focus": "Rest", "session": "Final prep — kit, nutrition plan, travel if needed" },
+        { "day_of_week": "Mon", "date": "2026-04-28", "focus": "Rest or 10 min jog", "session": "Optional very light shakeout. No effort" }
+      ]
+    }
+  ],
+  "station_reference": [
+    { "station": "Ski Erg", "rx_distance_or_volume": "1,000m", "notes": "Pace conservatively — early in race" },
+    { "station": "Sled Push", "rx_distance_or_volume": "50m", "notes": "Heavy — drive from hips" },
+    { "station": "Sled Pull", "rx_distance_or_volume": "50m", "notes": "Rope hand-over-hand" },
+    { "station": "Burpee Broad Jumps", "rx_distance_or_volume": "80m", "notes": "Sustainable rhythm, don't blow up" },
+    { "station": "Rowing", "rx_distance_or_volume": "1,000m", "notes": "Steady 500m split — don't sprint" },
+    { "station": "Farmer's Carry", "rx_distance_or_volume": "200m", "notes": "Grip and posture" },
+    { "station": "Sandbag Lunges", "rx_distance_or_volume": "100m", "notes": "Core tight, controlled steps" },
+    { "station": "Wall Balls", "rx_distance_or_volume": "100 reps", "notes": "Biggest energy cost — save something for this" }
+  ],
+  "notes": "Between each station: 1km run. 8 stations = 8km total running."
+}

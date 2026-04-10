@@ -1,0 +1,22 @@
+{
+  "id": "2026-04-08-zone2-run",
+  "date": "2026-04-08",
+  "type": "cardio",
+  "cardio_subtype": "zone2-run",
+  "duration_min": 40,
+  "distance_km": 4.77,
+  "avg_pace_per_km": "8:23",
+  "avg_hr": 134,
+  "calories_active": 358,
+  "calories_total": 418,
+  "cadence_spm": 145,
+  "splits": [
+    { "km": 1, "pace_per_km": "7:20", "avg_hr": 130, "notes": "Right at Z2 ceiling — good start" },
+    { "km": 2, "pace_per_km": "8:04", "avg_hr": 136, "notes": "Slowed to manage HR drift" },
+    { "km": 3, "pace_per_km": "8:47", "avg_hr": 136, "notes": "Continued to back off" },
+    { "km": 4, "pace_per_km": "9:02", "avg_hr": 134, "notes": "Good HR control" },
+    { "km": 5, "distance_km": 0.77, "pace_per_km": "8:48", "avg_hr": 134, "notes": "Final 0.77km" }
+  ],
+  "notes": "First genuine Zone 2 attempt. Avg HR 134 bpm — 4 bpm above 120–130 target but by far the lowest avg HR in the run log. True Zone 2 pace estimated ~9:00–9:30/km. Session completed despite DOMS from Monday's leg session.",
+  "source": "strava"
+}

@@ -1,0 +1,9 @@
+{
+  "id": "2026-03-21-stationary-bike",
+  "date": "2026-03-21",
+  "type": "cardio",
+  "cardio_subtype": "stationary-bike",
+  "duration_min": 35,
+  "avg_hr": 125,
+  "calories": 276
+}

@@ -1,0 +1,54 @@
+{
+  "daily_targets": {
+    "calories_kcal": 2300,
+    "protein_g": 165,
+    "carbs_g": 250,
+    "fat_g": 65,
+    "water_l": 3
+  },
+  "current_intake": {
+    "calories_kcal": 1945,
+    "protein_g": 152
+  },
+  "meals": [
+    {
+      "name": "Breakfast",
+      "description": "Morning smoothie",
+      "calories_kcal": 590,
+      "protein_g": 52,
+      "ingredients": [
+        { "item": "5% Greek yogurt", "amount": "225g", "calories_kcal": 190, "protein_g": 20 },
+        { "item": "Rolled oats (dry)", "amount": "50g", "calories_kcal": 190, "protein_g": 6 },
+        { "item": "Banana", "amount": "1 medium", "calories_kcal": 90, "protein_g": 1 },
+        { "item": "Form protein shake", "amount": "1 serving", "calories_kcal": 120, "protein_g": 25 },
+        { "item": "Creatine", "amount": "5g", "calories_kcal": 0, "protein_g": 0 }
+      ]
+    },
+    {
+      "name": "Lunch",
+      "description": "PrepKitchen meal",
+      "calories_kcal": 700,
+      "protein_g": 53
+    },
+    {
+      "name": "Dinner",
+      "description": "PrepKitchen meal",
+      "calories_kcal": 700,
+      "protein_g": 53
+    },
+    {
+      "name": "Snack",
+      "description": "Protein bar (post-training)",
+      "calories_kcal": 210,
+      "protein_g": 20,
+      "notes": "Target 20g+ protein, <10g sugar"
+    }
+  ],
+  "daily_total_calories_kcal": 2200,
+  "daily_total_protein_g": 178,
+  "training_nutrition": {
+    "pre_60_90_min": "Oats + yogurt breakfast, or banana + handful of nuts",
+    "during_over_60_min": "Water + electrolytes if sweating heavily",
+    "post_within_30_min": "Protein shake + banana, or PrepKitchen meal"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "2025-12-27-run",
+  "date": "2025-12-27",
+  "type": "cardio",
+  "cardio_subtype": "run",
+  "duration_min": 56,
+  "distance_km": 10.04,
+  "avg_pace_per_km": "5:34",
+  "avg_hr": 166,
+  "max_hr": 190,
+  "calories": 695,
+  "notes": "10km long run — Runna plan. Noted as 'conversational pace' but HR elevated — likely harder than intended",
+  "source": "strava"
+}

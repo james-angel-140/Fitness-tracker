@@ -1,0 +1,57 @@
+{
+  "id": "2026-03-09-upper-body",
+  "date": "2026-03-09",
+  "type": "hybrid",
+  "exercises": [
+    {
+      "name": "Barbell Bench Press",
+      "sets": [
+        { "reps": 9, "weight_kg": 57.5 },
+        { "reps": 9, "weight_kg": 57.5 },
+        { "reps": 9, "weight_kg": 57.5 }
+      ]
+    },
+    {
+      "name": "Barbell Shoulder Press",
+      "sets": [
+        { "reps": 10, "weight_kg": 30 },
+        { "reps": 10, "weight_kg": 30 }
+      ]
+    },
+    {
+      "name": "Pull-up",
+      "sets": [
+        { "reps": 5, "weight_kg": null },
+        { "reps": 5, "weight_kg": null },
+        { "reps": 5, "weight_kg": null },
+        { "reps": 5, "weight_kg": null }
+      ]
+    },
+    {
+      "name": "Dip",
+      "sets": [
+        { "reps": 11, "weight_kg": null },
+        { "reps": 11, "weight_kg": null },
+        { "reps": 11, "weight_kg": null },
+        { "reps": 11, "weight_kg": null }
+      ]
+    },
+    {
+      "name": "Wall Ball",
+      "sets": [
+        { "reps": 10, "weight_kg": 4 },
+        { "reps": 10, "weight_kg": 4 },
+        { "reps": 10, "weight_kg": 4 },
+        { "reps": 10, "weight_kg": 4 },
+        { "reps": 10, "weight_kg": 4 },
+        { "reps": 10, "weight_kg": 4 },
+        { "reps": 10, "weight_kg": 4 },
+        { "reps": 10, "weight_kg": 4 },
+        { "reps": 10, "weight_kg": 4 },
+        { "reps": 10, "weight_kg": 4 }
+      ],
+      "notes": "100 reps total — good Hyrox practice"
+    }
+  ],
+  "source": "fitbod"
+}

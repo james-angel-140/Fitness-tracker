@@ -1,0 +1,54 @@
+{
+  "id": "2026-03-12-upper-body",
+  "date": "2026-03-12",
+  "type": "strength",
+  "exercises": [
+    {
+      "name": "Barbell Bench Press",
+      "sets": [
+        { "reps": 8, "weight_kg": 45 },
+        { "reps": 8, "weight_kg": 55 },
+        { "reps": 6, "weight_kg": 65 },
+        { "reps": 7, "weight_kg": 65 }
+      ],
+      "notes": "Good top sets at 65kg"
+    },
+    {
+      "name": "Barbell Shoulder Press",
+      "sets": [
+        { "reps": 8, "weight_kg": 32.5 },
+        { "reps": 7, "weight_kg": 32.5 },
+        { "reps": 7, "weight_kg": 32.5 }
+      ]
+    },
+    {
+      "name": "Pull-up",
+      "sets": [
+        { "reps": 5, "weight_kg": null },
+        { "reps": 5, "weight_kg": null },
+        { "reps": 5, "weight_kg": null },
+        { "reps": 5, "weight_kg": null },
+        { "reps": 5, "weight_kg": null }
+      ]
+    },
+    {
+      "name": "Dip",
+      "sets": [
+        { "reps": 10, "weight_kg": null },
+        { "reps": 10, "weight_kg": null },
+        { "reps": 10, "weight_kg": null },
+        { "reps": 10, "weight_kg": null }
+      ]
+    },
+    {
+      "name": "Hammer Curl",
+      "sets": [
+        { "reps": 12, "weight_kg": 10 },
+        { "reps": 12, "weight_kg": 10 },
+        { "reps": 12, "weight_kg": 10 }
+      ],
+      "notes": "10kg each side"
+    }
+  ],
+  "source": "fitbod"
+}

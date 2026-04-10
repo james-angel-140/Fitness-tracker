@@ -1,0 +1,14 @@
+{
+  "id": "2025-12-16-run",
+  "date": "2025-12-16",
+  "type": "cardio",
+  "cardio_subtype": "run",
+  "duration_min": 49,
+  "distance_km": 6.6,
+  "avg_pace_per_km": "7:25",
+  "avg_hr": 152,
+  "max_hr": 165,
+  "calories": 520,
+  "notes": "Lunch run",
+  "source": "strava"
+}

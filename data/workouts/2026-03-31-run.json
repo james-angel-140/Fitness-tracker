@@ -1,0 +1,10 @@
+{
+  "id": "2026-03-31-run",
+  "date": "2026-03-31",
+  "type": "cardio",
+  "cardio_subtype": "run",
+  "duration_min": 25,
+  "distance_km": 4.1,
+  "approximate": true,
+  "notes": "Two runs combined"
+}
