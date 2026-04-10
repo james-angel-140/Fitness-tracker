@@ -1,0 +1,12 @@
+{
+  "name": "fitness-tracker",
+  "version": "1.0.0",
+  "description": "Personal fitness data store — structured JSON logs with TypeScript schemas",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

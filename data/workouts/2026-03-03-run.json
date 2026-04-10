@@ -1,0 +1,14 @@
+{
+  "id": "2026-03-03-run",
+  "date": "2026-03-03",
+  "type": "cardio",
+  "cardio_subtype": "run",
+  "duration_min": 27,
+  "distance_km": 4.0,
+  "avg_pace_per_km": "6:38",
+  "avg_hr": 159,
+  "max_hr": 170,
+  "calories": 305,
+  "notes": "Lunch run",
+  "source": "strava"
+}

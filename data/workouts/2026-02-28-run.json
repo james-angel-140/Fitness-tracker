@@ -1,0 +1,14 @@
+{
+  "id": "2026-02-28-run",
+  "date": "2026-02-28",
+  "type": "cardio",
+  "cardio_subtype": "run",
+  "duration_min": 41,
+  "distance_km": 6.5,
+  "avg_pace_per_km": "6:17",
+  "avg_hr": 152,
+  "max_hr": 176,
+  "calories": 472,
+  "notes": "Morning run. HR just above Zone 2 ceiling — borderline effort",
+  "source": "strava"
+}

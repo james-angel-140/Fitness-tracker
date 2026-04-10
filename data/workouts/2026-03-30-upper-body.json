@@ -1,0 +1,61 @@
+{
+  "id": "2026-03-30-upper-body",
+  "date": "2026-03-30",
+  "type": "strength",
+  "exercises": [
+    {
+      "name": "Barbell Bench Press",
+      "sets": [
+        { "reps": 7, "weight_kg": 60 },
+        { "reps": 6, "weight_kg": 60 },
+        { "reps": 5, "weight_kg": 60 }
+      ],
+      "notes": "Slight drop from Feb peak"
+    },
+    {
+      "name": "Barbell Shoulder Press",
+      "sets": [
+        { "reps": 7, "weight_kg": 32.5 },
+        { "reps": 7, "weight_kg": 32.5 },
+        { "reps": 6, "weight_kg": 32.5 },
+        { "reps": 5, "weight_kg": 32.5 }
+      ],
+      "notes": "PR weight"
+    },
+    {
+      "name": "Cable Row",
+      "sets": [
+        { "reps": 15, "weight_kg": 45 },
+        { "reps": 15, "weight_kg": 45 },
+        { "reps": 12, "weight_kg": 45 }
+      ]
+    },
+    {
+      "name": "Pull-up",
+      "sets": [
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null }
+      ]
+    },
+    {
+      "name": "Dip",
+      "sets": [
+        { "reps": 9, "weight_kg": null },
+        { "reps": 9, "weight_kg": null },
+        { "reps": 9, "weight_kg": null },
+        { "reps": 9, "weight_kg": null }
+      ]
+    },
+    {
+      "name": "Barbell Curl",
+      "sets": [
+        { "reps": 7, "weight_kg": 22.5 },
+        { "reps": 5, "weight_kg": 22.5 },
+        { "reps": 3, "weight_kg": 22.5 }
+      ],
+      "notes": "Fatigued by end"
+    }
+  ],
+  "source": "fitbod"
+}

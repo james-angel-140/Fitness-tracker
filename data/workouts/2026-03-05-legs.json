@@ -1,0 +1,44 @@
+{
+  "id": "2026-03-05-legs",
+  "date": "2026-03-05",
+  "type": "strength",
+  "exercises": [
+    {
+      "name": "Leg Press",
+      "sets": [
+        { "reps": 10, "weight_kg": 120 },
+        { "reps": 10, "weight_kg": 120 },
+        { "reps": 10, "weight_kg": 120 },
+        { "reps": 10, "weight_kg": 120 }
+      ]
+    },
+    {
+      "name": "Romanian Deadlift",
+      "sets": [
+        { "reps": 9, "weight_kg": 52.5 },
+        { "reps": 9, "weight_kg": 52.5 },
+        { "reps": 9, "weight_kg": 52.5 }
+      ],
+      "notes": "PR"
+    },
+    {
+      "name": "Leg Extension",
+      "sets": [
+        { "reps": 5, "weight_kg": 50 },
+        { "reps": 5, "weight_kg": 50 },
+        { "reps": 5, "weight_kg": 50 },
+        { "reps": 5, "weight_kg": 50 }
+      ]
+    },
+    {
+      "name": "Barbell Hip Thrust",
+      "sets": [
+        { "reps": 8, "weight_kg": 55 },
+        { "reps": 8, "weight_kg": 55 },
+        { "reps": 8, "weight_kg": 55 }
+      ],
+      "notes": "PR"
+    }
+  ],
+  "source": "fitbod"
+}

@@ -1,0 +1,13 @@
+[
+  {
+    "date": "2026-04-05",
+    "score": 49.7,
+    "categories": {
+      "cardio": 15.4,
+      "strength": 12.5,
+      "body_comp": 11.2,
+      "consistency": 10.7
+    },
+    "notes": "Baseline"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "id": "2026-02-25-run",
+  "date": "2026-02-25",
+  "type": "cardio",
+  "cardio_subtype": "run",
+  "duration_min": 34,
+  "distance_km": 5.0,
+  "avg_pace_per_km": "6:51",
+  "avg_hr": 148,
+  "max_hr": 163,
+  "calories": 341,
+  "notes": "Afternoon run. Closest to Zone 2 in recent history — best pace baseline we have",
+  "source": "strava"
+}

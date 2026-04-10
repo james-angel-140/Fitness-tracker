@@ -1,0 +1,62 @@
+{
+  "id": "2026-04-07-upper-body",
+  "date": "2026-04-07",
+  "type": "strength",
+  "duration_min": 58,
+  "calories": 256,
+  "total_volume_kg": 3767,
+  "exercises": [
+    {
+      "name": "Pull Up",
+      "sets": [
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null }
+      ],
+      "notes": "Consistent"
+    },
+    {
+      "name": "Barbell Bench Press",
+      "sets": [
+        { "reps": 5, "weight_kg": 60 },
+        { "reps": 5, "weight_kg": 60 },
+        { "reps": 5, "weight_kg": 60 },
+        { "reps": 5, "weight_kg": 60 },
+        { "reps": 5, "weight_kg": 60 }
+      ],
+      "notes": "Solid 5×5 strength format"
+    },
+    {
+      "name": "Dip",
+      "sets": [
+        { "reps": 9, "weight_kg": null },
+        { "reps": 9, "weight_kg": null },
+        { "reps": 9, "weight_kg": null },
+        { "reps": 9, "weight_kg": null },
+        { "reps": 9, "weight_kg": null }
+      ],
+      "notes": "Highest set count at this rep range"
+    },
+    {
+      "name": "Cable Row",
+      "sets": [
+        { "reps": 12, "weight_kg": 45 },
+        { "reps": 10, "weight_kg": 50 },
+        { "reps": 10, "weight_kg": 45 }
+      ],
+      "notes": "Hit 50kg on middle set"
+    },
+    {
+      "name": "Barbell Shoulder Press",
+      "sets": [
+        { "reps": 9, "weight_kg": 31 },
+        { "reps": 6, "weight_kg": 31 },
+        { "reps": 6, "weight_kg": 26 },
+        { "reps": 6, "weight_kg": 26 }
+      ],
+      "notes": "Started near PR weight, dropped with fatigue"
+    }
+  ],
+  "source": "fitbod"
+}

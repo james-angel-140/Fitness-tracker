@@ -1,0 +1,13 @@
+{
+  "id": "2026-03-10-run",
+  "date": "2026-03-10",
+  "type": "cardio",
+  "cardio_subtype": "run",
+  "duration_min": 29,
+  "distance_km": 5.19,
+  "avg_pace_per_km": "5:39",
+  "avg_hr": 169,
+  "max_hr": 184,
+  "notes": "Lunch run. Zone 4 effort — well above Zone 2 target of 120–130 bpm",
+  "source": "strava"
+}

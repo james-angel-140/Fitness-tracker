@@ -1,0 +1,97 @@
+[
+  {
+    "lift": "Barbell Bench Press",
+    "current_best_kg": 70,
+    "current_best_reps": "5×5",
+    "current_best_date": "2025-10-14",
+    "notes": "Best working weight",
+    "history": [
+      { "date": "2025-09-01", "weight_kg": 55, "reps": "5-6", "notes": "Starting point" },
+      { "date": "2025-10-08", "weight_kg": 70, "reps": 8, "notes": "First time at 70kg" },
+      { "date": "2025-10-14", "weight_kg": 70, "reps": "5×5", "notes": "Consistent at 70kg" },
+      { "date": "2025-10-27", "weight_kg": 65, "reps": 7 },
+      { "date": "2026-02-04", "weight_kg": 57.5, "reps": 11, "notes": "Higher volume" },
+      { "date": "2026-03-12", "weight_kg": 65, "reps": "6-7" },
+      { "date": "2026-03-30", "weight_kg": 60, "reps": "5-7", "notes": "Slight drop — cardio phase impact" }
+    ]
+  },
+  {
+    "lift": "Barbell Shoulder Press",
+    "current_best_kg": 32.5,
+    "current_best_reps": 7,
+    "current_best_date": "2026-03-30",
+    "notes": "PR matched on Feb 23 and Mar 30",
+    "history": []
+  },
+  {
+    "lift": "Deadlift",
+    "current_best_kg": 72.5,
+    "current_best_reps": 8,
+    "current_best_date": "2026-02-20",
+    "notes": "Working weight PR. Est. 1RM 97.7kg from Apr 6 volume session",
+    "history": [
+      { "date": "2026-02-20", "weight_kg": 72.5, "reps": 8, "notes": "Previous working weight PR" },
+      { "date": "2026-04-06", "weight_kg": 70, "reps": "10/10/8/8", "estimated_1rm_kg": 97.7, "notes": "Est. 1RM PR per app — volume 2,520kg" }
+    ]
+  },
+  {
+    "lift": "Romanian Deadlift",
+    "current_best_kg": 52.5,
+    "current_best_reps": 9,
+    "current_best_date": "2026-03-05",
+    "history": []
+  },
+  {
+    "lift": "Leg Press",
+    "current_best_kg": 135,
+    "current_best_reps": 6,
+    "current_best_date": "2026-02-20",
+    "history": []
+  },
+  {
+    "lift": "Back Squat",
+    "current_best_kg": 65,
+    "current_best_reps": "4-6",
+    "current_best_date": "2025-11-04",
+    "notes": "Best working weight",
+    "history": []
+  },
+  {
+    "lift": "Barbell Hip Thrust",
+    "current_best_kg": 55,
+    "current_best_reps": 8,
+    "current_best_date": "2026-03-05",
+    "history": []
+  },
+  {
+    "lift": "Pull-up",
+    "current_best_kg": null,
+    "current_best_reps": 9,
+    "current_best_date": "2026-02-04",
+    "notes": "Bodyweight. PR matched Jan 31 and Feb 4",
+    "history": []
+  },
+  {
+    "lift": "Lat Pulldown",
+    "current_best_kg": 60,
+    "current_best_reps": "5-10",
+    "current_best_date": null,
+    "notes": "Multiple sessions",
+    "history": []
+  },
+  {
+    "lift": "Cable Row",
+    "current_best_kg": 50,
+    "current_best_reps": "8-15",
+    "current_best_date": null,
+    "notes": "Multiple sessions",
+    "history": []
+  },
+  {
+    "lift": "Seated Leg Curl",
+    "current_best_kg": 57.5,
+    "current_best_reps": 12,
+    "current_best_date": "2026-02-24",
+    "history": []
+  }
+]
