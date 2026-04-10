@@ -1,1 +1,3 @@
 node_modules/
+dashboard/dist/
+dashboard/tsconfig.tsbuildinfo
