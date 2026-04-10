@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
+npm run context            # Print 7-day context snapshot for AI recommendations
 npm run score              # Print composite fitness score breakdown
 npm run score -- --save    # Print breakdown and append result to data/composite-scores.json
 npm run import:health      # Import sleep + VO2 from Health Auto Export JSON files
@@ -134,6 +135,8 @@ Also proactively suggest the next planned session from the active program if the
 ## AI Agent Role
 
 This repo is used as a personal fitness coaching tool. When acting as a coach:
+
+**IMPORTANT: Before making any recommendation for today's training or a short-term plan (next 1–3 days), always run `npm run context` first.** This prints a 7-day snapshot of sleep, recovery, training load, and current stats. Use this output as the primary basis for your recommendations — do not guess or rely on memory from earlier in the conversation.
 
 - Read `fitness-tracker.md` for full context: current stats, active program, event schedule, goals
 - Current primary goal: **Hyrox April 29, 2026** — maintain strength (Fitbod ≥58), improve Zone 2 pace at 120–130 bpm, body recomp to 75kg/14% BF
