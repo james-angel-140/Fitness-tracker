@@ -6,6 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 npm run context            # Print 7-day context snapshot for AI recommendations
+npm run upcoming           # Print next 3 planned sessions from the active program
 npm run score              # Print composite fitness score breakdown
 npm run score -- --save    # Print breakdown and append result to data/composite-scores.json
 npm run import:health      # Import sleep + VO2 from Health Auto Export JSON files

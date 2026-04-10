@@ -9,6 +9,7 @@
   "scripts": {
     "score": "tsx cli/calculate-score.ts",
     "context": "tsx cli/context.ts",
+    "upcoming": "tsx cli/upcoming.ts",
     "import:health": "tsx cli/import-health-export.ts",
     "typecheck": "tsc --noEmit",
     "dashboard": "npm -w dashboard run dev",
