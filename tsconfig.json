@@ -8,5 +8,5 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["schema/**/*.ts", "src/**/*.ts"]
+  "include": ["schema/**/*.ts", "cli/**/*.ts"]
 }
