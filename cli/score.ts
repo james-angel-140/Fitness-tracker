@@ -39,7 +39,7 @@ export interface CardioResult {
   vo2_max_score: number;
   zone2_pace_score: number;
   resting_hr_score: number;
-  contribution: number; // out of 35
+  contribution: number; // out of 40
 }
 
 export interface StrengthResult {
@@ -48,20 +48,20 @@ export interface StrengthResult {
   deadlift_score: number;
   leg_press_score: number;
   pullup_score: number;
-  contribution: number; // out of 30
+  contribution: number; // out of 35
 }
 
 export interface BodyCompResult {
   body_fat_score: number;
   weight_vs_goal_score: number;
-  contribution: number; // out of 20
+  contribution: number; // out of 25
 }
 
 export interface ConsistencyResult {
   sessions_per_week_score: number;
   total_sessions_4wk_score: number;
   cardio_sessions_score: number;
-  contribution: number; // out of 15
+  score: number; // standalone 0–100, not part of composite
 }
 
 export interface ScoreResult {
@@ -95,14 +95,14 @@ function round1(n: number): number {
 // ─── Category calculators ────────────────────────────────────────────────────
 
 /**
- * Cardio — 35% of total score.
+ * Cardio — 40% of composite score.
  *
  * Metrics:
  *   VO2 Max          floor 35  ceiling 60  higher better
  *   Zone 2 pace      floor 5.5 ceiling 9.0 lower better  (min/km)
  *   Resting HR       floor 38  ceiling 80  lower better  (bpm)
  *
- * contribution = avg(three scores) / 100 × 35
+ * contribution = avg(three scores) / 100 × 40
  */
 export function calcCardio(inputs: CardioInputs): CardioResult {
   const vo2_max_score = round1(norm(inputs.vo2_max, 35, 60));
@@ -110,13 +110,13 @@ export function calcCardio(inputs: CardioInputs): CardioResult {
   const resting_hr_score = round1(normInv(inputs.resting_hr_bpm, 38, 80));
 
   const avg = (vo2_max_score + zone2_pace_score + resting_hr_score) / 3;
-  const contribution = round1((avg / 100) * 35);
+  const contribution = round1((avg / 100) * 40);
 
   return { vo2_max_score, zone2_pace_score, resting_hr_score, contribution };
 }
 
 /**
- * Strength — 30% of total score.
+ * Strength — 35% of composite score.
  *
  * Metrics and weights within category:
  *   Fitbod Overall   floor 40  ceiling 90   30%  higher better
@@ -125,7 +125,7 @@ export function calcCardio(inputs: CardioInputs): CardioResult {
  *   Leg Press ×BW    floor 1.0 ceiling 3.0  15%  higher better
  *   Pull-ups (reps)  floor 0   ceiling 20   15%  higher better
  *
- * contribution = weighted_avg / 100 × 30
+ * contribution = weighted_avg / 100 × 35
  */
 export function calcStrength(inputs: StrengthInputs): StrengthResult {
   const bw = inputs.body_weight_kg;
@@ -143,7 +143,7 @@ export function calcStrength(inputs: StrengthInputs): StrengthResult {
     leg_press_score      * 0.15 +
     pullup_score         * 0.15;
 
-  const contribution = round1((weighted / 100) * 30);
+  const contribution = round1((weighted / 100) * 35);
 
   return {
     fitbod_overall_score,
@@ -156,55 +156,52 @@ export function calcStrength(inputs: StrengthInputs): StrengthResult {
 }
 
 /**
- * Body Composition — 20% of total score.
+ * Body Composition — 25% of composite score.
  *
  * Metrics and weights within category:
  *   Body Fat %       floor 10%  ceiling 25%  60%  lower better
  *   Weight vs goal   floor 65kg ceiling 75kg  40%  higher better
  *
- * contribution = weighted_avg / 100 × 20
+ * contribution = weighted_avg / 100 × 25
  */
 export function calcBodyComp(inputs: BodyCompInputs): BodyCompResult {
   const body_fat_score = round1(normInv(inputs.body_fat_pct, 10, 25));
   const weight_vs_goal_score = round1(norm(inputs.weight_kg, 65, 75));
 
   const weighted = body_fat_score * 0.60 + weight_vs_goal_score * 0.40;
-  const contribution = round1((weighted / 100) * 20);
+  const contribution = round1((weighted / 100) * 25);
 
   return { body_fat_score, weight_vs_goal_score, contribution };
 }
 
 /**
- * Consistency — 15% of total score.
+ * Consistency — standalone score (0–100), not part of the composite.
  *
  * Metrics and weights within category:
  *   Sessions/week (avg)        floor 0  ceiling 5   40%
  *   Total sessions last 4 wks  floor 0  ceiling 20  30%
  *   Cardio sessions/week       floor 0  ceiling 4   30%
- *
- * contribution = weighted_avg / 100 × 15
  */
 export function calcConsistency(inputs: ConsistencyInputs): ConsistencyResult {
   const sessions_per_week_score = round1(norm(inputs.sessions_per_week_avg, 0, 5));
   const total_sessions_4wk_score = round1(norm(inputs.total_sessions_last_4_weeks, 0, 20));
   const cardio_sessions_score = round1(norm(inputs.cardio_sessions_per_week_avg, 0, 4));
 
-  const weighted =
+  const score = round1(
     sessions_per_week_score  * 0.40 +
     total_sessions_4wk_score * 0.30 +
-    cardio_sessions_score    * 0.30;
-
-  const contribution = round1((weighted / 100) * 15);
+    cardio_sessions_score    * 0.30,
+  );
 
   return {
     sessions_per_week_score,
     total_sessions_4wk_score,
     cardio_sessions_score,
-    contribution,
+    score,
   };
 }
 
-/** Top-level: run all four categories and sum. */
+/** Top-level: run all categories. Composite score = cardio + strength + body_comp (max 100). Consistency is separate. */
 export function calculateCompositeScore(inputs: ScoreInputs): ScoreResult {
   const cardio = calcCardio(inputs.cardio);
   const strength = calcStrength(inputs.strength);
@@ -214,8 +211,7 @@ export function calculateCompositeScore(inputs: ScoreInputs): ScoreResult {
   const score = round1(
     cardio.contribution +
     strength.contribution +
-    body_comp.contribution +
-    consistency.contribution,
+    body_comp.contribution,
   );
 
   return { score, cardio, strength, body_comp, consistency };

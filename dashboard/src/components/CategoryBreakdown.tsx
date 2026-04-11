@@ -60,7 +60,7 @@ export function CategoryBreakdown() {
         <CardTitle>Score Breakdown</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <CategorySection title="Cardio" contribution={cardio.contribution} max={35}>
+        <CategorySection title="Cardio" contribution={cardio.contribution} max={40}>
           <MetricRow label="VO2 Max" value={cardio.vo2_max_score} detail={`${ci.vo2_max}`} />
           <MetricRow
             label="Zone 2 Pace"
@@ -76,7 +76,7 @@ export function CategoryBreakdown() {
           />
         </CategorySection>
 
-        <CategorySection title="Strength" contribution={strength.contribution} max={30}>
+        <CategorySection title="Strength" contribution={strength.contribution} max={35}>
           <MetricRow
             label="Fitbod Overall"
             value={strength.fitbod_overall_score}
@@ -104,7 +104,7 @@ export function CategoryBreakdown() {
           />
         </CategorySection>
 
-        <CategorySection title="Body Comp" contribution={body_comp.contribution} max={20}>
+        <CategorySection title="Body Comp" contribution={body_comp.contribution} max={25}>
           <MetricRow
             label="Body Fat"
             value={body_comp.body_fat_score}
@@ -117,23 +117,37 @@ export function CategoryBreakdown() {
           />
         </CategorySection>
 
-        <CategorySection title="Consistency" contribution={consistency.contribution} max={15}>
-          <MetricRow
-            label="Sessions/week"
-            value={consistency.sessions_per_week_score}
-            detail={`${co.sessions_per_week_avg.toFixed(1)}`}
-          />
-          <MetricRow
-            label="Sessions (4wk)"
-            value={consistency.total_sessions_4wk_score}
-            detail={`${co.total_sessions_last_4_weeks}`}
-          />
-          <MetricRow
-            label="Cardio/week"
-            value={consistency.cardio_sessions_score}
-            detail={`${co.cardio_sessions_per_week_avg.toFixed(1)}`}
-          />
-        </CategorySection>
+        <div className="space-y-3 border-t border-border pt-4">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-semibold">Consistency</span>
+            <span className="text-xs text-muted-foreground tabular-nums">
+              {consistency.score} / 100 — standalone score
+            </span>
+          </div>
+          <div className="h-2 rounded-full bg-accent overflow-hidden mb-1">
+            <div
+              className="h-full rounded-full bg-primary transition-all"
+              style={{ width: `${consistency.score}%` }}
+            />
+          </div>
+          <div className="space-y-2 pl-1">
+            <MetricRow
+              label="Sessions/week"
+              value={consistency.sessions_per_week_score}
+              detail={`${co.sessions_per_week_avg.toFixed(1)}`}
+            />
+            <MetricRow
+              label="Sessions (4wk)"
+              value={consistency.total_sessions_4wk_score}
+              detail={`${co.total_sessions_last_4_weeks}`}
+            />
+            <MetricRow
+              label="Cardio/week"
+              value={consistency.cardio_sessions_score}
+              detail={`${co.cardio_sessions_per_week_avg.toFixed(1)}`}
+            />
+          </div>
+        </div>
       </CardContent>
     </Card>
   )

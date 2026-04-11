@@ -113,7 +113,7 @@ function ScoreBreakdownChart() {
     cardio:      currentScore.cardio.contribution,
     strength:    currentScore.strength.contribution,
     body_comp:   currentScore.body_comp.contribution,
-    consistency: currentScore.consistency.contribution,
+    consistency: currentScore.consistency.score,
     total:       currentScore.score,
   }
 

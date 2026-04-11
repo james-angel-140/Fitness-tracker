@@ -39,7 +39,7 @@ export interface CardioResult {
   vo2_max_score: number
   zone2_pace_score: number
   resting_hr_score: number
-  contribution: number
+  contribution: number // out of 40
 }
 
 export interface StrengthResult {
@@ -48,20 +48,20 @@ export interface StrengthResult {
   deadlift_score: number
   leg_press_score: number
   pullup_score: number
-  contribution: number
+  contribution: number // out of 35
 }
 
 export interface BodyCompResult {
   body_fat_score: number
   weight_vs_goal_score: number
-  contribution: number
+  contribution: number // out of 25
 }
 
 export interface ConsistencyResult {
   sessions_per_week_score: number
   total_sessions_4wk_score: number
   cardio_sessions_score: number
-  contribution: number
+  score: number // standalone 0–100, not part of composite
 }
 
 export interface ScoreResult {
@@ -113,7 +113,7 @@ export function calcCardio(inputs: CardioInputs): CardioResult {
   const zone2_pace_score = r1(normInv(inputs.zone2_pace_min_per_km, 5.5, 9.0))
   const resting_hr_score = r1(normInv(inputs.resting_hr_bpm, 38, 80))
   const avg = (vo2_max_score + zone2_pace_score + resting_hr_score) / 3
-  return { vo2_max_score, zone2_pace_score, resting_hr_score, contribution: r1((avg / 100) * 35) }
+  return { vo2_max_score, zone2_pace_score, resting_hr_score, contribution: r1((avg / 100) * 40) }
 }
 
 export function calcStrength(inputs: StrengthInputs): StrengthResult {
@@ -135,7 +135,7 @@ export function calcStrength(inputs: StrengthInputs): StrengthResult {
     deadlift_score,
     leg_press_score,
     pullup_score,
-    contribution: r1((weighted / 100) * 30),
+    contribution: r1((weighted / 100) * 35),
   }
 }
 
@@ -143,22 +143,23 @@ export function calcBodyComp(inputs: BodyCompInputs): BodyCompResult {
   const body_fat_score = r1(normInv(inputs.body_fat_pct, 10, 25))
   const weight_vs_goal_score = r1(norm(inputs.weight_kg, 65, 75))
   const weighted = body_fat_score * 0.6 + weight_vs_goal_score * 0.4
-  return { body_fat_score, weight_vs_goal_score, contribution: r1((weighted / 100) * 20) }
+  return { body_fat_score, weight_vs_goal_score, contribution: r1((weighted / 100) * 25) }
 }
 
 export function calcConsistency(inputs: ConsistencyInputs): ConsistencyResult {
   const sessions_per_week_score = r1(norm(inputs.sessions_per_week_avg, 0, 5))
   const total_sessions_4wk_score = r1(norm(inputs.total_sessions_last_4_weeks, 0, 20))
   const cardio_sessions_score = r1(norm(inputs.cardio_sessions_per_week_avg, 0, 4))
-  const weighted =
+  const score = r1(
     sessions_per_week_score * 0.4 +
     total_sessions_4wk_score * 0.3 +
     cardio_sessions_score * 0.3
+  )
   return {
     sessions_per_week_score,
     total_sessions_4wk_score,
     cardio_sessions_score,
-    contribution: r1((weighted / 100) * 15),
+    score,
   }
 }
 
@@ -169,9 +170,8 @@ export function calculateCompositeScore(inputs: ScoreInputs): ScoreResult {
   const consistency = calcConsistency(inputs.consistency)
   const score = r1(
     cardio.contribution +
-      strength.contribution +
-      body_comp.contribution +
-      consistency.contribution,
+    strength.contribution +
+    body_comp.contribution,
   )
   return { score, cardio, strength, body_comp, consistency }
 }
