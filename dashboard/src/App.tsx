@@ -7,6 +7,7 @@ import { HyroxCountdown } from '@/components/HyroxCountdown'
 import { StatTiles } from '@/components/StatTiles'
 import { SleepCard } from '@/components/SleepCard'
 import { UpcomingSessions } from '@/components/UpcomingSessions'
+import { ConsistencyGauge } from '@/components/ConsistencyGauge'
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -33,9 +34,10 @@ export default function App() {
         {/* ── WHERE DO I STAND? ─────────────────────────────── */}
         <SectionLabel>Where do I stand?</SectionLabel>
 
-        {/* Score + event countdown */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch">
+        {/* Score + consistency + event countdown */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-stretch">
           <ScoreCard />
+          <ConsistencyGauge />
           <HyroxCountdown />
         </div>
 

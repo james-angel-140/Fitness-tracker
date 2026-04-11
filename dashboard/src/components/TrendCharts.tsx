@@ -90,17 +90,15 @@ function MiniChart({ title, data, color, unit = '', referenceValue, referenceLab
 }
 
 const CATEGORY_COLOURS = {
-  cardio:      '#38bdf8',
-  strength:    '#a78bfa',
-  body_comp:   '#34d399',
-  consistency: '#fb923c',
+  cardio:    '#38bdf8',
+  strength:  '#a78bfa',
+  body_comp: '#34d399',
 }
 
 const CATEGORY_LABELS = {
-  cardio:      'Cardio',
-  strength:    'Strength',
-  body_comp:   'Body Comp',
-  consistency: 'Consistency',
+  cardio:    'Cardio',
+  strength:  'Strength',
+  body_comp: 'Body Comp',
 }
 
 function ScoreBreakdownChart() {
@@ -113,7 +111,7 @@ function ScoreBreakdownChart() {
     cardio:      currentScore.cardio.contribution,
     strength:    currentScore.strength.contribution,
     body_comp:   currentScore.body_comp.contribution,
-    consistency: currentScore.consistency.score,
+
     total:       currentScore.score,
   }
 
@@ -123,7 +121,7 @@ function ScoreBreakdownChart() {
     cardio:      e.categories.cardio,
     strength:    e.categories.strength,
     body_comp:   e.categories.body_comp,
-    consistency: e.categories.consistency,
+
     total:       e.score,
   }))
 
