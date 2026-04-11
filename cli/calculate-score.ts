@@ -129,12 +129,26 @@ const deadliftPR = pr('Deadlift');
 const legPressPR = pr('Leg Press');
 const pullupPR = pr('Pull-up');
 
+// ─── Scan back for latest non-null metric ─────────────────────────────────────
+
+function latestMetric<K extends keyof StatsSnapshot>(key: K): StatsSnapshot[K] | undefined {
+  for (let i = statsSnapshots.length - 1; i >= 0; i--) {
+    if (statsSnapshots[i][key] != null) return statsSnapshots[i][key];
+  }
+  return undefined;
+}
+
 // ─── Assemble inputs ──────────────────────────────────────────────────────────
 
-if (!latestStats.vo2_max) throw new Error('vo2_max missing from latest stats snapshot');
-if (!latestStats.resting_hr_bpm) throw new Error('resting_hr_bpm missing from latest stats snapshot');
-if (!latestStats.body_fat_pct) throw new Error('body_fat_pct missing from latest stats snapshot');
-if (!latestStats.fitbod) throw new Error('fitbod scores missing from latest stats snapshot');
+const vo2_max = latestMetric('vo2_max');
+const resting_hr_bpm = latestMetric('resting_hr_bpm');
+const body_fat_pct = latestMetric('body_fat_pct');
+const fitbod = latestMetric('fitbod');
+
+if (!vo2_max) throw new Error('vo2_max not found in any stats snapshot');
+if (!resting_hr_bpm) throw new Error('resting_hr_bpm not found in any stats snapshot');
+if (!body_fat_pct) throw new Error('body_fat_pct not found in any stats snapshot');
+if (!fitbod) throw new Error('fitbod scores not found in any stats snapshot');
 if (!benchPR.current_best_kg) throw new Error('Bench press PR has no weight recorded');
 if (!deadliftPR.current_best_kg) throw new Error('Deadlift PR has no weight recorded');
 if (!legPressPR.current_best_kg) throw new Error('Leg press PR has no weight recorded');
@@ -145,12 +159,12 @@ const zone2PaceMinPerKm = latestZone2Run?.avg_pace_per_km
 
 const inputs: ScoreInputs = {
   cardio: {
-    vo2_max: latestStats.vo2_max,
+    vo2_max,
     zone2_pace_min_per_km: zone2PaceMinPerKm,
-    resting_hr_bpm: latestStats.resting_hr_bpm,
+    resting_hr_bpm,
   },
   strength: {
-    fitbod_overall: latestStats.fitbod.overall,
+    fitbod_overall: fitbod.overall,
     bench_press_kg: benchPR.current_best_kg,
     deadlift_kg: deadliftPR.current_best_kg,
     leg_press_kg: legPressPR.current_best_kg,
@@ -158,7 +172,7 @@ const inputs: ScoreInputs = {
     body_weight_kg: latestWeight.weight_kg,
   },
   body_comp: {
-    body_fat_pct: latestStats.body_fat_pct,
+    body_fat_pct,
     weight_kg: latestWeight.weight_kg,
   },
   consistency: {
@@ -201,7 +215,7 @@ console.log(`
   Resting HR        ${inputs.cardio.resting_hr_bpm} bpm        →  ${fmt(result.cardio.resting_hr_score)} / 100
 
 ──────────────────────────────────────────────────────
-  STRENGTH  ${fmt(result.strength.contribution, 4)} / 30   ${bar(result.strength.contribution, 30)}
+  STRENGTH  ${fmt(result.strength.contribution, 4)} / 40   ${bar(result.strength.contribution, 40)}
 ──────────────────────────────────────────────────────
 
   Fitbod Overall    ${inputs.strength.fitbod_overall}           →  ${fmt(result.strength.fitbod_overall_score)} / 100
@@ -211,14 +225,14 @@ console.log(`
   Pull-ups          ${inputs.strength.pullup_reps} reps         →  ${fmt(result.strength.pullup_score)} / 100
 
 ──────────────────────────────────────────────────────
-  BODY COMP  ${fmt(result.body_comp.contribution, 4)} / 20   ${bar(result.body_comp.contribution, 20)}
+  BODY COMP  ${fmt(result.body_comp.contribution, 4)} / 25   ${bar(result.body_comp.contribution, 25)}
 ──────────────────────────────────────────────────────
 
   Body Fat          ${inputs.body_comp.body_fat_pct}%          →  ${fmt(result.body_comp.body_fat_score)} / 100
   Weight vs Goal    ${inputs.body_comp.weight_kg}kg / 75kg       →  ${fmt(result.body_comp.weight_vs_goal_score)} / 100
 
 ──────────────────────────────────────────────────────
-  CONSISTENCY  ${fmt(result.consistency.contribution, 4)} / 15   ${bar(result.consistency.contribution, 15)}
+  CONSISTENCY  ${fmt(result.consistency.score, 4)} / 100  (standalone)  ${bar(result.consistency.score)}
 ──────────────────────────────────────────────────────
 
   Sessions/week     ${inputs.consistency.sessions_per_week_avg.toFixed(1)}           →  ${fmt(result.consistency.sessions_per_week_score)} / 100
@@ -241,7 +255,7 @@ if (process.argv.includes('--save')) {
       cardio: result.cardio.contribution,
       strength: result.strength.contribution,
       body_comp: result.body_comp.contribution,
-      consistency: result.consistency.contribution,
+      consistency: result.consistency.score,
     },
   };
 

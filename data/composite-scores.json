@@ -9,5 +9,24 @@
       "consistency": 10.7
     },
     "notes": "Baseline"
+  },
+  {
+    "date": "2026-04-11",
+    "score": 46.7,
+    "categories": {
+      "cardio": 14.5,
+      "strength": 16,
+      "body_comp": 16.2
+    }
+  },
+  {
+    "date": "2026-04-11",
+    "score": 46.7,
+    "categories": {
+      "cardio": 14.5,
+      "strength": 16,
+      "body_comp": 16.2,
+      "consistency": 46.3
+    }
   }
 ]
