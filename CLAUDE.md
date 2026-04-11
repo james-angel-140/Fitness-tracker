@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Git Workflow
+
+Always work on `main`. Never create a separate branch. All commits and pushes go directly to `main`.
+
 ## Commands
 
 ```bash
