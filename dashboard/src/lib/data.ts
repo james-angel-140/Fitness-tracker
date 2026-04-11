@@ -12,6 +12,7 @@ import bodyWeightLog from '@data/body-weight-log.json'
 import personalRecords from '@data/personal-records.json'
 import compositeScores from '@data/composite-scores.json'
 import sleepLogRaw from '@data/sleep-log.json'
+import programRaw from '@data/programs/hyrox-peak-taper.json'
 
 // Vite glob import — eager so all workouts are bundled synchronously
 const workoutModules = import.meta.glob('@data/workouts/*.json', { eager: true })
@@ -252,6 +253,25 @@ for (const w of workouts) {
 
 // Emit one data point per workout date so the chart is sparse (not every calendar day)
 const workoutDates = Array.from(new Set(workouts.map((w) => w.date))).sort()
+
+// ─── Program / upcoming sessions ─────────────────────────────────────────────
+
+export interface ProgramDay {
+  day_of_week: string
+  date: string
+  focus: string
+  session: string
+  phase: string
+}
+
+const TODAY_STR = '2026-04-11'
+
+export const upcomingSessions: ProgramDay[] = (programRaw as any).phases
+  .flatMap((phase: any) =>
+    (phase.days ?? []).map((d: any) => ({ ...d, phase: phase.name }))
+  )
+  .filter((d: any) => d.date >= TODAY_STR)
+  .slice(0, 3)
 
 export const trainingLoad: TrainingLoadPoint[] = workoutDates.map((date) => {
   const atl = rollingAvg(trimpByDate, date, 7)

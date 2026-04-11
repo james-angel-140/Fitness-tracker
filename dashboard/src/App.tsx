@@ -6,6 +6,7 @@ import { PRTable } from '@/components/PRTable'
 import { HyroxCountdown } from '@/components/HyroxCountdown'
 import { StatTiles } from '@/components/StatTiles'
 import { SleepCard } from '@/components/SleepCard'
+import { UpcomingSessions } from '@/components/UpcomingSessions'
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -63,7 +64,10 @@ export default function App() {
           <div className="lg:col-span-2">
             <TrainingLoadChart />
           </div>
-          <WorkoutHistory />
+          <div className="space-y-4">
+            <UpcomingSessions />
+            <WorkoutHistory />
+          </div>
         </div>
 
         {/* ── HOW STRONG AM I? ──────────────────────────────── */}
