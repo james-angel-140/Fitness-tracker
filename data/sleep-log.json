@@ -47,6 +47,17 @@
       "hrv_ms": 95,
       "resting_hr": 47,
       "respiratory_rate": 15.83
+    },
+    {
+      "date": "2026-04-11",
+      "duration_hr": 7.2,
+      "sleep_hr": 7,
+      "deep_hr": 1.21,
+      "rem_hr": 1.69,
+      "awake_hr": 0.2,
+      "source": "health-auto-export",
+      "hrv_ms": 65,
+      "respiratory_rate": 16.72
     }
   ]
 }
