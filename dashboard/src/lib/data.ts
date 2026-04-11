@@ -146,7 +146,7 @@ export const latestZone2Run = workouts
   .at(-1)
 
 // 4-week consistency window
-const today = new Date('2026-04-10') // matches CLAUDE.md currentDate
+const today = new Date('2026-04-11') // matches CLAUDE.md currentDate
 const fourWeeksAgo = new Date(today)
 fourWeeksAgo.setDate(today.getDate() - 28)
 
