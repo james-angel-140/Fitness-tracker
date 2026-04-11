@@ -60,7 +60,7 @@ export function CategoryBreakdown() {
         <CardTitle>Score Breakdown</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <CategorySection title="Cardio" contribution={cardio.contribution} max={40}>
+        <CategorySection title="Cardio" contribution={cardio.contribution} max={35}>
           <MetricRow label="VO2 Max" value={cardio.vo2_max_score} detail={`${ci.vo2_max}`} />
           <MetricRow
             label="Zone 2 Pace"
@@ -76,7 +76,7 @@ export function CategoryBreakdown() {
           />
         </CategorySection>
 
-        <CategorySection title="Strength" contribution={strength.contribution} max={35}>
+        <CategorySection title="Strength" contribution={strength.contribution} max={40}>
           <MetricRow
             label="Fitbod Overall"
             value={strength.fitbod_overall_score}

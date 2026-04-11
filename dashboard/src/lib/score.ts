@@ -113,7 +113,7 @@ export function calcCardio(inputs: CardioInputs): CardioResult {
   const zone2_pace_score = r1(normInv(inputs.zone2_pace_min_per_km, 5.5, 9.0))
   const resting_hr_score = r1(normInv(inputs.resting_hr_bpm, 38, 80))
   const avg = (vo2_max_score + zone2_pace_score + resting_hr_score) / 3
-  return { vo2_max_score, zone2_pace_score, resting_hr_score, contribution: r1((avg / 100) * 40) }
+  return { vo2_max_score, zone2_pace_score, resting_hr_score, contribution: r1((avg / 100) * 35) }
 }
 
 export function calcStrength(inputs: StrengthInputs): StrengthResult {
@@ -135,7 +135,7 @@ export function calcStrength(inputs: StrengthInputs): StrengthResult {
     deadlift_score,
     leg_press_score,
     pullup_score,
-    contribution: r1((weighted / 100) * 35),
+    contribution: r1((weighted / 100) * 40),
   }
 }
 

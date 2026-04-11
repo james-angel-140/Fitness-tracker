@@ -95,14 +95,14 @@ function round1(n: number): number {
 // ─── Category calculators ────────────────────────────────────────────────────
 
 /**
- * Cardio — 40% of composite score.
+ * Cardio — 35% of composite score.
  *
  * Metrics:
  *   VO2 Max          floor 35  ceiling 60  higher better
  *   Zone 2 pace      floor 5.5 ceiling 9.0 lower better  (min/km)
  *   Resting HR       floor 38  ceiling 80  lower better  (bpm)
  *
- * contribution = avg(three scores) / 100 × 40
+ * contribution = avg(three scores) / 100 × 35
  */
 export function calcCardio(inputs: CardioInputs): CardioResult {
   const vo2_max_score = round1(norm(inputs.vo2_max, 35, 60));
@@ -110,13 +110,13 @@ export function calcCardio(inputs: CardioInputs): CardioResult {
   const resting_hr_score = round1(normInv(inputs.resting_hr_bpm, 38, 80));
 
   const avg = (vo2_max_score + zone2_pace_score + resting_hr_score) / 3;
-  const contribution = round1((avg / 100) * 40);
+  const contribution = round1((avg / 100) * 35);
 
   return { vo2_max_score, zone2_pace_score, resting_hr_score, contribution };
 }
 
 /**
- * Strength — 35% of composite score.
+ * Strength — 40% of composite score.
  *
  * Metrics and weights within category:
  *   Fitbod Overall   floor 40  ceiling 90   30%  higher better
@@ -125,7 +125,7 @@ export function calcCardio(inputs: CardioInputs): CardioResult {
  *   Leg Press ×BW    floor 1.0 ceiling 3.0  15%  higher better
  *   Pull-ups (reps)  floor 0   ceiling 20   15%  higher better
  *
- * contribution = weighted_avg / 100 × 35
+ * contribution = weighted_avg / 100 × 40
  */
 export function calcStrength(inputs: StrengthInputs): StrengthResult {
   const bw = inputs.body_weight_kg;
@@ -143,7 +143,7 @@ export function calcStrength(inputs: StrengthInputs): StrengthResult {
     leg_press_score      * 0.15 +
     pullup_score         * 0.15;
 
-  const contribution = round1((weighted / 100) * 35);
+  const contribution = round1((weighted / 100) * 40);
 
   return {
     fitbod_overall_score,
