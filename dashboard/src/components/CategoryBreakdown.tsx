@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { currentScore, scoreInputs } from '@/lib/data'
+import { currentScore, scoreHistory, scoreInputs } from '@/lib/data'
 
 interface BarProps {
   label: string
@@ -51,8 +51,16 @@ function CategorySection({ title, contribution, max, children }: {
 }
 
 export function CategoryBreakdown() {
-  const { cardio, strength, body_comp, consistency } = currentScore
-  const { cardio: ci, strength: si, body_comp: bi, consistency: co } = scoreInputs
+  // Saved contributions (source of truth — matches npm run score --save)
+  const saved = scoreHistory.at(-1)
+  const savedCardio = saved?.categories.cardio ?? 0
+  const savedStrength = saved?.categories.strength ?? 0
+  const savedBodyComp = saved?.categories.body_comp ?? 0
+  const savedConsistency = saved?.categories.consistency ?? 0
+
+  // Sub-metric detail rows remain live-calculated (not stored in JSON)
+  const { cardio, strength, body_comp } = currentScore
+  const { cardio: ci, strength: si, body_comp: bi } = scoreInputs
 
   return (
     <Card>
@@ -60,7 +68,7 @@ export function CategoryBreakdown() {
         <CardTitle>Score Breakdown</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <CategorySection title="Cardio" contribution={cardio.contribution} max={35}>
+        <CategorySection title="Cardio" contribution={savedCardio} max={35}>
           <MetricRow label="VO2 Max" value={cardio.vo2_max_score} detail={`${ci.vo2_max}`} />
           <MetricRow
             label="Zone 2 Pace"
@@ -76,7 +84,7 @@ export function CategoryBreakdown() {
           />
         </CategorySection>
 
-        <CategorySection title="Strength" contribution={strength.contribution} max={40}>
+        <CategorySection title="Strength" contribution={savedStrength} max={40}>
           <MetricRow
             label="Fitbod Overall"
             value={strength.fitbod_overall_score}
@@ -104,7 +112,7 @@ export function CategoryBreakdown() {
           />
         </CategorySection>
 
-        <CategorySection title="Body Comp" contribution={body_comp.contribution} max={25}>
+        <CategorySection title="Body Comp" contribution={savedBodyComp} max={25}>
           <MetricRow
             label="Body Fat"
             value={body_comp.body_fat_score}
@@ -121,30 +129,13 @@ export function CategoryBreakdown() {
           <div className="flex items-center justify-between">
             <span className="text-sm font-semibold">Consistency</span>
             <span className="text-xs text-muted-foreground tabular-nums">
-              {consistency.score} / 100 — standalone score
+              {savedConsistency} / 100 — standalone score
             </span>
           </div>
           <div className="h-2 rounded-full bg-accent overflow-hidden mb-1">
             <div
               className="h-full rounded-full bg-primary transition-all"
-              style={{ width: `${consistency.score}%` }}
-            />
-          </div>
-          <div className="space-y-2 pl-1">
-            <MetricRow
-              label="Sessions/week"
-              value={consistency.sessions_per_week_score}
-              detail={`${co.sessions_per_week_avg.toFixed(1)}`}
-            />
-            <MetricRow
-              label="Sessions (4wk)"
-              value={consistency.total_sessions_4wk_score}
-              detail={`${co.total_sessions_last_4_weeks}`}
-            />
-            <MetricRow
-              label="Cardio/week"
-              value={consistency.cardio_sessions_score}
-              detail={`${co.cardio_sessions_per_week_avg.toFixed(1)}`}
+              style={{ width: `${savedConsistency}%` }}
             />
           </div>
         </div>
