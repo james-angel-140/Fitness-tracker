@@ -2,9 +2,10 @@ interface Props {
   score: number
   label: string
   size?: number
+  colour?: string
 }
 
-export function ScoreGauge({ score, label, size = 160 }: Props) {
+export function ScoreGauge({ score, label, size = 160, colour: colourOverride }: Props) {
   const cx = size / 2
   const cy = size / 2
   const r = (size / 2) * 0.75
@@ -31,13 +32,14 @@ export function ScoreGauge({ score, label, size = 160 }: Props) {
   const trackPath = arcPath(startAngle, endAngle, r)
   const fillPath = score > 0 ? arcPath(startAngle, fillAngle, r) : null
 
-  const colour =
+  const colour = colourOverride ?? (
     score >= 85 ? '#22d3ee'
     : score >= 75 ? '#34d399'
     : score >= 65 ? '#a3e635'
     : score >= 50 ? '#facc15'
     : score >= 30 ? '#fb923c'
     : '#f87171'
+  )
 
   // Arc endpoints are at y = cy + r*sin(130°) = cy + 0.766r
   // Clip just below those endpoints to hide the bottom gap

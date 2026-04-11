@@ -12,7 +12,7 @@ export function ConsistencyGauge() {
         Consistency Score
       </p>
 
-      <ScoreGauge score={Math.round(consistency.score)} label="Consistency" size={160} />
+      <ScoreGauge score={Math.round(consistency.score)} label="Consistency" size={160} colour="#fb923c" />
 
       <div className="mt-5 flex gap-6 text-center text-xs text-muted-foreground">
         <div>
