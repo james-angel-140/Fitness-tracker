@@ -1,0 +1,23 @@
+{
+  "id": "2026-04-11-hyrox-simulation-run",
+  "date": "2026-04-11",
+  "type": "cardio",
+  "cardio_subtype": "run",
+  "duration_min": 31,
+  "distance_km": 4.90,
+  "avg_pace_per_km": "6:22",
+  "avg_hr": 153,
+  "max_hr": 171,
+  "calories": 381,
+  "cadence_spm": 141,
+  "rpe": 5,
+  "splits": [
+    { "km": 1, "type": "warmup", "distance_km": 0.5, "notes": "Warmup at ~7.5 kph" },
+    { "km": 2, "type": "interval", "distance_km": 1.0, "pace_per_km": "5:16", "avg_hr": 159, "notes": "Rep 1 @ 11.4 kph" },
+    { "km": 3, "type": "interval", "distance_km": 1.0, "notes": "Rep 2 @ 11.4 kph" },
+    { "km": 4, "type": "interval", "distance_km": 1.0, "notes": "Rep 3 @ 11.4 kph" },
+    { "km": 5, "type": "interval", "distance_km": 1.0, "pace_per_km": "5:18", "avg_hr": 160, "notes": "Rep 4 @ 11.4 kph" }
+  ],
+  "notes": "Hyrox simulation. 0.5km warmup then 4 × 1km @ 11.4 kph (5:16/km) with 0.1km walk recovery (~90s) between reps. Felt easier than RPE suggests — poor sleep likely inflated perceived effort. HR 159–160 bpm during intervals, peaking 171 bpm. 58% of session in Zone 4.",
+  "source": "strava"
+}
