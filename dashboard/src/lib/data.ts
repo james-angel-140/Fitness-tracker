@@ -543,8 +543,51 @@ for (const w of workouts) {
     }
   }
 }
+// Also seed from PR history so the trend goes back further than the workout files
+function parseReps(repsVal: number | string): number {
+  if (typeof repsVal === 'number') return repsVal
+  const match = String(repsVal).match(/\d+/)
+  return match ? parseInt(match[0]) : 1
+}
+
+for (const pr of prs) {
+  // Current best
+  if (pr.current_best_kg != null && pr.current_best_date != null) {
+    const reps = parseReps(pr.current_best_reps)
+    const est = epley1RM(pr.current_best_kg, reps)
+    if (!oneRmTrends[pr.lift]) oneRmTrends[pr.lift] = []
+    const ex = oneRmTrends[pr.lift].find((p) => p.date === pr.current_best_date)
+    if (ex) { if (est > ex.est1rm) ex.est1rm = est }
+    else oneRmTrends[pr.lift].push({ date: pr.current_best_date, est1rm: est })
+  }
+  // History entries
+  for (const h of pr.history ?? []) {
+    if (h.weight_kg == null || h.weight_kg === 0) continue
+    const reps = parseReps(h.reps)
+    const est = (h as any).estimated_1rm_kg ?? epley1RM(h.weight_kg, reps)
+    if (!oneRmTrends[pr.lift]) oneRmTrends[pr.lift] = []
+    const ex = oneRmTrends[pr.lift].find((p) => p.date === h.date)
+    if (ex) { if (est > ex.est1rm) ex.est1rm = est }
+    else oneRmTrends[pr.lift].push({ date: h.date, est1rm: est })
+  }
+}
+
 for (const k of Object.keys(oneRmTrends)) {
   oneRmTrends[k].sort((a, b) => a.date.localeCompare(b.date))
+}
+
+/** Best (peak) estimated 1RM for a lift across all history. */
+export function peakEst1rm(liftName: string): number | null {
+  const trend = oneRmTrends[liftName]
+  if (!trend || trend.length === 0) return null
+  return Math.max(...trend.map((p) => p.est1rm))
+}
+
+/** Estimated 1RM from the current PR record (what they can do right now). */
+export function currentEst1rm(liftName: string): number | null {
+  const pr = prs.find((p) => p.lift === liftName)
+  if (!pr || pr.current_best_kg == null) return null
+  return epley1RM(pr.current_best_kg, parseReps(pr.current_best_reps))
 }
 
 // ─── Periodization Compliance ─────────────────────────────────────────────────

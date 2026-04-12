@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { prs, oneRmTrends, latestWeightAvg7 } from '@/lib/data'
+import { prs, oneRmTrends, latestWeightAvg7, currentEst1rm, peakEst1rm } from '@/lib/data'
 import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts'
 
 const tooltipStyle = {
@@ -57,7 +57,10 @@ export function PRTable() {
         <div className="divide-y divide-border">
           {prs.map((pr) => {
             const trend = oneRmTrends[pr.lift] ?? []
-            const latestEst1rm = trend.at(-1)?.est1rm ?? null
+            // Est. 1RM from current PR record (e.g. 70kg × 5 = 81.7kg)
+            const est1rm = currentEst1rm(pr.lift)
+            const peak = peakEst1rm(pr.lift)
+            const isPeak = est1rm != null && peak != null && est1rm >= peak
             const xbw = pr.current_best_kg != null ? (pr.current_best_kg / bw).toFixed(2) : null
 
             return (
@@ -74,8 +77,13 @@ export function PRTable() {
                   <span className="font-normal text-muted-foreground text-xs">× {pr.current_best_reps}</span>
                 </div>
                 <div className="w-20 text-right tabular-nums shrink-0">
-                  {latestEst1rm != null ? (
-                    <span className="text-sm font-medium">{latestEst1rm}kg</span>
+                  {est1rm != null ? (
+                    <span className="text-sm font-medium" title={!isPeak && peak != null ? `Peak: ${peak}kg` : undefined}>
+                      {est1rm}kg
+                      {!isPeak && peak != null && (
+                        <span className="text-xs text-muted-foreground ml-1">(pk {peak}kg)</span>
+                      )}
+                    </span>
                   ) : (
                     <span className="text-xs text-muted-foreground">—</span>
                   )}
