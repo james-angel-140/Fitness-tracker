@@ -27,6 +27,9 @@ const DATA_DIR = join(__dirname, '../data')
 const TODAY = new Date()
 const TODAY_STR = TODAY.toISOString().slice(0, 10)
 
+// Extra context passed via CLI, e.g: npm run plan -- "heavy night out, feeling rough"
+const EXTRA_CONTEXT = process.argv.slice(2).join(' ').trim()
+
 // ─── Check API key ────────────────────────────────────────────────────────────
 
 if (!process.env.ANTHROPIC_API_KEY) {
@@ -296,6 +299,15 @@ Let the recovery data drive rest day placement and session intensity. Use HRV tr
 - **Strength sessions:** the athlete uses Fitbod for exercise selection and progressive overload. Your job is to direct the session type and focus — e.g. "Lower body — posterior chain focus" or "Upper body — push focus (chest, shoulders, triceps)" or "Upper body — pull focus (back, biceps)". Fitbod handles the rest.
 - **All other sessions** (simulations, intervals, etc.): be specific — include structure, targets, and intent.
 
+## Plan Continuity
+An existing program will be provided for reference. Your default position should be to keep it — don't change things for the sake of it. Only deviate from the existing plan when the data gives you a clear reason to:
+- ACWR is outside the 0.8–1.3 window and the current plan would make it worse
+- Recovery signals (HRV, sleep) suggest the planned load is too high for the coming days
+- Extra context provided by the athlete (illness, travel, soreness, life events) changes what's appropriate
+- The event timeline has shifted enough that the phase structure no longer makes sense
+
+If the existing plan is broadly sound and load is in range, carry it forward with minimal changes. Preference continuity over novelty.
+
 ## Output Rules
 - Generate a complete plan from today to the event date, organised into meaningful phases
 - Each phase must have a clear strategic purpose
@@ -311,7 +323,7 @@ async function generatePlan() {
 
   console.log(`Generating training plan with Claude Opus...`)
   console.log(`Today: ${TODAY_STR}`)
-  console.log(`ANTHROPIC_API_KEY: ${process.env.ANTHROPIC_API_KEY!.slice(0, 12)}...`)
+  if (EXTRA_CONTEXT) console.log(`Extra context: "${EXTRA_CONTEXT}"`)
   console.log('')
 
   let dotInterval: ReturnType<typeof setInterval> | null = setInterval(
@@ -329,7 +341,7 @@ async function generatePlan() {
       messages: [
         {
           role: 'user',
-          content: `Here is my current fitness data. Generate an optimised training plan from today (${TODAY_STR}) through my next event, accounting for my current load, recovery state, and any existing program structure.\n\n${context}`,
+          content: `Here is my current fitness data. Generate an optimised training plan from today (${TODAY_STR}) through my next event, accounting for my current load, recovery state, and any existing program structure.${EXTRA_CONTEXT ? `\n\n## ADDITIONAL CONTEXT FROM ATHLETE\n${EXTRA_CONTEXT}` : ''}\n\n${context}`,
         },
       ],
       output_config: {
