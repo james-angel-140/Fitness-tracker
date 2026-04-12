@@ -247,8 +247,12 @@ function rollingAvg(trimpByDate: Map<string, number>, endDate: string, days: num
 // Build a map of date → daily TRIMP (sum if multiple sessions in one day)
 const trimpByDate = new Map<string, number>()
 for (const w of workouts) {
-  const t = (w.trimp != null) ? w.trimp : w.duration_min * estimateRpe(w)
-  trimpByDate.set(w.date, (trimpByDate.get(w.date) ?? 0) + t)
+  const t = w.trimp != null ? w.trimp
+    : w.duration_min != null ? w.duration_min * estimateRpe(w)
+    : null
+  if (t != null) {
+    trimpByDate.set(w.date, (trimpByDate.get(w.date) ?? 0) + t)
+  }
 }
 
 // Emit one data point per workout date so the chart is sparse (not every calendar day)

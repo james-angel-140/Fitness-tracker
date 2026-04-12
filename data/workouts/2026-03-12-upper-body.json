@@ -2,6 +2,8 @@
   "id": "2026-03-12-upper-body",
   "date": "2026-03-12",
   "type": "strength",
+  "duration_min": 55,
+  "approximate": true,
   "exercises": [
     {
       "name": "Barbell Bench Press",

@@ -2,6 +2,8 @@
   "id": "2026-03-05-legs",
   "date": "2026-03-05",
   "type": "strength",
+  "duration_min": 50,
+  "approximate": true,
   "exercises": [
     {
       "name": "Leg Press",
