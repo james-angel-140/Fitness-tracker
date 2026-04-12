@@ -56,7 +56,6 @@ export function CategoryBreakdown() {
   const savedCardio = saved?.categories.cardio ?? 0
   const savedStrength = saved?.categories.strength ?? 0
   const savedBodyComp = saved?.categories.body_comp ?? 0
-  const savedConsistency = saved?.categories.consistency ?? 0
 
   // Sub-metric detail rows remain live-calculated (not stored in JSON)
   const { cardio, strength, body_comp } = currentScore
@@ -125,20 +124,6 @@ export function CategoryBreakdown() {
           />
         </CategorySection>
 
-        <div className="space-y-3 border-t border-border pt-4">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold">Consistency</span>
-            <span className="text-xs text-muted-foreground tabular-nums">
-              {savedConsistency} / 100 — standalone score
-            </span>
-          </div>
-          <div className="h-2 rounded-full bg-accent overflow-hidden mb-1">
-            <div
-              className="h-full rounded-full bg-primary transition-all"
-              style={{ width: `${savedConsistency}%` }}
-            />
-          </div>
-        </div>
       </CardContent>
     </Card>
   )
