@@ -20,7 +20,9 @@
  */
 
 import 'dotenv/config'
-import { readFileSync, readdirSync, writeFileSync, existsSync } from 'fs'
+import { readFileSync, readdirSync, writeFileSync, existsSync, unlinkSync } from 'fs'
+import { spawnSync } from 'child_process'
+import * as readline from 'readline'
 import { join } from 'path'
 import Anthropic from '@anthropic-ai/sdk'
 
@@ -317,14 +319,45 @@ If the existing plan is broadly sound and load is in range, carry it forward wit
 - Recommend the optimal number of sessions per week based on the data — don't default to a fixed number
 - The id field must be: "ai-plan-${TODAY_STR}"`
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
-async function generatePlan() {
+function ask(rl: readline.Interface, prompt: string): Promise<string> {
+  return new Promise(resolve => rl.question(prompt, answer => resolve(answer.trim())))
+}
+
+function showPlanSummary(plan: any, message: Anthropic.Message) {
+  const totalSessions = plan.phases.reduce((s: number, p: any) => s + p.days.length, 0)
+  console.log(`\n${'─'.repeat(60)}`)
+  console.log(`${plan.name}`)
+  console.log(`${plan.start_date} → ${plan.end_date}`)
+  console.log(`${plan.phases.length} phases · ${totalSessions} sessions`)
+  console.log(`${'─'.repeat(60)}`)
+
+  for (const phase of plan.phases) {
+    console.log(`\n  ${phase.name} (${phase.start_date} → ${phase.end_date})`)
+    console.log(`  ${phase.focus}`)
+    for (const day of phase.days) {
+      console.log(`    ${day.date} ${day.day_of_week}: ${day.focus}`)
+    }
+  }
+
+  console.log(`\nTokens: ${message.usage.input_tokens} in / ${message.usage.output_tokens} out`)
+  console.log(`${'─'.repeat(60)}\n`)
+}
+
+// ─── Generate ─────────────────────────────────────────────────────────────────
+
+async function generatePlan(extraContext: string): Promise<{
+  plan: any
+  filename: string
+  outputPath: string
+  message: Anthropic.Message
+}> {
   const context = buildContext()
 
   console.log(`Generating training plan with Claude Opus...`)
   console.log(`Today: ${TODAY_STR}`)
-  if (EXTRA_CONTEXT) console.log(`Extra context: "${EXTRA_CONTEXT}"`)
+  if (extraContext) console.log(`Extra context: "${extraContext}"`)
   console.log('')
 
   let dotInterval: ReturnType<typeof setInterval> | null = setInterval(
@@ -342,7 +375,7 @@ async function generatePlan() {
       messages: [
         {
           role: 'user',
-          content: `Here is my current fitness data. Generate an optimised training plan from today (${TODAY_STR}) through my next event, accounting for my current load, recovery state, and any existing program structure.${EXTRA_CONTEXT ? `\n\n## ADDITIONAL CONTEXT FROM ATHLETE\n${EXTRA_CONTEXT}` : ''}\n\n${context}`,
+          content: `Here is my current fitness data. Generate an optimised training plan from today (${TODAY_STR}) through my next event, accounting for my current load, recovery state, and any existing program structure.${extraContext ? `\n\n## ADDITIONAL CONTEXT FROM ATHLETE\n${extraContext}` : ''}\n\n${context}`,
         },
       ],
       output_config: {
@@ -362,7 +395,6 @@ async function generatePlan() {
     }
   }
 
-  // Extract and parse the JSON response
   const textBlock = message.content.find((b): b is Anthropic.TextBlock => b.type === 'text')
   if (!textBlock) {
     console.error('No text block in response')
@@ -378,34 +410,94 @@ async function generatePlan() {
     process.exit(1)
   }
 
-  // Write plan to data/programs/
   const filename = `ai-plan-${TODAY_STR}.json`
   const outputPath = join(DATA_DIR, 'programs', filename)
   writeFileSync(outputPath, JSON.stringify(plan, null, 2))
+  console.log(`Draft saved: data/programs/${filename}`)
 
-  console.log(`Plan written to: data/programs/${filename}`)
-  console.log('')
-
-  // Summary
-  const totalSessions = plan.phases.reduce((s: number, p: any) => s + p.days.length, 0)
-  console.log(`${plan.name}`)
-  console.log(`${plan.start_date} → ${plan.end_date}`)
-  console.log(`${plan.phases.length} phases · ${totalSessions} sessions`)
-  console.log('')
-
-  for (const phase of plan.phases) {
-    console.log(`  ${phase.name} (${phase.start_date} → ${phase.end_date})`)
-    console.log(`  ${phase.focus}`)
-    for (const day of phase.days) {
-      console.log(`    ${day.date} ${day.day_of_week}: ${day.focus}`)
-    }
-    console.log('')
-  }
-
-  console.log(`Tokens: ${message.usage.input_tokens} in / ${message.usage.output_tokens} out`)
+  return { plan, filename, outputPath, message }
 }
 
-generatePlan().catch(err => {
+// ─── Main ─────────────────────────────────────────────────────────────────────
+
+async function main() {
+  let extraContext = EXTRA_CONTEXT
+  let { plan, filename, outputPath, message } = await generatePlan(extraContext)
+
+  showPlanSummary(plan, message)
+
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
+
+  // Ensure readline is closed on unexpected exit
+  process.on('exit', () => rl.close())
+
+  try {
+    while (true) {
+      const answer = (await ask(rl, 'Accept (a) / Deny (d) / Suggest changes (s): ')).toLowerCase()
+
+      if (answer === 'a' || answer === 'accept') {
+        // Remove all other program files — the accepted AI plan becomes the only one
+        const programsDir = join(DATA_DIR, 'programs')
+        const others = readdirSync(programsDir)
+          .filter(f => f.endsWith('.json') && f !== filename)
+        for (const f of others) {
+          unlinkSync(join(programsDir, f))
+          console.log(`  Removed: data/programs/${f}`)
+        }
+        console.log(`\nActive plan set: data/programs/${filename}`)
+
+        const deployAnswer = (await ask(rl, '\nDeploy to dashboard now? (y/n): ')).toLowerCase()
+        if (deployAnswer === 'y' || deployAnswer === 'yes') {
+          console.log('\nBuilding and deploying dashboard...')
+          const result = spawnSync('npm', ['run', 'deploy'], {
+            stdio: 'inherit',
+            cwd: join(__dirname, '..'),
+          })
+          if (result.status === 0) {
+            console.log('Dashboard deployed.')
+          } else {
+            console.error('Deploy failed — check output above.')
+          }
+        }
+        break
+
+      } else if (answer === 'd' || answer === 'deny') {
+        unlinkSync(outputPath)
+        console.log(`Discarded: data/programs/${filename}`)
+        break
+
+      } else if (answer === 's' || answer === 'suggest') {
+        const feedback = await ask(rl, 'Your feedback (press Enter when done): ')
+        if (!feedback) {
+          console.log('No feedback entered — try again.')
+          continue
+        }
+
+        // Combine original context with new feedback
+        extraContext = [extraContext, feedback].filter(Boolean).join('\n')
+
+        // Discard current draft before regenerating
+        unlinkSync(outputPath)
+        console.log(`\nRegenerating with your feedback...\n`)
+
+        const result = await generatePlan(extraContext)
+        plan = result.plan
+        filename = result.filename
+        outputPath = result.outputPath
+        message = result.message
+
+        showPlanSummary(plan, message)
+
+      } else {
+        console.log('Please enter a, d, or s.')
+      }
+    }
+  } finally {
+    rl.close()
+  }
+}
+
+main().catch(err => {
   console.error('Error:', err.message ?? err)
   process.exit(1)
 })
