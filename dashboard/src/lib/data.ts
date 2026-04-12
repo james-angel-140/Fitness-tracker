@@ -268,7 +268,7 @@ export interface ProgramDay {
   phase: string
 }
 
-const TODAY_STR = '2026-04-11'
+const TODAY_STR = new Date().toISOString().slice(0, 10)
 
 export const upcomingSessions: ProgramDay[] = (programRaw as any).phases
   .flatMap((phase: any) =>
