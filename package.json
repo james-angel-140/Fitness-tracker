@@ -10,7 +10,7 @@
     "score": "tsx cli/calculate-score.ts",
     "context": "tsx cli/context.ts",
     "upcoming": "tsx cli/upcoming.ts",
-    "plan": "tsx cli/plan.ts",
+    "plan": "node --env-file=.env --import tsx/esm cli/plan.ts",
     "import:health": "tsx cli/import-health-export.ts",
     "typecheck": "tsc --noEmit",
     "dashboard": "npm -w dashboard run dev",
