@@ -47,6 +47,13 @@
     "date": "2026-04-11",
     "weight_kg": 71.13,
     "body_fat_pct": 14.93,
+    "notes": "auto-imported from Health Auto Export",
+    "vo2_max": 43.58
+  },
+  {
+    "date": "2026-04-12",
+    "weight_kg": 70.66,
+    "body_fat_pct": 15.43,
     "notes": "auto-imported from Health Auto Export"
   }
 ]

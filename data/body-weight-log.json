@@ -50,6 +50,14 @@
       "lean_mass_kg": 60.5,
       "change_kg": 0.53,
       "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-04-12",
+      "weight_kg": 70.66,
+      "body_fat_pct": 15.43,
+      "lean_mass_kg": 59.75,
+      "change_kg": -0.47,
+      "notes": "Withings (auto-imported)"
     }
   ],
   "monthly_averages": []
