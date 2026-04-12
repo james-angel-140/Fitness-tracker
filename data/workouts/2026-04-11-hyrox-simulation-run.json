@@ -1,6 +1,7 @@
 {
   "id": "2026-04-11-hyrox-simulation-run",
   "date": "2026-04-11",
+  "title": "Hyrox Simulation Run",
   "type": "cardio",
   "cardio_subtype": "run",
   "duration_min": 31,

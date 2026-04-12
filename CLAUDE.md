@@ -91,8 +91,10 @@ When a screenshot of a workout is shared in the chat:
 3. **Build the JSON** matching `schema/workout.ts` exactly:
    - `id`: `"YYYY-MM-DD-slug"` where slug describes the session (e.g. `upper-body`, `zone2-run`, `legs`)
    - `date`: ISO 8601 `"YYYY-MM-DD"`
+   - `title`: human-readable session name (e.g. `"Hyrox Simulation Run"`, `"Upper Body Push"`) — always include
    - `duration_min`: integer minutes
-   - Omit optional fields (`distance_km`, `avg_pace_per_km`, `splits`, `exercises`, etc.) if not present in the screenshot — do not guess or fabricate
+   - For structured sessions (intervals, circuits), populate `splits` with `type` (`warmup` | `interval` | `rest` | `work` | `steady` | `cooldown`), `distance_km`, `pace_per_km`, `avg_hr` per segment
+   - Omit optional fields (`distance_km`, `avg_pace_per_km`, `exercises`, etc.) if not present in the screenshot — do not guess or fabricate
    - Set `approximate: true` if any key metric (duration, distance) looks estimated
    - `source`: `"strava"` | `"fitbod"` | `"apple-watch"` | `"manual"` — infer from the app UI in the screenshot
    - Weights in kg — if screenshot shows lbs, convert (`× 0.4536`) and note the conversion

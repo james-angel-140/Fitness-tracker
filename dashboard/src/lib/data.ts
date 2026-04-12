@@ -58,6 +58,7 @@ export interface LiftRecord {
 export interface Workout {
   id: string
   date: string
+  title?: string
   type: 'strength' | 'cardio' | 'hybrid' | 'walk'
   cardio_subtype?: string
   duration_min: number
@@ -68,6 +69,7 @@ export interface Workout {
   calories_active?: number
   calories_total?: number
   total_volume_kg?: number
+  splits?: { km: number; type?: string; distance_km?: number; pace_per_km?: string; avg_hr?: number; notes?: string }[]
   notes?: string
   source?: string
   rpe?: number

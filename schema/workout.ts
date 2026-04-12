@@ -19,17 +19,21 @@ export interface Exercise {
   notes?: string;
 }
 
+export type SplitType = 'warmup' | 'cooldown' | 'interval' | 'rest' | 'work' | 'steady';
+
 export interface KmSplit {
   km: number;
+  type?: SplitType;
   distance_km?: number; // for partial final split (e.g. 0.77km)
-  pace_per_km: string;  // "8:23" (mm:ss)
-  avg_hr: number;
+  pace_per_km?: string;  // "8:23" (mm:ss)
+  avg_hr?: number;
   notes?: string;
 }
 
 export interface Workout {
   id: string;                    // e.g. "2026-04-08-zone2-run"
   date: string;                  // ISO 8601: "2026-04-08"
+  title?: string;                // human-readable name, e.g. "Hyrox Simulation Run"
   type: WorkoutType;
   cardio_subtype?: CardioSubtype;
   duration_min: number;
