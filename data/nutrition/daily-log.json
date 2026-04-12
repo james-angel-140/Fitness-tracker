@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "date": "2026-04-12",
+    "time": "19:49",
+    "description": "Breakfast: Greek yogurt, honey, oats, mixed berries",
+    "calories": 390,
+    "protein_g": 21,
+    "carbs_g": 64,
+    "fat_g": 6
+  },
+  {
+    "date": "2026-04-12",
+    "time": "19:50",
+    "description": "Lunch: Pizza",
+    "calories": 1000,
+    "protein_g": 50
+  },
+  {
+    "date": "2026-04-12",
+    "time": "19:50",
+    "description": "Dinner: Beef shin burrito with rice, avocado, cheese, tomato, onion",
+    "calories": 940,
+    "protein_g": 54,
+    "carbs_g": 90,
+    "fat_g": 38
+  }
+]
