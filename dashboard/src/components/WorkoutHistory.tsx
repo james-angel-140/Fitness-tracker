@@ -31,9 +31,29 @@ function workoutTitle(w: Workout): string {
   return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
+/** Summarise a single exercise as "Name N×Wkg" or "Name N×BW" */
+function exerciseSummary(ex: NonNullable<Workout['exercises']>[number]): string {
+  if (!ex.sets || ex.sets.length === 0) return ex.name
+  // Find the heaviest set (or highest reps for bodyweight)
+  const topSet = ex.sets.reduce((best, s) =>
+    (s.weight_kg ?? 0) >= (best.weight_kg ?? 0) ? s : best
+  )
+  const weight = topSet.weight_kg != null ? `${topSet.weight_kg}kg` : 'BW'
+  return `${ex.name} ${ex.sets.length}×${weight}`
+}
+
 /** Build a one-line structured summary for the second row */
 function workoutDetail(w: Workout): string {
   const parts: string[] = []
+
+  // Strength: list exercises
+  if ((w.type === 'strength' || w.type === 'hybrid') && w.exercises && w.exercises.length > 0) {
+    const exerciseList = w.exercises.map(exerciseSummary).join(' · ')
+    const meta: string[] = []
+    if (w.total_volume_kg) meta.push(`${(w.total_volume_kg / 1000).toFixed(1)}t`)
+    if (w.duration_min) meta.push(`${w.duration_min} min`)
+    return [exerciseList, ...meta].join(' · ')
+  }
 
   // Interval summary from splits
   if (w.splits && w.splits.length > 0) {
@@ -49,16 +69,13 @@ function workoutDetail(w: Workout): string {
       const distStr = dist != null ? `${dist}km` : ''
       parts.push(`${intervals.length} × ${distStr}${avgPace ? ` @ ${avgPace}` : ''}`)
     }
-    if (warmup) {
-      parts.push(`warmup ${warmup.distance_km ?? ''}km`)
-    }
+    if (warmup) parts.push(`warmup ${warmup.distance_km ?? ''}km`)
   }
 
-  // Fallback stats when no structured splits
+  // Cardio fallback
   if (parts.length === 0) {
     if (w.distance_km) parts.push(`${w.distance_km} km`)
     if (w.avg_pace_per_km) parts.push(`${w.avg_pace_per_km}/km`)
-    if (w.total_volume_kg) parts.push(`${(w.total_volume_kg / 1000).toFixed(1)}t vol`)
   }
 
   if (w.duration_min) parts.push(`${w.duration_min} min`)

@@ -69,6 +69,7 @@ export interface Workout {
   calories_active?: number
   calories_total?: number
   total_volume_kg?: number
+  exercises?: { name: string; sets: { reps: number; weight_kg: number | null }[]; notes?: string }[]
   splits?: { km: number; type?: string; distance_km?: number; pace_per_km?: string; avg_hr?: number; notes?: string }[]
   notes?: string
   source?: string
