@@ -13,6 +13,7 @@ import personalRecords from '@data/personal-records.json'
 import compositeScores from '@data/composite-scores.json'
 import sleepLogRaw from '@data/sleep-log.json'
 import nutritionLogRaw from '@data/nutrition/daily-log.json'
+import taxonomyRaw from '@data/exercise-taxonomy.json'
 // Vite glob imports — eager so all files are bundled synchronously
 const workoutModules = import.meta.glob('@data/workouts/*.json', { eager: true })
 const programModules = import.meta.glob('@data/programs/*.json', { eager: true })
@@ -656,3 +657,112 @@ export const dailyNutrition: DailyNutrition[] = Array.from(nutritionByDate.entri
 
 export const todayNutrition = dailyNutrition.find((d) => d.date === TODAY_STR) ?? null
 export const nutritionTargets = { calories: 2300, protein_g: 165, carbs_g: 250, fat_g: 65 }
+
+// ─── Muscle Group Volume Balance ──────────────────────────────────────────────
+// Source: exercise-taxonomy.json (wger muscle IDs + Israetel MEV/MAV/MRV)
+
+const taxonomy = taxonomyRaw as typeof taxonomyRaw
+
+// Build lookup: all known names/aliases → taxonomy entry
+type TaxonomyExercise = typeof taxonomy.exercises[number]
+const exerciseLookup = new Map<string, TaxonomyExercise>()
+for (const ex of taxonomy.exercises) {
+  exerciseLookup.set(ex.name.toLowerCase(), ex)
+  for (const alias of ex.aliases) {
+    exerciseLookup.set(alias.toLowerCase(), ex)
+  }
+}
+
+export interface MuscleVolumePoint {
+  muscle: string          // e.g. "chest"
+  sets_7d: number
+  sets_28d: number
+  mev: number
+  mav_lo: number
+  mav_hi: number
+  mrv: number
+  status_7d: 'under' | 'optimal' | 'over'   // relative to MEV/MRV
+}
+
+export interface PatternVolumePoint {
+  pattern: string   // push / pull / hinge / squat / core
+  sets_7d: number
+  sets_28d: number
+}
+
+// Count direct sets per muscle per window from strength workouts
+function countSets(windowDays: number): Map<string, number> {
+  const cutoff = new Date(TODAY_STR)
+  cutoff.setDate(cutoff.getDate() - windowDays)
+  const cutoffStr = cutoff.toISOString().slice(0, 10)
+
+  const counts = new Map<string, number>()
+  for (const w of workouts) {
+    if (w.date < cutoffStr) continue
+    if (w.type !== 'strength' && w.type !== 'hybrid') continue
+    for (const ex of w.exercises ?? []) {
+      const entry = exerciseLookup.get(ex.name.toLowerCase())
+      if (!entry) continue
+      const n = ex.sets.length
+      for (const muscle of entry.primary) {
+        counts.set(muscle, (counts.get(muscle) ?? 0) + n)
+      }
+    }
+  }
+  return counts
+}
+
+function countPatternSets(windowDays: number): Map<string, number> {
+  const cutoff = new Date(TODAY_STR)
+  cutoff.setDate(cutoff.getDate() - windowDays)
+  const cutoffStr = cutoff.toISOString().slice(0, 10)
+
+  const counts = new Map<string, number>()
+  for (const w of workouts) {
+    if (w.date < cutoffStr) continue
+    if (w.type !== 'strength' && w.type !== 'hybrid') continue
+    for (const ex of w.exercises ?? []) {
+      const entry = exerciseLookup.get(ex.name.toLowerCase())
+      if (!entry) continue
+      const pattern = entry.pattern
+      counts.set(pattern, (counts.get(pattern) ?? 0) + ex.sets.length)
+    }
+  }
+  return counts
+}
+
+const sets7d  = countSets(7)
+const sets28d = countSets(28)
+const pattern7d  = countPatternSets(7)
+const pattern28d = countPatternSets(28)
+
+const landmarks = taxonomy.volume_landmarks as unknown as Record<string, { mev: number; mav_lo: number; mav_hi: number; mrv: number }>
+
+// Only surface muscles that appear in the taxonomy landmarks (skip metadata keys starting with _)
+export const muscleVolume: MuscleVolumePoint[] = Object.entries(landmarks).filter(([k]) => !k.startsWith('_')).map(([muscle, lm]) => {
+  const s7  = sets7d.get(muscle)  ?? 0
+  const s28 = sets28d.get(muscle) ?? 0
+  // Scale 28d volume to weekly average for status comparison
+  const weekly = s28 / 4
+  const status_7d: 'under' | 'optimal' | 'over' =
+    weekly < lm.mev ? 'under' : weekly > lm.mrv ? 'over' : 'optimal'
+  return { muscle, sets_7d: s7, sets_28d: s28, ...lm, status_7d }
+})
+
+export const patternVolume: PatternVolumePoint[] = ['push', 'pull', 'hinge', 'squat', 'core'].map((pattern) => ({
+  pattern,
+  sets_7d:  pattern7d.get(pattern)  ?? 0,
+  sets_28d: pattern28d.get(pattern) ?? 0,
+}))
+
+// Push : Pull ratio (7-day)
+const pushSets7d = pattern7d.get('push') ?? 0
+const pullSets7d = pattern7d.get('pull') ?? 0
+export const pushPullRatio7d = pullSets7d > 0 ? Math.round((pushSets7d / pullSets7d) * 100) / 100 : null
+
+const { optimal_min, optimal_max } = taxonomy.push_pull_ratio
+export const pushPullStatus: 'optimal' | 'push-dominant' | 'pull-dominant' | 'no-data' =
+  pushPullRatio7d === null ? 'no-data'
+  : pushPullRatio7d > optimal_max ? 'push-dominant'
+  : pushPullRatio7d < optimal_min ? 'pull-dominant'
+  : 'optimal'

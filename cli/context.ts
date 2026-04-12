@@ -27,6 +27,7 @@ function r1(n: number) { return Math.round(n * 10) / 10 }
 // ─── Load data ────────────────────────────────────────────────────────────────
 
 const stats: any[] = JSON.parse(readFileSync(join(DATA_DIR, 'stats-snapshots.json'), 'utf-8'))
+const taxonomy: any = JSON.parse(readFileSync(join(DATA_DIR, 'exercise-taxonomy.json'), 'utf-8'))
 const weightLog: any = JSON.parse(readFileSync(join(DATA_DIR, 'body-weight-log.json'), 'utf-8'))
 const sleepLog: any = JSON.parse(readFileSync(join(DATA_DIR, 'sleep-log.json'), 'utf-8'))
 const prs: any[] = JSON.parse(readFileSync(join(DATA_DIR, 'personal-records.json'), 'utf-8'))
@@ -316,6 +317,111 @@ for (const lift of keyLifts) {
   } else if (pr) {
     lines.push(`  ${pr.lift}: ${pr.current_best_reps} reps  (${pr.current_best_date})`)
   }
+}
+
+// ── Muscle volume balance ─────────────────────────────────────────────────────
+lines.push('\n## MUSCLE VOLUME BALANCE (last 7 days vs MEV/MRV)\n')
+
+// Build exercise lookup from taxonomy
+const taxExercises: any[] = taxonomy.exercises ?? []
+const taxLookup = new Map<string, any>()
+for (const ex of taxExercises) {
+  taxLookup.set(ex.name.toLowerCase(), ex)
+  for (const alias of ex.aliases ?? []) {
+    taxLookup.set(alias.toLowerCase(), ex)
+  }
+}
+
+// Count sets per muscle and pattern in last 7 days
+const muscleSets7d = new Map<string, number>()
+const patternSets7d = new Map<string, number>()
+
+for (const w of allWorkouts) {
+  if (daysAgo(w.date) > 7) continue
+  if (w.type !== 'strength' && w.type !== 'hybrid') continue
+  for (const ex of w.exercises ?? []) {
+    const entry = taxLookup.get(ex.name.toLowerCase())
+    if (!entry) continue
+    const n = (ex.sets ?? []).length
+    for (const muscle of entry.primary ?? []) {
+      muscleSets7d.set(muscle, (muscleSets7d.get(muscle) ?? 0) + n)
+    }
+    const pattern = entry.pattern
+    patternSets7d.set(pattern, (patternSets7d.get(pattern) ?? 0) + n)
+  }
+}
+
+// Also count over 28 days for weekly average comparison
+const muscleSets28d = new Map<string, number>()
+for (const w of allWorkouts) {
+  if (daysAgo(w.date) > 28) continue
+  if (w.type !== 'strength' && w.type !== 'hybrid') continue
+  for (const ex of w.exercises ?? []) {
+    const entry = taxLookup.get(ex.name.toLowerCase())
+    if (!entry) continue
+    const n = (ex.sets ?? []).length
+    for (const muscle of entry.primary ?? []) {
+      muscleSets28d.set(muscle, (muscleSets28d.get(muscle) ?? 0) + n)
+    }
+  }
+}
+
+const landmarks: Record<string, any> = taxonomy.volume_landmarks ?? {}
+const underMEV: string[] = []
+const overMRV: string[] = []
+const muscleLines: string[] = []
+
+const MUSCLE_LABELS: Record<string, string> = {
+  chest: 'Chest', lats: 'Lats', upper_back: 'Upper back', shoulders: 'Shoulders',
+  triceps: 'Triceps', biceps: 'Biceps', quads: 'Quads', hamstrings: 'Hamstrings',
+  glutes: 'Glutes', lower_back: 'Lower back', abs: 'Abs',
+}
+
+for (const [muscle, lm] of Object.entries(landmarks).filter(([k]) => !k.startsWith('_'))) {
+  const s7  = muscleSets7d.get(muscle)  ?? 0
+  const s28 = muscleSets28d.get(muscle) ?? 0
+  const weekly = s28 / 4
+  const label = MUSCLE_LABELS[muscle] ?? muscle
+
+  let statusSymbol: string
+  if (weekly < lm.mev) {
+    statusSymbol = '⚠'
+    underMEV.push(label)
+  } else if (weekly > lm.mrv) {
+    statusSymbol = '↑'
+    overMRV.push(label)
+  } else {
+    statusSymbol = '✓'
+  }
+
+  muscleLines.push(
+    `  ${statusSymbol}  ${label.padEnd(14)} ${String(s7).padStart(2)} sets/7d  (MEV ${lm.mev}–MRV ${lm.mrv}, 4wk avg: ${r1(weekly)})`
+  )
+}
+
+lines.push(...muscleLines)
+
+// Push:Pull ratio
+const pushSets = patternSets7d.get('push') ?? 0
+const pullSets = patternSets7d.get('pull') ?? 0
+const ratio = pullSets > 0 ? Math.round((pushSets / pullSets) * 100) / 100 : null
+
+lines.push('')
+lines.push(`  Movement patterns (7d): Push ${pushSets} · Pull ${pullSets} · Hinge ${patternSets7d.get('hinge') ?? 0} · Squat ${patternSets7d.get('squat') ?? 0} · Core ${patternSets7d.get('core') ?? 0}`)
+if (ratio !== null) {
+  const { optimal_min, optimal_max } = taxonomy.push_pull_ratio ?? { optimal_min: 0.8, optimal_max: 1.2 }
+  const ratioStatus = ratio > optimal_max
+    ? `⚠  push-dominant (${ratio}×) — elevated anterior shoulder risk`
+    : ratio < optimal_min
+    ? `~  pull-dominant (${ratio}×)`
+    : `✓  balanced (${ratio}×)`
+  lines.push(`  Push:Pull ratio: ${ratioStatus}`)
+}
+if (underMEV.length > 0) {
+  lines.push(`\n  ⚠  Below MEV (may need more volume): ${underMEV.join(', ')}`)
+}
+if (overMRV.length > 0) {
+  lines.push(`  ↑  Above MRV (recovery watch): ${overMRV.join(', ')}`)
 }
 
 // ── Footer ────────────────────────────────────────────────────────────────────

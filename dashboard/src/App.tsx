@@ -11,6 +11,7 @@ import { UpcomingSessions } from '@/components/UpcomingSessions'
 import { ConsistencyGauge } from '@/components/ConsistencyGauge'
 import { ComplianceWidget } from '@/components/ComplianceWidget'
 import { NutritionLog } from '@/components/NutritionLog'
+import { MuscleVolumeCard } from '@/components/MuscleVolumeCard'
 import { TimeRangeProvider, useTimeRange, TIME_RANGE_LABELS, type TimeRange } from '@/lib/TimeRangeContext'
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -109,6 +110,8 @@ function Dashboard() {
         <SectionLabel>How strong am I?</SectionLabel>
 
         <PRTable />
+
+        <MuscleVolumeCard />
 
       </div>
     </div>

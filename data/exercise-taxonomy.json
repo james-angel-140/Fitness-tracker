@@ -1,0 +1,203 @@
+{
+  "_source": "Muscle taxonomy cross-referenced with wger.de muscle IDs (wger.de/api/v2/muscle/). Volume landmarks from Israetel & Hoffman, 'Scientific Principles of Strength Training' and RP Strength MEV/MAV/MRV tables (2023 edition).",
+  "_wger_muscle_ids": {
+    "1":  "Biceps brachii (Biceps)",
+    "2":  "Anterior deltoid (Shoulders)",
+    "3":  "Serratus anterior",
+    "4":  "Pectoralis major (Chest)",
+    "5":  "Triceps brachii (Triceps)",
+    "6":  "Rectus abdominis (Abs)",
+    "7":  "Gastrocnemius (Calves)",
+    "8":  "Gluteus maximus (Glutes)",
+    "9":  "Trapezius (Traps)",
+    "10": "Quadriceps femoris (Quads)",
+    "11": "Biceps femoris (Hamstrings)",
+    "12": "Latissimus dorsi (Lats)",
+    "13": "Brachialis",
+    "14": "Obliquus externus abdominis (Obliques)",
+    "15": "Erector spinae (Lower Back)"
+  },
+  "exercises": [
+    {
+      "name": "Barbell Bench Press",
+      "aliases": ["Bench Press"],
+      "pattern": "push",
+      "primary": ["chest"],
+      "secondary": ["triceps", "shoulders"],
+      "wger_muscles": [4],
+      "wger_muscles_secondary": [5, 2]
+    },
+    {
+      "name": "Barbell Shoulder Press",
+      "aliases": ["Overhead Press", "OHP"],
+      "pattern": "push",
+      "primary": ["shoulders"],
+      "secondary": ["triceps", "upper_back"],
+      "wger_muscles": [2],
+      "wger_muscles_secondary": [5]
+    },
+    {
+      "name": "Dip",
+      "aliases": [],
+      "pattern": "push",
+      "primary": ["chest", "triceps"],
+      "secondary": ["shoulders"],
+      "wger_muscles": [4, 5],
+      "wger_muscles_secondary": [2]
+    },
+    {
+      "name": "Cable Lateral Raise",
+      "aliases": ["Lateral Raise"],
+      "pattern": "push",
+      "primary": ["shoulders"],
+      "secondary": [],
+      "wger_muscles": [2],
+      "wger_muscles_secondary": []
+    },
+    {
+      "name": "Pull Up",
+      "aliases": ["Pull-up", "Pullup", "Chin Up"],
+      "pattern": "pull",
+      "primary": ["lats", "upper_back"],
+      "secondary": ["biceps"],
+      "wger_muscles": [12],
+      "wger_muscles_secondary": [1]
+    },
+    {
+      "name": "Cable Row",
+      "aliases": ["Seated Cable Row", "Row"],
+      "pattern": "pull",
+      "primary": ["upper_back", "lats"],
+      "secondary": ["biceps", "rear_delts"],
+      "wger_muscles": [12, 9],
+      "wger_muscles_secondary": [1]
+    },
+    {
+      "name": "Lat Pulldown",
+      "aliases": [],
+      "pattern": "pull",
+      "primary": ["lats"],
+      "secondary": ["biceps", "upper_back"],
+      "wger_muscles": [12],
+      "wger_muscles_secondary": [1]
+    },
+    {
+      "name": "Barbell Curl",
+      "aliases": ["Bicep Curl", "EZ Bar Curl"],
+      "pattern": "pull",
+      "primary": ["biceps"],
+      "secondary": ["forearms"],
+      "wger_muscles": [1],
+      "wger_muscles_secondary": [13]
+    },
+    {
+      "name": "Hammer Curl",
+      "aliases": ["Dumbbell Hammer Curl"],
+      "pattern": "pull",
+      "primary": ["biceps"],
+      "secondary": ["forearms"],
+      "wger_muscles": [1, 13],
+      "wger_muscles_secondary": []
+    },
+    {
+      "name": "Deadlift",
+      "aliases": ["Conventional Deadlift", "Barbell Deadlift"],
+      "pattern": "hinge",
+      "primary": ["lower_back", "glutes", "hamstrings"],
+      "secondary": ["quads", "upper_back", "traps"],
+      "wger_muscles": [15, 8, 11],
+      "wger_muscles_secondary": [10, 9]
+    },
+    {
+      "name": "Romanian Deadlift",
+      "aliases": ["RDL"],
+      "pattern": "hinge",
+      "primary": ["hamstrings", "glutes"],
+      "secondary": ["lower_back"],
+      "wger_muscles": [11, 8],
+      "wger_muscles_secondary": [15]
+    },
+    {
+      "name": "Barbell Hip Thrust",
+      "aliases": ["Hip Thrust"],
+      "pattern": "hinge",
+      "primary": ["glutes"],
+      "secondary": ["hamstrings"],
+      "wger_muscles": [8],
+      "wger_muscles_secondary": [11]
+    },
+    {
+      "name": "Back Squat",
+      "aliases": ["Squat", "Barbell Squat"],
+      "pattern": "squat",
+      "primary": ["quads", "glutes"],
+      "secondary": ["hamstrings", "lower_back"],
+      "wger_muscles": [10, 8],
+      "wger_muscles_secondary": [11, 15]
+    },
+    {
+      "name": "Leg Press",
+      "aliases": [],
+      "pattern": "squat",
+      "primary": ["quads", "glutes"],
+      "secondary": ["hamstrings"],
+      "wger_muscles": [10, 8],
+      "wger_muscles_secondary": [11]
+    },
+    {
+      "name": "Leg Extension",
+      "aliases": [],
+      "pattern": "squat",
+      "primary": ["quads"],
+      "secondary": [],
+      "wger_muscles": [10],
+      "wger_muscles_secondary": []
+    },
+    {
+      "name": "Seated Leg Curl",
+      "aliases": ["Leg Curl", "Hamstring Curl"],
+      "pattern": "hinge",
+      "primary": ["hamstrings"],
+      "secondary": [],
+      "wger_muscles": [11],
+      "wger_muscles_secondary": []
+    },
+    {
+      "name": "Hanging Knee Raise",
+      "aliases": ["Knee Raise", "Hanging Leg Raise"],
+      "pattern": "core",
+      "primary": ["abs"],
+      "secondary": ["hip_flexors"],
+      "wger_muscles": [6],
+      "wger_muscles_secondary": []
+    },
+    {
+      "name": "Wall Ball",
+      "aliases": ["Wall Ball Shot"],
+      "pattern": "squat",
+      "primary": ["quads", "shoulders"],
+      "secondary": ["glutes", "core"],
+      "wger_muscles": [10, 2],
+      "wger_muscles_secondary": [8, 6]
+    }
+  ],
+  "volume_landmarks": {
+    "_note": "Sets per week for hypertrophy. MEV = minimum effective volume, MAV = maximum adaptive volume range, MRV = maximum recoverable volume. Source: Israetel et al., RP Strength.",
+    "chest":      { "mev": 8,  "mav_lo": 12, "mav_hi": 20, "mrv": 22 },
+    "lats":       { "mev": 10, "mav_lo": 14, "mav_hi": 22, "mrv": 25 },
+    "upper_back": { "mev": 10, "mav_lo": 14, "mav_hi": 22, "mrv": 25 },
+    "shoulders":  { "mev": 6,  "mav_lo": 16, "mav_hi": 22, "mrv": 26 },
+    "triceps":    { "mev": 6,  "mav_lo": 10, "mav_hi": 14, "mrv": 18 },
+    "biceps":     { "mev": 8,  "mav_lo": 14, "mav_hi": 20, "mrv": 26 },
+    "quads":      { "mev": 8,  "mav_lo": 12, "mav_hi": 18, "mrv": 20 },
+    "hamstrings": { "mev": 6,  "mav_lo": 10, "mav_hi": 16, "mrv": 20 },
+    "glutes":     { "mev": 4,  "mav_lo": 12, "mav_hi": 16, "mrv": 20 },
+    "lower_back": { "mev": 4,  "mav_lo": 6,  "mav_hi": 10, "mrv": 12 },
+    "abs":        { "mev": 8,  "mav_lo": 16, "mav_hi": 20, "mrv": 25 }
+  },
+  "push_pull_ratio": {
+    "optimal_min": 0.8,
+    "optimal_max": 1.2,
+    "note": "Ratio of push-pattern sets to pull-pattern sets per week. Above 1.2 = push-dominant, elevated anterior shoulder impingement risk. Below 0.8 = pull-dominant (less common, rarely problematic)."
+  }
+}
