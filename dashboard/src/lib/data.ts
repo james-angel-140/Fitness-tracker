@@ -12,10 +12,12 @@ import bodyWeightLog from '@data/body-weight-log.json'
 import personalRecords from '@data/personal-records.json'
 import compositeScores from '@data/composite-scores.json'
 import sleepLogRaw from '@data/sleep-log.json'
-import programRaw from '@data/programs/hyrox-peak-taper.json'
-
-// Vite glob import — eager so all workouts are bundled synchronously
+// Vite glob imports — eager so all files are bundled synchronously
 const workoutModules = import.meta.glob('@data/workouts/*.json', { eager: true })
+const programModules = import.meta.glob('@data/programs/*.json', { eager: true })
+
+// Pick the first (and only) active program file, whatever it's named
+const programRaw: any = Object.values(programModules)[0] ?? { phases: [] }
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
