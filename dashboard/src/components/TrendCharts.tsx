@@ -13,7 +13,7 @@ import {
   Bar,
 } from 'recharts'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { weightTrend, vo2Trend, rhrTrend, scoreHistory, currentScore, trainingLoad } from '@/lib/data'
+import { weightTrendWithAvg, vo2Trend, rhrTrend, scoreHistory, currentScore, trainingLoad } from '@/lib/data'
 import { useTimeRange, filterByRange } from '@/lib/TimeRangeContext'
 
 function shortDate(iso: string) {
@@ -197,16 +197,65 @@ export { ScoreBreakdownChart }
 
 export function WeightChart() {
   const { range } = useTimeRange()
+  const data = filterByRange(weightTrendWithAvg, range).map((d) => ({
+    ...d,
+    label: shortDate(d.date),
+  }))
+
   return (
-    <MiniChart
-      title="Weight (kg)"
-      data={filterByRange(weightTrend, range)}
-      color="hsl(210 100% 56%)"
-      unit="kg"
-      referenceValue={75}
-      referenceLabel="goal 75kg"
-      domain={[60, 80]}
-    />
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle>Weight (kg)</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ResponsiveContainer width="100%" height={140}>
+          <LineChart data={data} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+            <XAxis
+              dataKey="label"
+              tick={{ fontSize: 10, fill: 'hsl(215 20% 55%)' }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <YAxis
+              domain={[60, 80]}
+              tick={{ fontSize: 10, fill: 'hsl(215 20% 55%)' }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <Tooltip
+              contentStyle={tooltipStyle}
+              formatter={(v: number, name: string) => [
+                `${v}kg`,
+                name === 'avg7' ? '7-day avg' : 'Daily',
+              ]}
+              labelFormatter={(l) => l}
+            />
+            <ReferenceLine
+              y={75}
+              stroke="hsl(215 20% 35%)"
+              strokeDasharray="4 3"
+              label={{ value: 'goal 75kg', fontSize: 9, fill: 'hsl(215 20% 45%)' }}
+            />
+            <Line
+              type="monotone"
+              dataKey="value"
+              stroke="hsl(210 100% 56% / 0.35)"
+              strokeWidth={1.5}
+              dot={{ r: 2, fill: 'hsl(210 100% 56% / 0.35)', strokeWidth: 0 }}
+              activeDot={{ r: 3 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="avg7"
+              stroke="hsl(210 100% 56%)"
+              strokeWidth={2}
+              dot={false}
+              activeDot={{ r: 4 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
   )
 }
 

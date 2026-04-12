@@ -171,6 +171,27 @@ const zone2PaceDecimal = latestZone2Run?.avg_pace_per_km
   ? parsePace(latestZone2Run.avg_pace_per_km)
   : 8.0
 
+// Weight trend: merge stats snapshots + daily weigh-in entries, deduplicate by date
+const weightByDate = new Map<string, number>()
+stats.forEach((s) => weightByDate.set(s.date, s.weight_kg))
+weightLog.entries.forEach((e) => weightByDate.set(e.date, e.weight_kg))
+
+export const weightTrend = Array.from(weightByDate.entries())
+  .map(([date, weight_kg]) => ({ date, value: weight_kg }))
+  .sort((a, b) => a.date.localeCompare(b.date))
+
+// 7-day rolling average weight — smoother signal for score calculation
+export const weightTrendWithAvg: { date: string; value: number; avg7?: number }[] =
+  weightTrend.map((point, i, arr) => {
+    const window = arr.slice(Math.max(0, i - 6), i + 1)
+    const avg7 = Math.round((window.reduce((s, p) => s + p.value, 0) / window.length) * 10) / 10
+    return { ...point, avg7 }
+  })
+
+// Latest 7-day average weight (used in score calculation for stability)
+export const latestWeightAvg7 =
+  weightTrendWithAvg.at(-1)?.avg7 ?? latestWeight.weight_kg
+
 export const scoreInputs = {
   cardio: {
     vo2_max: latestStats.vo2_max ?? 40,
@@ -183,11 +204,11 @@ export const scoreInputs = {
     deadlift_kg: deadliftPR.current_best_kg ?? 70,
     leg_press_kg: legPressPR.current_best_kg ?? 100,
     pullup_reps: Number(pullupPR.current_best_reps),
-    body_weight_kg: latestWeight.weight_kg,
+    body_weight_kg: latestWeightAvg7,
   },
   body_comp: {
     body_fat_pct: latestStats.body_fat_pct ?? 15,
-    weight_kg: latestWeight.weight_kg,
+    weight_kg: latestWeightAvg7,
   },
   consistency: {
     sessions_per_week_avg: Math.round((recentWorkouts.length / 4) * 100) / 100,
@@ -198,15 +219,6 @@ export const scoreInputs = {
 
 export const currentScore: ScoreResult = calculateCompositeScore(scoreInputs)
 export const currentScoreLabel = scoreLabel(currentScore.score)
-
-// Weight trend: merge stats snapshots + daily weigh-in entries, deduplicate by date
-const weightByDate = new Map<string, number>()
-stats.forEach((s) => weightByDate.set(s.date, s.weight_kg))
-weightLog.entries.forEach((e) => weightByDate.set(e.date, e.weight_kg))
-
-export const weightTrend = Array.from(weightByDate.entries())
-  .map(([date, weight_kg]) => ({ date, value: weight_kg }))
-  .sort((a, b) => a.date.localeCompare(b.date))
 
 // VO2 / RHR trend from stats snapshots
 export const vo2Trend = stats

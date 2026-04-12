@@ -100,6 +100,13 @@ if (!latestStats) throw new Error('No stats snapshots found in stats-snapshots.j
 const latestWeight = bodyWeightLog.entries.at(-1);
 if (!latestWeight) throw new Error('No weight entries found in body-weight-log.json');
 
+// 7-day rolling average weight — more stable signal for score calculation
+const weightEntries = bodyWeightLog.entries.slice(-7);
+const weight7DayAvg =
+  Math.round(
+    (weightEntries.reduce((s, e) => s + e.weight_kg, 0) / weightEntries.length) * 10,
+  ) / 10;
+
 // Most recent Zone 2 run — this is what the Zone 2 pace metric uses
 const latestZone2Run = workouts
   .filter(w => w.cardio_subtype === 'zone2-run' && w.avg_pace_per_km)
@@ -169,11 +176,11 @@ const inputs: ScoreInputs = {
     deadlift_kg: deadliftPR.current_best_kg,
     leg_press_kg: legPressPR.current_best_kg,
     pullup_reps: Number(pullupPR.current_best_reps),
-    body_weight_kg: latestWeight.weight_kg,
+    body_weight_kg: weight7DayAvg,
   },
   body_comp: {
     body_fat_pct,
-    weight_kg: latestWeight.weight_kg,
+    weight_kg: weight7DayAvg,
   },
   consistency: {
     sessions_per_week_avg: Math.round((totalSessions / 4) * 100) / 100,
