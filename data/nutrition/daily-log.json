@@ -23,5 +23,14 @@
     "protein_g": 54,
     "carbs_g": 90,
     "fat_g": 38
+  },
+  {
+    "date": "2026-04-12",
+    "time": "19:50",
+    "description": "Snack: Barbell protein bar",
+    "calories": 200,
+    "protein_g": 20,
+    "carbs_g": 20,
+    "fat_g": 7
   }
 ]
