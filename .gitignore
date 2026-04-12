@@ -3,3 +3,5 @@ dashboard/dist/
 dashboard/.vite/
 dashboard/tsconfig.tsbuildinfo
 .claude/
+.env
+.env.local
