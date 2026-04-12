@@ -21,9 +21,10 @@ export interface BodyCompInputs {
 }
 
 export interface ConsistencyInputs {
-  sessions_per_week_avg: number;
-  total_sessions_last_4_weeks: number;
-  cardio_sessions_per_week_avg: number;
+  cardio_sessions_7d: number;
+  strength_sessions_7d: number;
+  cardio_sessions_28d: number;
+  strength_sessions_28d: number;
 }
 
 export interface ScoreInputs {
@@ -58,10 +59,15 @@ export interface BodyCompResult {
 }
 
 export interface ConsistencyResult {
-  sessions_per_week_score: number;
-  total_sessions_4wk_score: number;
-  cardio_sessions_score: number;
-  score: number; // standalone 0–100, not part of composite
+  // Short-term (7d) sub-scores 0–100
+  cardio_7d_score: number;
+  strength_7d_score: number;
+  short_term_score: number; // avg of above
+  // Long-term (28d) sub-scores 0–100
+  cardio_28d_score: number;
+  strength_28d_score: number;
+  long_term_score: number;  // avg of above
+  score: number; // standalone 0–100: short 40% + long 60%
 }
 
 export interface ScoreResult {
@@ -177,26 +183,32 @@ export function calcBodyComp(inputs: BodyCompInputs): BodyCompResult {
 /**
  * Consistency — standalone score (0–100), not part of the composite.
  *
- * Metrics and weights within category:
- *   Sessions/week (avg)        floor 0  ceiling 5   40%
- *   Total sessions last 4 wks  floor 0  ceiling 20  30%
- *   Cardio sessions/week       floor 0  ceiling 4   30%
+ * Short-term (last 7 days) — weight 40%:
+ *   Cardio sessions   ceiling 2   50% of short-term
+ *   Strength sessions ceiling 2   50% of short-term
+ *
+ * Long-term (last 28 days) — weight 60%:
+ *   Cardio sessions   ceiling 8   50% of long-term
+ *   Strength sessions ceiling 8   50% of long-term
  */
 export function calcConsistency(inputs: ConsistencyInputs): ConsistencyResult {
-  const sessions_per_week_score = round1(norm(inputs.sessions_per_week_avg, 0, 5));
-  const total_sessions_4wk_score = round1(norm(inputs.total_sessions_last_4_weeks, 0, 20));
-  const cardio_sessions_score = round1(norm(inputs.cardio_sessions_per_week_avg, 0, 4));
+  const cardio_7d_score    = round1(norm(inputs.cardio_sessions_7d,   0, 2));
+  const strength_7d_score  = round1(norm(inputs.strength_sessions_7d, 0, 2));
+  const short_term_score   = round1((cardio_7d_score + strength_7d_score) / 2);
 
-  const score = round1(
-    sessions_per_week_score  * 0.40 +
-    total_sessions_4wk_score * 0.30 +
-    cardio_sessions_score    * 0.30,
-  );
+  const cardio_28d_score   = round1(norm(inputs.cardio_sessions_28d,   0, 8));
+  const strength_28d_score = round1(norm(inputs.strength_sessions_28d, 0, 8));
+  const long_term_score    = round1((cardio_28d_score + strength_28d_score) / 2);
+
+  const score = round1(short_term_score * 0.40 + long_term_score * 0.60);
 
   return {
-    sessions_per_week_score,
-    total_sessions_4wk_score,
-    cardio_sessions_score,
+    cardio_7d_score,
+    strength_7d_score,
+    short_term_score,
+    cardio_28d_score,
+    strength_28d_score,
+    long_term_score,
     score,
   };
 }

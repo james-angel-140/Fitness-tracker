@@ -147,14 +147,23 @@ export const latestZone2Run = workouts
   .filter((w) => w.cardio_subtype === 'zone2-run' && w.avg_pace_per_km)
   .at(-1)
 
-// 4-week consistency window
-const today = new Date('2026-04-11') // matches CLAUDE.md currentDate
-const fourWeeksAgo = new Date(today)
-fourWeeksAgo.setDate(today.getDate() - 28)
+// Consistency windows
+const today = new Date('2026-04-12') // matches CLAUDE.md currentDate
+const sevenDaysAgo = new Date(today)
+sevenDaysAgo.setDate(today.getDate() - 7)
+const twentyEightDaysAgo = new Date(today)
+twentyEightDaysAgo.setDate(today.getDate() - 28)
 
-const recentWorkouts = workouts.filter((w) => new Date(w.date) >= fourWeeksAgo)
-const cardioTypes = ['cardio', 'walk']
-const cardioCount = recentWorkouts.filter((w) => cardioTypes.includes(w.type)).length
+const cardioTypes = new Set(['cardio', 'walk'])
+const strengthTypes = new Set(['strength', 'hybrid'])
+
+const workouts28d = workouts.filter((w) => new Date(w.date) >= twentyEightDaysAgo)
+const workouts7d  = workouts.filter((w) => new Date(w.date) >= sevenDaysAgo)
+
+export const cardio_sessions_7d    = workouts7d.filter((w) => cardioTypes.has(w.type)).length
+export const strength_sessions_7d  = workouts7d.filter((w) => strengthTypes.has(w.type)).length
+export const cardio_sessions_28d   = workouts28d.filter((w) => cardioTypes.has(w.type)).length
+export const strength_sessions_28d = workouts28d.filter((w) => strengthTypes.has(w.type)).length
 
 function findPR(lift: string): LiftRecord {
   const r = prs.find((p) => p.lift === lift)
@@ -211,9 +220,10 @@ export const scoreInputs = {
     weight_kg: latestWeightAvg7,
   },
   consistency: {
-    sessions_per_week_avg: Math.round((recentWorkouts.length / 4) * 100) / 100,
-    total_sessions_last_4_weeks: recentWorkouts.length,
-    cardio_sessions_per_week_avg: Math.round((cardioCount / 4) * 100) / 100,
+    cardio_sessions_7d,
+    strength_sessions_7d,
+    cardio_sessions_28d,
+    strength_sessions_28d,
   },
 }
 
@@ -228,6 +238,18 @@ export const vo2Trend = stats
 export const rhrTrend = stats
   .filter((s) => s.resting_hr_bpm != null)
   .map((s) => ({ date: s.date, value: s.resting_hr_bpm! }))
+
+// Body fat trend with 7-day rolling average
+const bfPoints = stats
+  .filter((s) => s.body_fat_pct != null)
+  .map((s) => ({ date: s.date, value: s.body_fat_pct! }))
+
+export const bodyFatTrend: { date: string; value: number; avg7?: number }[] =
+  bfPoints.map((point, i, arr) => {
+    const window = arr.slice(Math.max(0, i - 6), i + 1)
+    const avg7 = Math.round((window.reduce((s, p) => s + p.value, 0) / window.length) * 10) / 10
+    return { ...point, avg7 }
+  })
 
 // ─── Training Load (TRIMP-based) ──────────────────────────────────────────────
 // TRIMP = duration_min × rpe (if rpe absent, estimate from workout type)

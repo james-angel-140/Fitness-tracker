@@ -13,7 +13,7 @@ import {
   Bar,
 } from 'recharts'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { weightTrendWithAvg, vo2Trend, rhrTrend, scoreHistory, currentScore, trainingLoad } from '@/lib/data'
+import { weightTrendWithAvg, bodyFatTrend, vo2Trend, rhrTrend, scoreHistory, currentScore, trainingLoad } from '@/lib/data'
 import { useTimeRange, filterByRange } from '@/lib/TimeRangeContext'
 
 function shortDate(iso: string) {
@@ -248,6 +248,70 @@ export function WeightChart() {
               type="monotone"
               dataKey="avg7"
               stroke="hsl(210 100% 56%)"
+              strokeWidth={2}
+              dot={false}
+              activeDot={{ r: 4 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
+  )
+}
+
+export function BodyFatChart() {
+  const { range } = useTimeRange()
+  const data = filterByRange(bodyFatTrend, range).map((d) => ({
+    ...d,
+    label: shortDate(d.date),
+  }))
+
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle>Body Fat (%)</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ResponsiveContainer width="100%" height={140}>
+          <LineChart data={data} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+            <XAxis
+              dataKey="label"
+              tick={{ fontSize: 10, fill: 'hsl(215 20% 55%)' }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <YAxis
+              domain={[10, 25]}
+              tick={{ fontSize: 10, fill: 'hsl(215 20% 55%)' }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <Tooltip
+              contentStyle={tooltipStyle}
+              formatter={(v: number, name: string) => [
+                `${v}%`,
+                name === 'avg7' ? '7-day avg' : 'Daily',
+              ]}
+              labelFormatter={(l) => l}
+            />
+            <ReferenceLine
+              y={14}
+              stroke="hsl(215 20% 35%)"
+              strokeDasharray="4 3"
+              label={{ value: 'goal 14%', fontSize: 9, fill: 'hsl(215 20% 45%)' }}
+            />
+            <Line
+              type="monotone"
+              dataKey="value"
+              stroke="hsl(142 76% 36% / 0.35)"
+              strokeWidth={1.5}
+              dot={{ r: 2, fill: 'hsl(142 76% 36% / 0.35)', strokeWidth: 0 }}
+              activeDot={{ r: 3 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="avg7"
+              stroke="#34d399"
               strokeWidth={2}
               dot={false}
               activeDot={{ r: 4 }}

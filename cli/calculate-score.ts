@@ -112,17 +112,23 @@ const latestZone2Run = workouts
   .filter(w => w.cardio_subtype === 'zone2-run' && w.avg_pace_per_km)
   .at(-1);
 
-// Consistency: count sessions in the 28 days ending today
+// Consistency windows
 const today = new Date();
-const fourWeeksAgo = new Date(today);
-fourWeeksAgo.setDate(today.getDate() - 28);
+const sevenDaysAgo = new Date(today);
+sevenDaysAgo.setDate(today.getDate() - 7);
+const twentyEightDaysAgo = new Date(today);
+twentyEightDaysAgo.setDate(today.getDate() - 28);
 
-const recentWorkouts = workouts.filter(w => new Date(w.date) >= fourWeeksAgo);
-const totalSessions = recentWorkouts.length;
-const cardioTypes = ['cardio', 'walk'];
-const cardioSessionCount = recentWorkouts.filter(w =>
-  cardioTypes.includes(w.type),
-).length;
+const cardioTypes = new Set(['cardio', 'walk']);
+const strengthTypes = new Set(['strength', 'hybrid']);
+
+const workouts28d = workouts.filter(w => new Date(w.date) >= twentyEightDaysAgo);
+const workouts7d  = workouts.filter(w => new Date(w.date) >= sevenDaysAgo);
+
+const cardio_sessions_7d    = workouts7d.filter(w => cardioTypes.has(w.type)).length;
+const strength_sessions_7d  = workouts7d.filter(w => strengthTypes.has(w.type)).length;
+const cardio_sessions_28d   = workouts28d.filter(w => cardioTypes.has(w.type)).length;
+const strength_sessions_28d = workouts28d.filter(w => strengthTypes.has(w.type)).length;
 
 // PR lookups
 function pr(lift: string): LiftRecord {
@@ -183,9 +189,10 @@ const inputs: ScoreInputs = {
     weight_kg: weight7DayAvg,
   },
   consistency: {
-    sessions_per_week_avg: Math.round((totalSessions / 4) * 100) / 100,
-    total_sessions_last_4_weeks: totalSessions,
-    cardio_sessions_per_week_avg: Math.round((cardioSessionCount / 4) * 100) / 100,
+    cardio_sessions_7d,
+    strength_sessions_7d,
+    cardio_sessions_28d,
+    strength_sessions_28d,
   },
 };
 
@@ -242,9 +249,13 @@ console.log(`
   CONSISTENCY  ${fmt(result.consistency.score, 4)} / 100  (standalone)  ${bar(result.consistency.score)}
 ──────────────────────────────────────────────────────
 
-  Sessions/week     ${inputs.consistency.sessions_per_week_avg.toFixed(1)}           →  ${fmt(result.consistency.sessions_per_week_score)} / 100
-  Sessions (4wk)    ${inputs.consistency.total_sessions_last_4_weeks}             →  ${fmt(result.consistency.total_sessions_4wk_score)} / 100
-  Cardio/week       ${inputs.consistency.cardio_sessions_per_week_avg.toFixed(1)}           →  ${fmt(result.consistency.cardio_sessions_score)} / 100
+  Short-term (7d)   score ${fmt(result.consistency.short_term_score)} / 100  — weight 40%
+    Cardio           ${inputs.consistency.cardio_sessions_7d} / 2 sessions  →  ${fmt(result.consistency.cardio_7d_score)} / 100
+    Strength         ${inputs.consistency.strength_sessions_7d} / 2 sessions  →  ${fmt(result.consistency.strength_7d_score)} / 100
+
+  Long-term (28d)   score ${fmt(result.consistency.long_term_score)} / 100  — weight 60%
+    Cardio           ${inputs.consistency.cardio_sessions_28d} / 8 sessions  →  ${fmt(result.consistency.cardio_28d_score)} / 100
+    Strength         ${inputs.consistency.strength_sessions_28d} / 8 sessions  →  ${fmt(result.consistency.strength_28d_score)} / 100
 
 ══════════════════════════════════════════════════════
 `);

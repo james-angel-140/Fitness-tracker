@@ -1,6 +1,6 @@
 import { ScoreCard } from '@/components/ScoreCard'
 import { CategoryBreakdown } from '@/components/CategoryBreakdown'
-import { ScoreBreakdownChart, WeightChart, Vo2Chart, RhrChart, TrainingLoadChart } from '@/components/TrendCharts'
+import { ScoreBreakdownChart, WeightChart, BodyFatChart, Vo2Chart, RhrChart, TrainingLoadChart } from '@/components/TrendCharts'
 import { WorkoutHistory } from '@/components/WorkoutHistory'
 import { PRTable } from '@/components/PRTable'
 import { HyroxCountdown } from '@/components/HyroxCountdown'
@@ -77,8 +77,9 @@ function Dashboard() {
         {/* ── HOW IS MY BODY DOING? ─────────────────────────── */}
         <SectionLabel>How is my body doing?</SectionLabel>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           <WeightChart />
+          <BodyFatChart />
           <Vo2Chart />
           <RhrChart />
           <SleepCard />

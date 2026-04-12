@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card'
 import {
-  latestWeight, latestZone2Run, sleepLog, trainingLoad,
+  latestWeightAvg7, latestZone2Run, sleepLog, trainingLoad,
   latestVo2, latestRhr, latestBodyFat, latestFitbod,
 } from '@/lib/data'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
@@ -41,7 +41,7 @@ function Tile({ label, value, sub, trend, good }: TileProps) {
 }
 
 export function StatTiles() {
-  const { weight_kg } = latestWeight
+  const weight_kg = latestWeightAvg7
 
   // Weight — 7-day trend from body-weight-log
   const latestSleep = sleepLog.at(-1)
@@ -76,7 +76,7 @@ export function StatTiles() {
       <Tile
         label="Weight"
         value={`${weight_kg}kg`}
-        sub="Goal: 75 kg"
+        sub="7-day avg · Goal: 75kg"
         trend={weight_kg >= 74 ? 'up' : weight_kg >= 70 ? 'neutral' : 'down'}
         good="up"
       />
