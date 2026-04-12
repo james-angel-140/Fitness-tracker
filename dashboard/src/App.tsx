@@ -1,13 +1,16 @@
 import { ScoreCard } from '@/components/ScoreCard'
 import { CategoryBreakdown } from '@/components/CategoryBreakdown'
-import { ScoreBreakdownChart, WeightChart, BodyFatChart, Vo2Chart, RhrChart, TrainingLoadChart } from '@/components/TrendCharts'
+import { ScoreBreakdownChart, WeightChart, BodyFatChart, Vo2Chart, RhrChart, TrainingLoadChart, Zone2PaceChart } from '@/components/TrendCharts'
 import { WorkoutHistory } from '@/components/WorkoutHistory'
 import { PRTable } from '@/components/PRTable'
 import { HyroxCountdown } from '@/components/HyroxCountdown'
 import { StatTiles } from '@/components/StatTiles'
 import { SleepCard } from '@/components/SleepCard'
+import { ReadinessCard } from '@/components/ReadinessCard'
 import { UpcomingSessions } from '@/components/UpcomingSessions'
 import { ConsistencyGauge } from '@/components/ConsistencyGauge'
+import { ComplianceWidget } from '@/components/ComplianceWidget'
+import { NutritionLog } from '@/components/NutritionLog'
 import { TimeRangeProvider, useTimeRange, TIME_RANGE_LABELS, type TimeRange } from '@/lib/TimeRangeContext'
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -77,12 +80,18 @@ function Dashboard() {
         {/* ── HOW IS MY BODY DOING? ─────────────────────────── */}
         <SectionLabel>How is my body doing?</SectionLabel>
 
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
           <WeightChart />
           <BodyFatChart />
           <Vo2Chart />
           <RhrChart />
           <SleepCard />
+          <ReadinessCard />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <Zone2PaceChart />
+          <NutritionLog />
         </div>
 
         {/* ── WHAT AM I TRAINING & HOW HARD? ───────────────── */}
@@ -90,9 +99,10 @@ function Dashboard() {
 
         <TrainingLoadChart />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
           <UpcomingSessions />
           <WorkoutHistory />
+          <ComplianceWidget />
         </div>
 
         {/* ── HOW STRONG AM I? ──────────────────────────────── */}

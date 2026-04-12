@@ -224,14 +224,59 @@ const atl = r1(rollingAvg(todayStr, 7))
 const ctl = r1(rollingAvg(todayStr, 28))
 const acwr = ctl > 0 ? r1(atl / ctl) : 0
 
+const tsb = r1(ctl - atl)
 const acwrStatus =
   acwr > 1.3 ? '⚠  HIGH — elevated injury risk, consider reducing load'
   : acwr < 0.8 ? '~  LOW — below training base, risk of detraining'
   : '✓  OPTIMAL — good training stimulus'
 
+const tsbStatus =
+  tsb > 15  ? '(very fresh — possible detraining if sustained)'
+  : tsb > 0  ? '(fresh / peaking)'
+  : tsb > -10 ? '(slight fatigue — normal training state)'
+  : '(significant fatigue — recovery priority)'
+
 lines.push(`  ATL (7-day avg TRIMP):   ${atl}`)
 lines.push(`  CTL (28-day avg TRIMP):  ${ctl}`)
 lines.push(`  ACWR:                    ${acwr}  — ${acwrStatus}`)
+lines.push(`  TSB (Form):              ${tsb}  — ${tsbStatus}`)
+
+// ── Daily readiness ───────────────────────────────────────────────────────────
+lines.push('\n## DAILY READINESS\n')
+
+// Compute readiness for today from sleep + load data
+const todaySleep = sleepLog.entries.at(-1) as any
+const recentSleepForHrv = sleepLog.entries.slice(-8, -1).filter((e: any) => e.hrv_ms != null)
+const hrvBaseline = recentSleepForHrv.length > 0
+  ? recentSleepForHrv.reduce((s: number, e: any) => s + e.hrv_ms, 0) / recentSleepForHrv.length
+  : null
+
+if (!todaySleep) {
+  lines.push('  No sleep data — run import:health to sync latest recovery data.')
+} else {
+  const sleepHrs = todaySleep.sleep_hr ?? todaySleep.duration_hr
+
+  function clampR(v: number, lo: number, hi: number) { return Math.max(lo, Math.min(hi, v)) }
+
+  const hrv_score = todaySleep.hrv_ms != null
+    ? hrvBaseline != null
+      ? Math.round(clampR((todaySleep.hrv_ms / hrvBaseline) * 75, 0, 100))
+      : Math.round(clampR((todaySleep.hrv_ms - 20) / 130 * 100, 0, 100))
+    : 60
+  const sleep_score = Math.round(clampR((sleepHrs - 5) / 4 * 100, 0, 100))
+  const rhr_score   = todaySleep.resting_hr != null
+    ? Math.round(clampR((75 - todaySleep.resting_hr) / 35 * 100, 0, 100))
+    : 65
+  const load_score  = Math.round(clampR((1 - atl / 100) * 100, 0, 100))
+  const score = Math.round(0.5 * hrv_score + 0.3 * sleep_score + 0.1 * rhr_score + 0.1 * load_score)
+  const flag = score >= 70 ? '✓  GREEN — ready to train' : score >= 50 ? '~  AMBER — moderate, monitor effort' : '⚠  RED — prioritise recovery'
+
+  lines.push(`  Readiness score:  ${score} / 100  — ${flag}`)
+  lines.push(`    HRV:       ${hrv_score}/100${todaySleep.hrv_ms != null ? ` (${todaySleep.hrv_ms}ms${hrvBaseline != null ? ` vs ${Math.round(hrvBaseline)}ms baseline` : ''})` : ' (no data)'}`)
+  lines.push(`    Sleep:     ${sleep_score}/100 (${sleepHrs}h)`)
+  lines.push(`    Resting HR:${rhr_score}/100${todaySleep.resting_hr != null ? ` (${todaySleep.resting_hr}bpm)` : ' (no data)'}`)
+  lines.push(`    Load:      ${load_score}/100 (ATL ${atl})`)
+}
 
 // ── Program context ───────────────────────────────────────────────────────────
 lines.push('\n## ACTIVE PROGRAM\n')

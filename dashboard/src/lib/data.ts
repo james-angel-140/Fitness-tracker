@@ -12,6 +12,7 @@ import bodyWeightLog from '@data/body-weight-log.json'
 import personalRecords from '@data/personal-records.json'
 import compositeScores from '@data/composite-scores.json'
 import sleepLogRaw from '@data/sleep-log.json'
+import nutritionLogRaw from '@data/nutrition/daily-log.json'
 // Vite glob imports — eager so all files are bundled synchronously
 const workoutModules = import.meta.glob('@data/workouts/*.json', { eager: true })
 const programModules = import.meta.glob('@data/programs/*.json', { eager: true })
@@ -99,6 +100,55 @@ export interface TrainingLoadPoint {
   atl: number     // acute training load: 7-day rolling average
   ctl: number     // chronic training load: 28-day rolling average
   acwr: number    // acute:chronic workload ratio (ATL / CTL)
+  tsb: number     // training stress balance: CTL - ATL (positive = fresh/peaking)
+}
+
+export interface ReadinessPoint {
+  date: string
+  score: number        // 0–100 composite
+  hrv_score: number
+  sleep_score: number
+  rhr_score: number
+  load_score: number
+  flag: 'green' | 'amber' | 'red'
+}
+
+export interface OneRMDataPoint {
+  date: string
+  est1rm: number
+}
+
+export interface Zone2DataPoint {
+  date: string
+  pace: number       // decimal min/km
+  pace_str: string
+  avg_hr?: number
+}
+
+export interface NutritionEntry {
+  date: string
+  time?: string
+  description: string
+  calories: number
+  protein_g: number
+  carbs_g?: number
+  fat_g?: number
+}
+
+export interface DailyNutrition {
+  date: string
+  calories: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
+  entries: NutritionEntry[]
+}
+
+export interface ComplianceWeek {
+  weekStart: string
+  planned: number
+  actual: number
+  pct: number
 }
 
 export interface CompositeScoreEntry {
@@ -132,6 +182,10 @@ export const scoreHistory = compositeScores as CompositeScoreEntry[]
 export const workouts: Workout[] = Object.values(workoutModules)
   .map((m) => (m as { default: Workout }).default)
   .sort((a, b) => a.date.localeCompare(b.date))
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function clamp(v: number, lo: number, hi: number) { return Math.max(lo, Math.min(hi, v)) }
 
 // ─── Derived values ───────────────────────────────────────────────────────────
 
@@ -362,5 +416,200 @@ export const trainingLoad: TrainingLoadPoint[] = workoutDates.map((date) => {
     atl: Math.round(atl * 10) / 10,
     ctl: Math.round(ctl * 10) / 10,
     acwr: ctl > 0 ? Math.round((atl / ctl) * 100) / 100 : 0,
+    tsb: Math.round((ctl - atl) * 10) / 10,
   }
 })
+
+// ─── Daily Readiness Score (Body Battery) ─────────────────────────────────────
+// 50% HRV deviation from 7-day baseline · 30% sleep quality · 10% overnight RHR · 10% inverted ATL
+
+const sortedSleep = [...sleepLog].sort((a, b) => a.date.localeCompare(b.date))
+
+export const readiness: ReadinessPoint[] = sortedSleep.map((e, i, arr) => {
+  // HRV — ratio to 7-day rolling baseline (excluding today)
+  const prevHrv = arr.slice(Math.max(0, i - 7), i).filter((s) => s.hrv_ms != null)
+  const hrvBaseline = prevHrv.length > 0
+    ? prevHrv.reduce((s, x) => s + x.hrv_ms!, 0) / prevHrv.length
+    : null
+  const hrv_score = e.hrv_ms != null
+    ? hrvBaseline != null
+      ? clamp((e.hrv_ms / hrvBaseline) * 75, 0, 100)
+      : clamp((e.hrv_ms - 20) / (150 - 20) * 100, 0, 100)
+    : 60
+
+  // Sleep — 5h → 0, 9h → 100
+  const sleepHrs = e.sleep_hr ?? e.duration_hr
+  const sleep_score = clamp((sleepHrs - 5) / (9 - 5) * 100, 0, 100)
+
+  // Overnight RHR — 40 bpm → 100, 75 bpm → 0
+  const rhr_score = e.resting_hr != null
+    ? clamp((75 - e.resting_hr) / (75 - 40) * 100, 0, 100)
+    : 65
+
+  // Training load — high ATL → low score
+  const atl = rollingAvg(trimpByDate, e.date, 7)
+  const load_score = clamp((1 - atl / 100) * 100, 0, 100)
+
+  const score = Math.round(0.5 * hrv_score + 0.3 * sleep_score + 0.1 * rhr_score + 0.1 * load_score)
+
+  return {
+    date: e.date,
+    score,
+    hrv_score: Math.round(hrv_score),
+    sleep_score: Math.round(sleep_score),
+    rhr_score: Math.round(rhr_score),
+    load_score: Math.round(load_score),
+    flag: score >= 70 ? 'green' : score >= 50 ? 'amber' : 'red',
+  }
+})
+
+export const todayReadiness = readiness.at(-1) ?? null
+
+// ─── Zone 2 Pace Trend + Linear Projection ────────────────────────────────────
+
+export const zone2Trend: Zone2DataPoint[] = workouts
+  .filter((w) => w.cardio_subtype === 'zone2-run' && w.avg_pace_per_km)
+  .map((w) => ({
+    date: w.date,
+    pace: parsePace(w.avg_pace_per_km!),
+    pace_str: w.avg_pace_per_km!,
+    avg_hr: w.avg_hr,
+  }))
+
+// Linear regression: x = days since first session, y = pace (lower = faster = better)
+export const zone2Regression: { slope: number; intercept: number; refDate: string } | null = (() => {
+  if (zone2Trend.length < 2) return null
+  const t0 = new Date(zone2Trend[0].date).getTime()
+  const pts = zone2Trend.map((p) => ({
+    x: (new Date(p.date).getTime() - t0) / 86_400_000,
+    y: p.pace,
+  }))
+  const n = pts.length
+  const sumX = pts.reduce((s, p) => s + p.x, 0)
+  const sumY = pts.reduce((s, p) => s + p.y, 0)
+  const sumXY = pts.reduce((s, p) => s + p.x * p.y, 0)
+  const sumX2 = pts.reduce((s, p) => s + p.x * p.x, 0)
+  const denom = n * sumX2 - sumX * sumX
+  if (denom === 0) return null
+  const slope = (n * sumXY - sumX * sumY) / denom
+  const intercept = (sumY - slope * sumX) / n
+  return { slope, intercept, refDate: zone2Trend[0].date }
+})()
+
+// ─── Estimated 1RM Trends (Epley: weight × (1 + reps / 30)) ──────────────────
+
+const EXERCISE_NAME_MAP: Record<string, string> = {
+  'Barbell Bench Press':    'Barbell Bench Press',
+  'Bench Press':            'Barbell Bench Press',
+  'Deadlift':               'Deadlift',
+  'Romanian Deadlift':      'Romanian Deadlift',
+  'RDL':                    'Romanian Deadlift',
+  'Leg Press':              'Leg Press',
+  'Back Squat':             'Back Squat',
+  'Squat':                  'Back Squat',
+  'Barbell Hip Thrust':     'Barbell Hip Thrust',
+  'Hip Thrust':             'Barbell Hip Thrust',
+  'Barbell Shoulder Press': 'Barbell Shoulder Press',
+  'Overhead Press':         'Barbell Shoulder Press',
+  'OHP':                    'Barbell Shoulder Press',
+  'Lat Pulldown':           'Lat Pulldown',
+  'Cable Row':              'Cable Row',
+  'Seated Leg Curl':        'Seated Leg Curl',
+  'Leg Curl':               'Seated Leg Curl',
+}
+
+function epley1RM(weight: number, reps: number): number {
+  return reps === 1 ? weight : Math.round(weight * (1 + reps / 30) * 10) / 10
+}
+
+export const oneRmTrends: Record<string, OneRMDataPoint[]> = {}
+
+for (const w of workouts) {
+  if (!w.exercises) continue
+  for (const ex of w.exercises) {
+    const liftName = EXERCISE_NAME_MAP[ex.name]
+    if (!liftName) continue
+    let best = 0
+    for (const set of ex.sets) {
+      if (set.weight_kg == null || set.weight_kg === 0 || set.reps < 1) continue
+      const est = epley1RM(set.weight_kg, set.reps)
+      if (est > best) best = est
+    }
+    if (best > 0) {
+      if (!oneRmTrends[liftName]) oneRmTrends[liftName] = []
+      const existing = oneRmTrends[liftName].find((p) => p.date === w.date)
+      if (existing) { if (best > existing.est1rm) existing.est1rm = best }
+      else oneRmTrends[liftName].push({ date: w.date, est1rm: best })
+    }
+  }
+}
+for (const k of Object.keys(oneRmTrends)) {
+  oneRmTrends[k].sort((a, b) => a.date.localeCompare(b.date))
+}
+
+// ─── Periodization Compliance ─────────────────────────────────────────────────
+
+function isoWeekStart(dateStr: string): string {
+  const d = new Date(dateStr)
+  d.setDate(d.getDate() - d.getDay())
+  return d.toISOString().slice(0, 10)
+}
+
+const allProgramDays: { date: string; focus: string }[] = ((programRaw as any).phases ?? [])
+  .flatMap((phase: any) =>
+    (phase.days ?? []).map((d: any) => ({ date: d.date as string, focus: (d.focus ?? '') as string }))
+  )
+
+const plannedTrainDays = allProgramDays.filter((d) => !/^rest/i.test(d.focus) && d.date <= TODAY_STR)
+const workoutDateSet = new Set(workouts.map((w) => w.date))
+
+const weekCompMap = new Map<string, { planned: number; actual: number }>()
+for (const s of plannedTrainDays) {
+  const wk = isoWeekStart(s.date)
+  if (!weekCompMap.has(wk)) weekCompMap.set(wk, { planned: 0, actual: 0 })
+  weekCompMap.get(wk)!.planned++
+  if (workoutDateSet.has(s.date)) weekCompMap.get(wk)!.actual++
+}
+
+export const complianceByWeek: ComplianceWeek[] = Array.from(weekCompMap.entries())
+  .map(([ws, { planned, actual }]) => ({
+    weekStart: ws,
+    planned,
+    actual,
+    pct: planned > 0 ? Math.round((actual / planned) * 100) : 0,
+  }))
+  .sort((a, b) => a.weekStart.localeCompare(b.weekStart))
+
+export const overallCompliance = complianceByWeek.reduce(
+  (acc, w) => {
+    acc.planned += w.planned
+    acc.actual  += w.actual
+    acc.pct = acc.planned > 0 ? Math.round((acc.actual / acc.planned) * 100) : 0
+    return acc
+  },
+  { planned: 0, actual: 0, pct: 0 },
+)
+
+// ─── Nutrition Log ────────────────────────────────────────────────────────────
+
+export const nutritionLog = nutritionLogRaw as NutritionEntry[]
+
+const nutritionByDate = new Map<string, NutritionEntry[]>()
+for (const entry of nutritionLog) {
+  if (!nutritionByDate.has(entry.date)) nutritionByDate.set(entry.date, [])
+  nutritionByDate.get(entry.date)!.push(entry)
+}
+
+export const dailyNutrition: DailyNutrition[] = Array.from(nutritionByDate.entries())
+  .map(([date, entries]) => ({
+    date,
+    calories: entries.reduce((s, e) => s + e.calories, 0),
+    protein_g: entries.reduce((s, e) => s + e.protein_g, 0),
+    carbs_g: entries.reduce((s, e) => s + (e.carbs_g ?? 0), 0),
+    fat_g: entries.reduce((s, e) => s + (e.fat_g ?? 0), 0),
+    entries,
+  }))
+  .sort((a, b) => a.date.localeCompare(b.date))
+
+export const todayNutrition = dailyNutrition.find((d) => d.date === TODAY_STR) ?? null
+export const nutritionTargets = { calories: 2300, protein_g: 165, carbs_g: 250, fat_g: 65 }

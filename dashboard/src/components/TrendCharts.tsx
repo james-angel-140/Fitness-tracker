@@ -13,7 +13,7 @@ import {
   Bar,
 } from 'recharts'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { weightTrendWithAvg, bodyFatTrend, vo2Trend, rhrTrend, scoreHistory, currentScore, trainingLoad, goalWeightKg, goalBodyFatPct } from '@/lib/data'
+import { weightTrendWithAvg, bodyFatTrend, vo2Trend, rhrTrend, scoreHistory, currentScore, trainingLoad, goalWeightKg, goalBodyFatPct, zone2Trend, zone2Regression } from '@/lib/data'
 import { useTimeRange, filterByRange } from '@/lib/TimeRangeContext'
 
 function shortDate(iso: string) {
@@ -387,6 +387,12 @@ export function TrainingLoadChart() {
       desc: 'Your fitness base. Moves slowly — reflects what your body is adapted to.',
     },
     {
+      colour: '#fbbf24',
+      shape: 'line',
+      label: 'TSB — Form (CTL − ATL)',
+      desc: 'Training Stress Balance. Positive = fresh/peaking. Negative = fatigued/building. Aim for +5 to +15 on race day.',
+    },
+    {
       colour: '#34d399',
       shape: 'badge',
       label: 'ACWR 0.8–1.3 — Optimal',
@@ -431,7 +437,7 @@ export function TrainingLoadChart() {
             <Tooltip
               contentStyle={tooltipStyle}
               formatter={(v: number, name: string) => {
-                const labels: Record<string, string> = { trimp: 'TRIMP (session load)', atl: 'ATL — acute load (7d avg)', ctl: 'CTL — chronic load (28d avg)' }
+                const labels: Record<string, string> = { trimp: 'TRIMP (session load)', atl: 'ATL — acute load (7d avg)', ctl: 'CTL — chronic load (28d avg)', tsb: 'TSB — form (CTL − ATL)' }
                 return [`${v}`, labels[name] ?? name]
               }}
               labelFormatter={(l) => l}
@@ -440,6 +446,7 @@ export function TrainingLoadChart() {
             <Bar dataKey="trimp" fill="hsl(215 20% 30%)" radius={[2, 2, 0, 0]} />
             <Line type="monotone" dataKey="atl" stroke="#38bdf8" strokeWidth={2} dot={false} />
             <Line type="monotone" dataKey="ctl" stroke="#a78bfa" strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey="tsb" stroke="#fbbf24" strokeWidth={1.5} dot={false} strokeDasharray="4 2" />
           </ComposedChart>
         </ResponsiveContainer>
 
@@ -467,6 +474,99 @@ export function TrainingLoadChart() {
             ))}
           </div>
         </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+// ─── Zone 2 Pace Chart ────────────────────────────────────────────────────────
+
+function decimalToMinSec(dec: number): string {
+  const mins = Math.floor(dec)
+  const secs = Math.round((dec - mins) * 60)
+  return `${mins}:${String(secs).padStart(2, '0')}`
+}
+
+export function Zone2PaceChart() {
+  const { range } = useTimeRange()
+  const filtered = filterByRange(zone2Trend, range)
+
+  // Build projection points (next 60 days) from regression
+  const projectionPoints: { date: string; label: string; projected: number }[] = []
+  if (zone2Regression && zone2Trend.length >= 2) {
+    const t0 = new Date(zone2Regression.refDate).getTime()
+    const today = new Date()
+    for (let d = 7; d <= 60; d += 7) {
+      const projDate = new Date(today)
+      projDate.setDate(today.getDate() + d)
+      const dateStr = projDate.toISOString().slice(0, 10)
+      const x = (projDate.getTime() - t0) / 86_400_000
+      const projected = zone2Regression.slope * x + zone2Regression.intercept
+      projectionPoints.push({ date: dateStr, label: shortDate(dateStr), projected: Math.round(projected * 100) / 100 })
+    }
+  }
+
+  // Merge actual + projection for chart
+  const actualData = filtered.map((d) => ({ date: d.date, label: shortDate(d.date), pace: d.pace, avg_hr: d.avg_hr }))
+  const allData = [
+    ...actualData,
+    ...projectionPoints.filter((p) => p.date > (actualData.at(-1)?.date ?? '')),
+  ]
+
+  const TARGET_PACE = 7.0 // min/km goal
+
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between">
+          <CardTitle>Zone 2 Pace</CardTitle>
+          {zone2Trend.length > 0 && (
+            <span className="text-xs text-muted-foreground">
+              Latest: <span className="font-medium text-foreground">{zone2Trend.at(-1)!.pace_str}/km</span>
+              {zone2Trend.at(-1)!.avg_hr && ` @ ${zone2Trend.at(-1)!.avg_hr}bpm`}
+            </span>
+          )}
+        </div>
+      </CardHeader>
+      <CardContent>
+        {zone2Trend.length === 0 ? (
+          <p className="text-xs text-muted-foreground py-4">No Zone 2 runs logged yet. Log a run with cardio_subtype: zone2-run to start tracking.</p>
+        ) : (
+          <ResponsiveContainer width="100%" height={160}>
+            <LineChart data={allData} margin={{ top: 4, right: 8, left: -4, bottom: 0 }}>
+              <XAxis dataKey="label" tick={{ fontSize: 10, fill: 'hsl(215 20% 55%)' }} axisLine={false} tickLine={false} />
+              <YAxis
+                domain={['auto', 'auto']}
+                tick={{ fontSize: 10, fill: 'hsl(215 20% 55%)' }}
+                axisLine={false}
+                tickLine={false}
+                tickFormatter={decimalToMinSec}
+              />
+              <Tooltip
+                contentStyle={tooltipStyle}
+                formatter={(v: number, name: string) => [
+                  decimalToMinSec(v) + '/km',
+                  name === 'pace' ? 'Pace' : 'Projected',
+                ]}
+                labelFormatter={(l) => l}
+              />
+              <ReferenceLine
+                y={TARGET_PACE}
+                stroke="hsl(215 20% 35%)"
+                strokeDasharray="4 3"
+                label={{ value: 'goal 7:00', fontSize: 9, fill: 'hsl(215 20% 45%)' }}
+              />
+              <Line type="monotone" dataKey="pace" stroke="#38bdf8" strokeWidth={2} dot={{ r: 4, fill: '#38bdf8', strokeWidth: 0 }} activeDot={{ r: 5 }} connectNulls={false} />
+              {zone2Regression && zone2Trend.length >= 2 && (
+                <Line type="monotone" dataKey="projected" stroke="#38bdf8" strokeWidth={1.5} strokeDasharray="5 3" dot={false} strokeOpacity={0.5} />
+              )}
+            </LineChart>
+          </ResponsiveContainer>
+        )}
+        <p className="text-xs text-muted-foreground mt-1">
+          Lower = faster. Goal: sub-7:00/km at 120–130 bpm.
+          {zone2Regression && zone2Trend.length >= 2 && ' Dashed = projected trend.'}
+        </p>
       </CardContent>
     </Card>
   )
