@@ -15,9 +15,15 @@ import sleepLogRaw from '@data/sleep-log.json'
 // Vite glob imports — eager so all files are bundled synchronously
 const workoutModules = import.meta.glob('@data/workouts/*.json', { eager: true })
 const programModules = import.meta.glob('@data/programs/*.json', { eager: true })
+const eventModules   = import.meta.glob('@data/events/*.json',   { eager: true })
 
 // Pick the first (and only) active program file, whatever it's named
 const programRaw: any = Object.values(programModules)[0] ?? { phases: [] }
+// Next upcoming event (first with a future or today date, sorted by date)
+const eventRaw: any = Object.values(eventModules)
+  .map((m: any) => m.default ?? m)
+  .sort((a: any, b: any) => a.date.localeCompare(b.date))
+  .find((e: any) => e.date >= TODAY_STR) ?? null
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -308,6 +314,32 @@ export interface ProgramDay {
 }
 
 const TODAY_STR = new Date().toISOString().slice(0, 10)
+
+export interface UpcomingEvent {
+  name: string
+  date: string
+  goal?: string
+}
+
+export interface ActiveProgram {
+  name: string
+  goal: string
+  start_date: string
+  end_date: string
+  taper_start_date?: string
+}
+
+export const nextEvent: UpcomingEvent | null = eventRaw
+  ? { name: eventRaw.name, date: eventRaw.date, goal: eventRaw.goal }
+  : null
+
+export const activeProgram: ActiveProgram = {
+  name:             programRaw.name        ?? 'Active Program',
+  goal:             programRaw.goal        ?? '',
+  start_date:       programRaw.start_date  ?? TODAY_STR,
+  end_date:         programRaw.end_date    ?? TODAY_STR,
+  taper_start_date: programRaw.taper_start_date,
+}
 
 export const upcomingSessions: ProgramDay[] = (programRaw as any).phases
   .flatMap((phase: any) =>
