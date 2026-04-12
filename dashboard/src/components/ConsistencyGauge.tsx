@@ -12,7 +12,7 @@ function Bar({ value, max, colour }: { value: number; max: number; colour: strin
         />
       </div>
       <span className="text-xs tabular-nums text-muted-foreground w-10 text-right">
-        {value}/{max}
+        {Math.min(value, max)}/{max}
       </span>
     </div>
   )
