@@ -19,6 +19,7 @@
  *   ANTHROPIC_API_KEY environment variable
  */
 
+import 'dotenv/config'
 import { readFileSync, readdirSync, writeFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import Anthropic from '@anthropic-ai/sdk'
