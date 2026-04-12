@@ -8,6 +8,7 @@ import { StatTiles } from '@/components/StatTiles'
 import { SleepCard } from '@/components/SleepCard'
 import { UpcomingSessions } from '@/components/UpcomingSessions'
 import { ConsistencyGauge } from '@/components/ConsistencyGauge'
+import { TimeRangeProvider, useTimeRange, TIME_RANGE_LABELS, type TimeRange } from '@/lib/TimeRangeContext'
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -17,15 +18,39 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default function App() {
+function TimeRangeSelector() {
+  const { range, setRange } = useTimeRange()
+  return (
+    <div className="flex gap-1 rounded-md border border-border p-0.5 bg-muted/30">
+      {(Object.keys(TIME_RANGE_LABELS) as TimeRange[]).map((r) => (
+        <button
+          key={r}
+          onClick={() => setRange(r)}
+          className={`px-3 py-1 text-xs font-medium rounded transition-colors ${
+            range === r
+              ? 'bg-background text-foreground shadow-sm'
+              : 'text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {TIME_RANGE_LABELS[r]}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+function Dashboard() {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 py-8 space-y-4">
 
         {/* Header */}
-        <div className="mb-2">
-          <h1 className="text-2xl font-bold">Fitness Dashboard</h1>
-          <p className="text-muted-foreground text-sm mt-1">James Angel · Hyrox 2026 Training</p>
+        <div className="flex items-start justify-between mb-2">
+          <div>
+            <h1 className="text-2xl font-bold">Fitness Dashboard</h1>
+            <p className="text-muted-foreground text-sm mt-1">James Angel · Hyrox 2026 Training</p>
+          </div>
+          <TimeRangeSelector />
         </div>
 
         {/* Key numbers at a glance */}
@@ -76,5 +101,13 @@ export default function App() {
 
       </div>
     </div>
+  )
+}
+
+export default function App() {
+  return (
+    <TimeRangeProvider>
+      <Dashboard />
+    </TimeRangeProvider>
   )
 }

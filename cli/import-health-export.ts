@@ -95,6 +95,7 @@ interface ParsedDay {
   body_fat_pct?: number
   lean_mass_kg?: number
   vo2?: number
+  rhr?: number
 }
 
 function parseHAEFile(filePath: string): ParsedDay {
@@ -160,7 +161,8 @@ function parseHAEFile(filePath: string): ParsedDay {
   // Resting HR
   const rhrData = (get('resting_heart_rate')?.data ?? []) as { date: string; qty: number }[]
   const rhr = firstForDate(rhrData, isoDate)
-  if (rhr && sleep) sleep.resting_hr = Math.round(rhr.qty)
+  const rhrValue = rhr ? Math.round(rhr.qty) : undefined
+  if (rhrValue != null && sleep) sleep.resting_hr = rhrValue
 
   // Respiratory rate (overnight)
   const respData = (get('respiratory_rate')?.data ?? []) as { date: string; qty: number }[]
@@ -206,6 +208,7 @@ function parseHAEFile(filePath: string): ParsedDay {
     body_fat_pct,
     lean_mass_kg,
     vo2: vo2 ? r2(vo2.qty) : undefined,
+    rhr: rhrValue,
   }
 }
 
@@ -246,8 +249,8 @@ function upsertStatsSnapshot(
   snapshots: StatsSnapshot[],
   day: ParsedDay,
 ): 'added' | 'updated' | 'skipped' {
-  const { isoDate, vo2, weight_kg, body_fat_pct } = day
-  if (vo2 == null && weight_kg == null && body_fat_pct == null) return 'skipped'
+  const { isoDate, vo2, weight_kg, body_fat_pct, rhr } = day
+  if (vo2 == null && weight_kg == null && body_fat_pct == null && rhr == null) return 'skipped'
 
   const idx = snapshots.findIndex((s) => s.date === isoDate)
   const last = snapshots.at(-1)
@@ -260,18 +263,20 @@ function upsertStatsSnapshot(
       ...(weight_kg != null && { weight_kg }),
       ...(body_fat_pct != null && { body_fat_pct }),
       ...(vo2 != null && { vo2_max: vo2 }),
+      ...(rhr != null && { resting_hr_bpm: rhr }),
     }
     return 'updated'
   }
 
   // Skip VO2-only snapshot if value hasn't changed from last
-  if (vo2 != null && last?.vo2_max === vo2 && weight_kg == null) return 'skipped'
+  if (vo2 != null && last?.vo2_max === vo2 && weight_kg == null && rhr == null) return 'skipped'
 
   snapshots.push({
     date: isoDate,
     weight_kg: weight_kg ?? last?.weight_kg ?? 69,
     ...(body_fat_pct != null && { body_fat_pct }),
     ...(vo2 != null && { vo2_max: vo2 }),
+    ...(rhr != null && { resting_hr_bpm: rhr }),
     notes: 'auto-imported from Health Auto Export',
   })
   return 'added'

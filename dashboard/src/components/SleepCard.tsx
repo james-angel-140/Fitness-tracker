@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { sleepLog } from '@/lib/data'
+import { useTimeRange, filterByRange } from '@/lib/TimeRangeContext'
 import {
   BarChart,
   Bar,
@@ -45,7 +46,8 @@ export function SleepCard() {
     )
   }
 
-  const recent = sleepLog.slice(-14)
+  const { range } = useTimeRange()
+  const recent = filterByRange(sleepLog, range)
   const latest = sleepLog.at(-1)!
   const latestHrs = latest.sleep_hr ?? latest.duration_hr
 

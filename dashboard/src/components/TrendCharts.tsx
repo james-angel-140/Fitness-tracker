@@ -14,6 +14,7 @@ import {
 } from 'recharts'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { weightTrend, vo2Trend, rhrTrend, scoreHistory, currentScore, trainingLoad } from '@/lib/data'
+import { useTimeRange, filterByRange } from '@/lib/TimeRangeContext'
 
 function shortDate(iso: string) {
   const [, m, d] = iso.split('-')
@@ -102,6 +103,8 @@ const CATEGORY_LABELS = {
 }
 
 function ScoreBreakdownChart() {
+  const { range } = useTimeRange()
+
   // Merge saved history with the live current score so there's always
   // at least one data point even before --save has been run a second time.
   const today = '2026-04-10'
@@ -128,9 +131,10 @@ function ScoreBreakdownChart() {
   // Deduplicate: prefer live point for today's date
   const pointsByDate = new Map(historicalPoints.map((p) => [p.date, p]))
   pointsByDate.set(livePoint.date, livePoint)
-  const data = Array.from(pointsByDate.values()).sort((a, b) =>
+  const allData = Array.from(pointsByDate.values()).sort((a, b) =>
     a.date.localeCompare(b.date),
   )
+  const data = filterByRange(allData, range)
 
   return (
     <Card>
@@ -192,10 +196,11 @@ function ScoreBreakdownChart() {
 export { ScoreBreakdownChart }
 
 export function WeightChart() {
+  const { range } = useTimeRange()
   return (
     <MiniChart
       title="Weight (kg)"
-      data={weightTrend}
+      data={filterByRange(weightTrend, range)}
       color="hsl(210 100% 56%)"
       unit="kg"
       referenceValue={75}
@@ -206,10 +211,11 @@ export function WeightChart() {
 }
 
 export function Vo2Chart() {
+  const { range } = useTimeRange()
   return (
     <MiniChart
       title="VO2 Max"
-      data={vo2Trend}
+      data={filterByRange(vo2Trend, range)}
       color="#34d399"
       domain={[35, 60]}
     />
@@ -217,10 +223,11 @@ export function Vo2Chart() {
 }
 
 export function RhrChart() {
+  const { range } = useTimeRange()
   return (
     <MiniChart
       title="Resting HR (bpm)"
-      data={rhrTrend}
+      data={filterByRange(rhrTrend, range)}
       color="#fb923c"
       unit=" bpm"
       domain={[40, 70]}
@@ -229,7 +236,8 @@ export function RhrChart() {
 }
 
 export function TrainingLoadChart() {
-  const data = trainingLoad.map((d) => ({ ...d, label: shortDate(d.date) }))
+  const { range } = useTimeRange()
+  const data = filterByRange(trainingLoad, range).map((d) => ({ ...d, label: shortDate(d.date) }))
   const latest = trainingLoad.at(-1)
 
   // ACWR status colour

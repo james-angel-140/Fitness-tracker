@@ -2,6 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { workouts } from '@/lib/data'
 import type { BadgeProps } from '@/components/ui/badge'
+import { useTimeRange, filterByRange } from '@/lib/TimeRangeContext'
 
 function workoutBadgeVariant(type: string): BadgeProps['variant'] {
   if (type === 'strength') return 'default'
@@ -21,7 +22,8 @@ function workoutLabel(w: { type: string; cardio_subtype?: string }) {
 }
 
 export function WorkoutHistory() {
-  const recent = [...workouts].reverse().slice(0, 12)
+  const { range } = useTimeRange()
+  const recent = [...filterByRange(workouts, range)].reverse().slice(0, 20)
 
   return (
     <Card>

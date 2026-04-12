@@ -5,7 +5,7 @@
     "categories": {
       "cardio": 15.4,
       "strength": 16.7,
-      "body_comp": 14.0,
+      "body_comp": 14,
       "consistency": 71.3
     },
     "notes": "Baseline — recalculated under current weightings (Strength 40%, Cardio 35%, Body Comp 25%)"
@@ -17,6 +17,16 @@
       "cardio": 14.5,
       "strength": 16,
       "body_comp": 16.2,
+      "consistency": 46.3
+    }
+  },
+  {
+    "date": "2026-04-12",
+    "score": 45.8,
+    "categories": {
+      "cardio": 14.4,
+      "strength": 16.2,
+      "body_comp": 15.2,
       "consistency": 46.3
     }
   }
