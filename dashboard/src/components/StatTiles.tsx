@@ -2,6 +2,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import {
   latestWeightAvg7, latestZone2Run, sleepLog, trainingLoad,
   latestVo2, latestRhr, latestBodyFat, latestFitbod,
+  goalWeightKg, goalBodyFatPct,
 } from '@/lib/data'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
@@ -76,21 +77,21 @@ export function StatTiles() {
       <Tile
         label="Weight"
         value={`${weight_kg}kg`}
-        sub="7-day avg · Goal: 75kg"
-        trend={weight_kg >= 74 ? 'up' : weight_kg >= 70 ? 'neutral' : 'down'}
+        sub={`7-day avg · Goal: ${goalWeightKg}kg`}
+        trend={weight_kg >= goalWeightKg - 1 ? 'up' : weight_kg >= goalWeightKg - 5 ? 'neutral' : 'down'}
         good="up"
       />
       <Tile
         label="Body Fat"
         value={latestBodyFat != null ? `${latestBodyFat}%` : '—'}
-        sub="Goal: 14%"
-        trend={latestBodyFat == null ? undefined : latestBodyFat <= 14 ? 'down' : latestBodyFat <= 16 ? 'neutral' : 'up'}
+        sub={`Goal: ${goalBodyFatPct}%`}
+        trend={latestBodyFat == null ? undefined : latestBodyFat <= goalBodyFatPct ? 'down' : latestBodyFat <= goalBodyFatPct + 2 ? 'neutral' : 'up'}
         good="down"
       />
       <Tile
         label="VO2 Max"
         value={latestVo2 != null ? String(latestVo2) : '—'}
-        sub="Target: 45+ post-Hyrox"
+        sub="ml/kg/min"
         trend={latestVo2 == null ? undefined : latestVo2 >= 45 ? 'up' : latestVo2 >= 42 ? 'neutral' : 'down'}
         good="up"
       />

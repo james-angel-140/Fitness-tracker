@@ -19,11 +19,6 @@ const eventModules   = import.meta.glob('@data/events/*.json',   { eager: true }
 
 // Pick the first (and only) active program file, whatever it's named
 const programRaw: any = Object.values(programModules)[0] ?? { phases: [] }
-// Next upcoming event (first with a future or today date, sorted by date)
-const eventRaw: any = Object.values(eventModules)
-  .map((m: any) => m.default ?? m)
-  .sort((a: any, b: any) => a.date.localeCompare(b.date))
-  .find((e: any) => e.date >= TODAY_STR) ?? null
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -124,9 +119,13 @@ export const sleepLog = (sleepLogRaw as { entries: SleepEntry[] }).entries
 export const stats = statsSnapshots as StatsSnapshot[]
 export const weightLog = bodyWeightLog as {
   goal_weight_kg: number
+  goal_body_fat_pct?: number
   starting_weight_kg: number
   entries: WeightEntry[]
 }
+
+export const goalWeightKg  = weightLog.goal_weight_kg
+export const goalBodyFatPct = weightLog.goal_body_fat_pct ?? 14
 export const prs = personalRecords as LiftRecord[]
 export const scoreHistory = compositeScores as CompositeScoreEntry[]
 
@@ -157,7 +156,7 @@ export const latestZone2Run = workouts
   .at(-1)
 
 // Consistency windows
-const today = new Date('2026-04-12') // matches CLAUDE.md currentDate
+const today = new Date()
 const sevenDaysAgo = new Date(today)
 sevenDaysAgo.setDate(today.getDate() - 7)
 const twentyEightDaysAgo = new Date(today)
@@ -314,6 +313,12 @@ export interface ProgramDay {
 }
 
 const TODAY_STR = new Date().toISOString().slice(0, 10)
+
+// Next upcoming event — resolved after TODAY_STR is defined
+const eventRaw: any = Object.values(eventModules)
+  .map((m: any) => (m as any).default ?? m)
+  .sort((a: any, b: any) => a.date.localeCompare(b.date))
+  .find((e: any) => e.date >= TODAY_STR) ?? null
 
 export interface UpcomingEvent {
   name: string

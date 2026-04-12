@@ -13,7 +13,7 @@ import {
   Bar,
 } from 'recharts'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { weightTrendWithAvg, bodyFatTrend, vo2Trend, rhrTrend, scoreHistory, currentScore, trainingLoad } from '@/lib/data'
+import { weightTrendWithAvg, bodyFatTrend, vo2Trend, rhrTrend, scoreHistory, currentScore, trainingLoad, goalWeightKg, goalBodyFatPct } from '@/lib/data'
 import { useTimeRange, filterByRange } from '@/lib/TimeRangeContext'
 
 function shortDate(iso: string) {
@@ -107,7 +107,7 @@ function ScoreBreakdownChart() {
 
   // Merge saved history with the live current score so there's always
   // at least one data point even before --save has been run a second time.
-  const today = '2026-04-10'
+  const today = new Date().toISOString().slice(0, 10)
   const livePoint = {
     date: today,
     label: shortDate(today),
@@ -231,10 +231,10 @@ export function WeightChart() {
               labelFormatter={(l) => l}
             />
             <ReferenceLine
-              y={75}
+              y={goalWeightKg}
               stroke="hsl(215 20% 35%)"
               strokeDasharray="4 3"
-              label={{ value: 'goal 75kg', fontSize: 9, fill: 'hsl(215 20% 45%)' }}
+              label={{ value: `goal ${goalWeightKg}kg`, fontSize: 9, fill: 'hsl(215 20% 45%)' }}
             />
             <Line
               type="monotone"
@@ -295,10 +295,10 @@ export function BodyFatChart() {
               labelFormatter={(l) => l}
             />
             <ReferenceLine
-              y={14}
+              y={goalBodyFatPct}
               stroke="hsl(215 20% 35%)"
               strokeDasharray="4 3"
-              label={{ value: 'goal 14%', fontSize: 9, fill: 'hsl(215 20% 45%)' }}
+              label={{ value: `goal ${goalBodyFatPct}%`, fontSize: 9, fill: 'hsl(215 20% 45%)' }}
             />
             <Line
               type="monotone"

@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { upcomingSessions } from '@/lib/data'
 
-const TODAY = '2026-04-11'
+const TODAY = new Date().toISOString().slice(0, 10)
 
 function sessionBadgeVariant(focus: string) {
   if (/legs/i.test(focus)) return 'destructive'
