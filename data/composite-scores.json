@@ -29,5 +29,15 @@
       "body_comp": 15.2,
       "consistency": 46.3
     }
+  },
+  {
+    "date": "2026-04-12",
+    "score": 45.2,
+    "categories": {
+      "cardio": 14.1,
+      "strength": 16.3,
+      "body_comp": 14.8,
+      "consistency": 77.5
+    }
   }
 ]
