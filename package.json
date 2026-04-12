@@ -10,6 +10,7 @@
     "score": "tsx cli/calculate-score.ts",
     "context": "tsx cli/context.ts",
     "upcoming": "tsx cli/upcoming.ts",
+    "plan": "tsx cli/plan.ts",
     "import:health": "tsx cli/import-health-export.ts",
     "typecheck": "tsc --noEmit",
     "dashboard": "npm -w dashboard run dev",
@@ -17,6 +18,7 @@
     "deploy": "npm -w dashboard run build && npm -w dashboard run deploy"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.88.0",
     "@types/node": "^25.6.0",
     "tsx": "^4.19.0",
     "typescript": "^5.4.0"
