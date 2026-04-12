@@ -32,5 +32,14 @@
     "protein_g": 20,
     "carbs_g": 20,
     "fat_g": 7
+  },
+  {
+    "date": "2026-04-12",
+    "time": "19:51",
+    "description": "Protein shake",
+    "calories": 130,
+    "protein_g": 25,
+    "carbs_g": 5,
+    "fat_g": 2
   }
 ]
