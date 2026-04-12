@@ -13,7 +13,8 @@
     "import:health": "tsx cli/import-health-export.ts",
     "typecheck": "tsc --noEmit",
     "dashboard": "npm -w dashboard run dev",
-    "dashboard:build": "npm -w dashboard run build"
+    "dashboard:build": "npm -w dashboard run build",
+    "deploy": "npm -w dashboard run build && npm -w dashboard run deploy"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",
