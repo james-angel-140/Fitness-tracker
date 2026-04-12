@@ -96,17 +96,18 @@ export function WorkoutHistory() {
       <CardContent className="p-0">
         <div className="divide-y divide-border">
           {recent.map((w) => (
-            <div key={w.id} className="px-6 py-3">
-              <div className="flex items-center gap-3">
-                <div className="w-20 shrink-0 text-xs text-muted-foreground">{w.date}</div>
-                <Badge variant={workoutBadgeVariant(w.type)} className="shrink-0">
-                  {workoutTypeLabel(w)}
-                </Badge>
-                <span className="text-sm font-medium truncate">{workoutTitle(w)}</span>
-              </div>
-              <div className="mt-1 pl-[calc(5rem+theme(spacing.3)+theme(spacing.14))] text-xs text-muted-foreground">
+            <div key={w.id} className="grid grid-cols-[5rem_5rem_1fr] gap-x-3 items-baseline px-6 py-3">
+              {/* Row 1 */}
+              <span className="text-xs text-muted-foreground">{w.date}</span>
+              <Badge variant={workoutBadgeVariant(w.type)} className="justify-self-start">
+                {workoutTypeLabel(w)}
+              </Badge>
+              <span className="text-sm font-medium truncate">{workoutTitle(w)}</span>
+              {/* Row 2 — detail spans last two columns */}
+              <span />
+              <span className="col-span-2 text-xs text-muted-foreground truncate">
                 {workoutDetail(w)}
-              </div>
+              </span>
             </div>
           ))}
         </div>
