@@ -19,14 +19,15 @@
       "pull": 60,
       "legs": 60
     },
-    "notes": "Baseline snapshot \u2014 5k/10k pace unknown, time trial needed"
+    "notes": "Baseline snapshot — 5k/10k pace unknown, time trial needed"
   },
   {
     "date": "2026-04-06",
     "weight_kg": 69.68,
     "vo2_max": 43.62,
     "notes": "auto-imported from Health Auto Export",
-    "body_fat_pct": 14.75
+    "body_fat_pct": 14.75,
+    "resting_hr_bpm": 51
   },
   {
     "date": "2026-04-07",
@@ -53,6 +54,12 @@
     "resting_hr_bpm": 47
   },
   {
+    "date": "2026-04-10",
+    "weight_kg": 70.66,
+    "resting_hr_bpm": 48,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
     "date": "2026-04-11",
     "weight_kg": 71.13,
     "body_fat_pct": 14.93,
@@ -64,6 +71,8 @@
     "date": "2026-04-12",
     "weight_kg": 70.66,
     "body_fat_pct": 15.43,
-    "notes": "auto-imported from Health Auto Export"
+    "notes": "auto-imported from Health Auto Export",
+    "vo2_max": 43.55,
+    "resting_hr_bpm": 56
   }
 ]
