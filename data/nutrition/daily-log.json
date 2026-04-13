@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-04-13",
+    "time": "08:00",
+    "description": "Breakfast: 5% yogurt (225g), mixed berries (~75g), oats (~75g), honey",
+    "calories": 550,
+    "protein_g": 30,
+    "carbs_g": 78,
+    "fat_g": 16
+  },
+  {
     "date": "2026-04-12",
     "time": "19:49",
     "description": "Breakfast: Greek yogurt, honey, oats, mixed berries",
