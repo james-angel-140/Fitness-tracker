@@ -13,7 +13,7 @@ import {
   Bar,
 } from 'recharts'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { weightTrendWithAvg, bodyFatTrend, vo2Trend, rhrTrend, scoreHistory, currentScore, trainingLoad, goalWeightKg, goalBodyFatPct, zone2Trend, zone2Regression } from '@/lib/data'
+import { weightTrendWithAvg, bodyFatTrend, vo2Trend, rhrTrend, scoreHistory, currentScore, trainingLoad, todayLoad, goalWeightKg, goalBodyFatPct, zone2Trend, zone2Regression } from '@/lib/data'
 import { useTimeRange, filterByRange } from '@/lib/TimeRangeContext'
 
 function shortDate(iso: string) {
@@ -350,8 +350,13 @@ export function RhrChart() {
 
 export function TrainingLoadChart() {
   const { range } = useTimeRange()
-  const data = filterByRange(trainingLoad, range).map((d) => ({ ...d, label: shortDate(d.date) }))
-  const latest = trainingLoad.at(-1)
+  // Append today's computed point if today isn't already a workout date
+  const loadWithToday =
+    trainingLoad.at(-1)?.date === todayLoad.date
+      ? trainingLoad
+      : [...trainingLoad, todayLoad]
+  const data = filterByRange(loadWithToday, range).map((d) => ({ ...d, label: shortDate(d.date) }))
+  const latest = todayLoad
 
   // ACWR status colour
   function acwrColour(acwr: number) {
