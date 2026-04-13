@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card'
 import {
-  latestWeightAvg7, latestZone2Run, sleepLog, trainingLoad,
+  latestWeightAvg7, latestZone2Run, sleepLog, todayLoad,
   latestVo2, latestRhr, latestBodyFat, latestFitbod,
   goalWeightKg, goalBodyFatPct,
 } from '@/lib/data'
@@ -63,9 +63,8 @@ export function StatTiles() {
       ? recentHrv.reduce((s, e) => s + e.hrv_ms!, 0) / recentHrv.length
       : null
 
-  // ACWR from training load
-  const latestLoad = trainingLoad.at(-1)
-  const acwr = latestLoad?.acwr ?? null
+  // ACWR — always computed for today so rest days don't freeze the value
+  const acwr = todayLoad.acwr > 0 ? todayLoad.acwr : null
 
   // Zone 2 pace (display string)
   const zone2Pace = latestZone2Run?.avg_pace_per_km ?? null

@@ -369,6 +369,20 @@ export interface ProgramDay {
 
 const TODAY_STR = new Date().toISOString().slice(0, 10)
 
+// Always compute today's ATL/CTL/ACWR so rest days don't freeze the stat tile
+export const todayLoad = (() => {
+  const atl = rollingAvg(trimpByDate, TODAY_STR, 7)
+  const ctl = rollingAvg(trimpByDate, TODAY_STR, 28)
+  return {
+    date: TODAY_STR,
+    trimp: trimpByDate.get(TODAY_STR) ?? 0,
+    atl:  Math.round(atl * 10) / 10,
+    ctl:  Math.round(ctl * 10) / 10,
+    acwr: ctl > 0 ? Math.round((atl / ctl) * 100) / 100 : 0,
+    tsb:  Math.round((ctl - atl) * 10) / 10,
+  }
+})()
+
 // Next upcoming event — resolved after TODAY_STR is defined
 const eventRaw: any = Object.values(eventModules)
   .map((m: any) => (m as any).default ?? m)
