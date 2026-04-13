@@ -1,0 +1,70 @@
+{
+  "id": "2026-04-13-upper-body",
+  "date": "2026-04-13",
+  "title": "Upper Body",
+  "type": "strength",
+  "duration_min": 51,
+  "rpe": 8,
+  "exercises": [
+    {
+      "name": "Pull Up",
+      "sets": [
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null }
+      ],
+      "notes": "Last set to failure"
+    },
+    {
+      "name": "Dip",
+      "sets": [
+        { "reps": 10, "weight_kg": null },
+        { "reps": 10, "weight_kg": null },
+        { "reps": 10, "weight_kg": null }
+      ],
+      "notes": "2 reps in reserve; avoided bench — right rotator cuff aggravation"
+    },
+    {
+      "name": "Cable Row",
+      "sets": [
+        { "reps": 10, "weight_kg": 50 },
+        { "reps": 10, "weight_kg": 50 },
+        { "reps": 10, "weight_kg": 50 }
+      ],
+      "notes": "Last set to failure"
+    },
+    {
+      "name": "Hanging Knee Raise",
+      "sets": [
+        { "reps": 7, "weight_kg": null },
+        { "reps": 7, "weight_kg": null },
+        { "reps": 7, "weight_kg": null },
+        { "reps": 7, "weight_kg": null }
+      ],
+      "notes": "2 reps in reserve"
+    },
+    {
+      "name": "Barbell Shoulder Press",
+      "sets": [
+        { "reps": 8, "weight_kg": 30 },
+        { "reps": 8, "weight_kg": 30 },
+        { "reps": 8, "weight_kg": 30 },
+        { "reps": 7, "weight_kg": 30 }
+      ],
+      "notes": "Last set to failure; right shoulder sore throughout"
+    },
+    {
+      "name": "Barbell Curl",
+      "sets": [
+        { "reps": 11, "weight_kg": 25 },
+        { "reps": 8, "weight_kg": 25 },
+        { "reps": 5, "weight_kg": 25 }
+      ],
+      "notes": "Last set to failure; declining reps across sets"
+    }
+  ],
+  "notes": "Right rotator cuff sore — skipped bench press. Shoulder aggravated by dips and OHP. Felt strong overall.",
+  "source": "fitbod"
+}
