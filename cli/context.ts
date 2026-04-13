@@ -12,7 +12,7 @@ import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
 
 const DATA_DIR = join(__dirname, '../data')
-const TODAY = new Date('2026-04-11')
+const TODAY = new Date()
 
 function daysAgo(isoDate: string): number {
   return Math.floor((TODAY.getTime() - new Date(isoDate).getTime()) / 86_400_000)
