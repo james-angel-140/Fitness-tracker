@@ -91,5 +91,14 @@
     "protein_g": 21,
     "carbs_g": 64,
     "fat_g": 6
+  },
+  {
+    "date": "2026-04-14",
+    "description": "Lunch: Large chicken katsu curry + extra chicken — Kineya Mugimaru (estimate, no menu nutrition data available)",
+    "calories": 1100,
+    "protein_g": 50,
+    "carbs_g": 115,
+    "fat_g": 38,
+    "approximate": true
   }
 ]
