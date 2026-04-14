@@ -1,0 +1,18 @@
+[
+  {
+    "id": "right-shoulder-rotator-cuff-2026-04",
+    "body_part": "right shoulder",
+    "injury_type": "rotator cuff tear",
+    "severity": "moderate",
+    "status": "active",
+    "date_onset": "2026-04-14",
+    "affected_movements": [
+      "overhead press",
+      "lateral raise",
+      "upright row",
+      "behind-neck press",
+      "dips (shoulder impingement risk)"
+    ],
+    "notes": "Torn right rotator cuff. Avoid any overhead pressing or movements that load the shoulder in internal rotation. Pull movements at neutral/low angle (rows, lat pulldown with neutral grip) are generally tolerable — monitor pain. Seek physio assessment for rehab protocol."
+  }
+]

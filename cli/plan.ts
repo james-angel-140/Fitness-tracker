@@ -71,6 +71,10 @@ const eventFiles = existsSync(join(DATA_DIR, 'events'))
       .map(f => JSON.parse(readFileSync(join(DATA_DIR, 'events', f), 'utf-8')))
   : []
 
+const injuries: any[] = existsSync(join(DATA_DIR, 'injuries.json'))
+  ? JSON.parse(readFileSync(join(DATA_DIR, 'injuries.json'), 'utf-8'))
+  : []
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function daysAgo(isoDate: string): number {
@@ -208,6 +212,22 @@ function buildContext(): string {
     }
   }
 
+  // ── Injuries ──
+  const activeInjuries = injuries.filter((i: any) => i.status !== 'resolved')
+  if (activeInjuries.length > 0) {
+    lines.push('\n## INJURIES (must be respected in every session)')
+    for (const inj of activeInjuries) {
+      lines.push(`  ⚠ ${inj.body_part} — ${inj.injury_type} (${inj.severity}, ${inj.status}, onset ${inj.date_onset})`)
+      if (inj.affected_movements?.length > 0) {
+        lines.push(`    Avoid: ${inj.affected_movements.join(', ')}`)
+      }
+      if (inj.rehab_exercises?.length > 0) {
+        lines.push(`    Rehab: ${inj.rehab_exercises.join(', ')}`)
+      }
+      if (inj.notes) lines.push(`    Notes: ${inj.notes}`)
+    }
+  }
+
   // ── Upcoming events ──
   if (eventFiles.length > 0) {
     lines.push('\n## UPCOMING EVENTS')
@@ -310,6 +330,14 @@ An existing program will be provided for reference. Your default position should
 - The event timeline has shifted enough that the phase structure no longer makes sense
 
 If the existing plan is broadly sound and load is in range, carry it forward with minimal changes. Preference continuity over novelty.
+
+## Injury Management
+If the athlete has active injuries, they are non-negotiable constraints — not suggestions:
+- Never prescribe movements listed under "affected_movements" for that injury
+- For strength sessions, explicitly name the movements to avoid and suggest safe alternatives (e.g. rotator cuff tear → replace overhead press with incline press or cable flyes; replace lateral raises with cable face pulls or band pull-aparts)
+- Flag in the session description which movements are modified and why
+- If the injury affects a key Hyrox station (e.g. shoulder → ski erg, sled push), note the modification and adjust effort targets accordingly
+- Rehab exercises, if listed, should be incorporated as a warm-up or accessory block in relevant sessions
 
 ## Output Rules
 - Generate a complete plan from today to the event date, organised into meaningful phases

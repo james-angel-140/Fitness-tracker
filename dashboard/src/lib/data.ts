@@ -14,6 +14,7 @@ import compositeScores from '@data/composite-scores.json'
 import sleepLogRaw from '@data/sleep-log.json'
 import nutritionLogRaw from '@data/nutrition/daily-log.json'
 import taxonomyRaw from '@data/exercise-taxonomy.json'
+import injuriesRaw from '@data/injuries.json'
 // Vite glob imports — eager so all files are bundled synchronously
 const workoutModules = import.meta.glob('@data/workouts/*.json', { eager: true })
 const programModules = import.meta.glob('@data/programs/*.json', { eager: true })
@@ -780,3 +781,21 @@ export const pushPullStatus: 'optimal' | 'push-dominant' | 'pull-dominant' | 'no
   : pushPullRatio7d > optimal_max ? 'push-dominant'
   : pushPullRatio7d < optimal_min ? 'pull-dominant'
   : 'optimal'
+
+// ─── Injuries ─────────────────────────────────────────────────────────────────
+
+export interface Injury {
+  id: string
+  body_part: string
+  injury_type: string
+  severity: 'mild' | 'moderate' | 'severe'
+  status: 'active' | 'rehab' | 'resolved'
+  date_onset: string
+  date_resolved?: string
+  affected_movements: string[]
+  rehab_exercises?: string[]
+  notes?: string
+}
+
+export const injuries = injuriesRaw as Injury[]
+export const activeInjuries = injuries.filter((i) => i.status !== 'resolved')

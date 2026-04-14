@@ -8,7 +8,7 @@
  *   npm run context
  */
 
-import { readFileSync, readdirSync } from 'fs'
+import { readFileSync, readdirSync, existsSync } from 'fs'
 import { join } from 'path'
 
 const DATA_DIR = join(__dirname, '../data')
@@ -31,6 +31,9 @@ const taxonomy: any = JSON.parse(readFileSync(join(DATA_DIR, 'exercise-taxonomy.
 const weightLog: any = JSON.parse(readFileSync(join(DATA_DIR, 'body-weight-log.json'), 'utf-8'))
 const sleepLog: any = JSON.parse(readFileSync(join(DATA_DIR, 'sleep-log.json'), 'utf-8'))
 const prs: any[] = JSON.parse(readFileSync(join(DATA_DIR, 'personal-records.json'), 'utf-8'))
+const injuries: any[] = existsSync(join(DATA_DIR, 'injuries.json'))
+  ? JSON.parse(readFileSync(join(DATA_DIR, 'injuries.json'), 'utf-8'))
+  : []
 
 const workoutFiles = readdirSync(join(DATA_DIR, 'workouts'))
   .filter(f => f.endsWith('.json'))
@@ -277,6 +280,27 @@ if (!todaySleep) {
   lines.push(`    Sleep:     ${sleep_score}/100 (${sleepHrs}h)`)
   lines.push(`    Resting HR:${rhr_score}/100${todaySleep.resting_hr != null ? ` (${todaySleep.resting_hr}bpm)` : ' (no data)'}`)
   lines.push(`    Load:      ${load_score}/100 (ATL ${atl})`)
+}
+
+// ── Injuries ──────────────────────────────────────────────────────────────────
+const activeInjuries = injuries.filter((i: any) => i.status !== 'resolved')
+if (activeInjuries.length > 0) {
+  lines.push('\n## INJURIES\n')
+  lines.push(`  ⚠  Active injuries (${activeInjuries.length}):`)
+  for (const inj of activeInjuries) {
+    const daysSinceOnset = daysAgo(inj.date_onset)
+    const onsetLabel = daysSinceOnset === 0 ? 'today' : daysSinceOnset === 1 ? '1 day ago' : `${daysSinceOnset} days ago`
+    lines.push(`  • ${inj.body_part} — ${inj.injury_type} (${inj.severity}, ${inj.status}, onset ${onsetLabel})`)
+    if (inj.affected_movements?.length > 0) {
+      lines.push(`    Avoid: ${inj.affected_movements.join(', ')}`)
+    }
+    if (inj.rehab_exercises?.length > 0) {
+      lines.push(`    Rehab: ${inj.rehab_exercises.join(', ')}`)
+    }
+    if (inj.notes) {
+      lines.push(`    Notes: ${inj.notes}`)
+    }
+  }
 }
 
 // ── Program context ───────────────────────────────────────────────────────────

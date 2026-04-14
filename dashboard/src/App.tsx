@@ -14,6 +14,7 @@ import { ComplianceWidget } from '@/components/ComplianceWidget'
 import { NutritionLog } from '@/components/NutritionLog'
 import { MuscleVolumeCard } from '@/components/MuscleVolumeCard'
 import { NutritionHistory } from '@/components/NutritionHistory'
+import { InjuryCard } from '@/components/InjuryCard'
 import { TimeRangeProvider, useTimeRange, TIME_RANGE_LABELS, type TimeRange } from '@/lib/TimeRangeContext'
 
 const TABS = ['Overview', 'Training', 'Body', 'Strength', 'Nutrition'] as const
@@ -94,6 +95,7 @@ function TrainingTab() {
 function BodyTab() {
   return (
     <div className="space-y-4">
+      <InjuryCard />
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <WeightChart />
         <BodyFatChart />
