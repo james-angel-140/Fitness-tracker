@@ -31,14 +31,14 @@
         {
           "day_of_week": "Tue",
           "date": "2026-04-14",
-          "focus": "Zone 2 Run",
-          "session": "25 min at STRICT 120–130 bpm. This is heart rate controlled — not pace controlled. Based on your April 8 data (avg HR 134), you were ~4 bpm high. Expect to run ~9:00–9:30/km or slower. If HR drifts above 130, walk until it drops below 125, then resume. Log average HR and pace — this is your true Zone 2 benchmark. Purpose: active recovery and aerobic maintenance without spiking acute load."
+          "focus": "Rest",
+          "session": "Full rest. No training. Walk OK. Focus on sleep — aim for 8+ hours. This is the second rest day in four days, which is unusual, but necessary. ACWR should be approaching 1.3 by now as the heavy April 6–11 block ages out of the acute window. The April 6 strength session (TRIMP contribution) drops out of the 7-day window today."
         },
         {
           "day_of_week": "Wed",
           "date": "2026-04-15",
-          "focus": "Rest",
-          "session": "Full rest. No training. Walk OK. Focus on sleep — aim for 8+ hours. This is the second rest day in four days, which is unusual, but necessary. ACWR should be approaching 1.3 by now as the heavy April 6–11 block ages out of the acute window. The April 6 strength session (TRIMP contribution) drops out of the 7-day window today."
+          "focus": "Zone 2 Run",
+          "session": "25 min at STRICT 120–130 bpm. This is heart rate controlled — not pace controlled. Based on your April 8 data (avg HR 134), you were ~4 bpm high. Expect to run ~9:00–9:30/km or slower. If HR drifts above 130, walk until it drops below 125, then resume. Log average HR and pace — this is your true Zone 2 benchmark. Purpose: active recovery and aerobic maintenance without spiking acute load."
         },
         {
           "day_of_week": "Thu",
