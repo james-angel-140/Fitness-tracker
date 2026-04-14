@@ -100,5 +100,22 @@
     "carbs_g": 115,
     "fat_g": 38,
     "approximate": true
+  },
+  {
+    "date": "2026-04-14",
+    "time": "19:00",
+    "description": "Dinner: PrepKitchen meal",
+    "calories": 690,
+    "protein_g": 53
+  },
+  {
+    "date": "2026-04-14",
+    "time": "19:00",
+    "description": "Dinner side: Beef brisket (~150g) in rich tomato sauce (estimate)",
+    "calories": 410,
+    "protein_g": 30,
+    "carbs_g": 12,
+    "fat_g": 22,
+    "approximate": true
   }
 ]
