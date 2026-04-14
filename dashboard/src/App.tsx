@@ -13,6 +13,7 @@ import { ConsistencyGauge } from '@/components/ConsistencyGauge'
 import { ComplianceWidget } from '@/components/ComplianceWidget'
 import { NutritionLog } from '@/components/NutritionLog'
 import { MuscleVolumeCard } from '@/components/MuscleVolumeCard'
+import { NutritionHistory } from '@/components/NutritionHistory'
 import { TimeRangeProvider, useTimeRange, TIME_RANGE_LABELS, type TimeRange } from '@/lib/TimeRangeContext'
 
 const TABS = ['Overview', 'Training', 'Body', 'Strength', 'Nutrition'] as const
@@ -121,6 +122,7 @@ function NutritionTab() {
   return (
     <div className="space-y-4">
       <NutritionLog />
+      <NutritionHistory />
     </div>
   )
 }
