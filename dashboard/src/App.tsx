@@ -42,12 +42,12 @@ function TimeRangeSelector() {
 
 function TabBar({ active, onChange }: { active: Tab; onChange: (t: Tab) => void }) {
   return (
-    <div className="flex gap-1 border-b border-border">
+    <div className="flex gap-1 border-b border-border overflow-x-auto scrollbar-none max-w-full">
       {TABS.map((tab) => (
         <button
           key={tab}
           onClick={() => onChange(tab)}
-          className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px ${
+          className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px shrink-0 ${
             active === tab
               ? 'border-foreground text-foreground'
               : 'border-transparent text-muted-foreground hover:text-foreground'
