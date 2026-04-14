@@ -1,5 +1,583 @@
 [
   {
+    "date": "2026-01-02",
+    "weight_kg": 75.01,
+    "body_fat_pct": 18.09,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-04",
+    "weight_kg": 74.87,
+    "body_fat_pct": 18.31,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-05",
+    "weight_kg": 74.54,
+    "body_fat_pct": 18.2,
+    "vo2_max": 44.27,
+    "resting_hr_bpm": 48,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-06",
+    "weight_kg": 75.18,
+    "body_fat_pct": 18.47,
+    "vo2_max": 43.98,
+    "resting_hr_bpm": 52,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-07",
+    "weight_kg": 75.18,
+    "vo2_max": 43.73,
+    "resting_hr_bpm": 54,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-08",
+    "weight_kg": 75.49,
+    "body_fat_pct": 18.36,
+    "vo2_max": 43.5,
+    "resting_hr_bpm": 53,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-09",
+    "weight_kg": 74.71,
+    "body_fat_pct": 17.9,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-10",
+    "weight_kg": 74.72,
+    "body_fat_pct": 18.28,
+    "vo2_max": 43.3,
+    "resting_hr_bpm": 53,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-11",
+    "weight_kg": 76.62,
+    "body_fat_pct": 19.49,
+    "vo2_max": 43.2,
+    "resting_hr_bpm": 52,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-12",
+    "weight_kg": 74.45,
+    "body_fat_pct": 18.11,
+    "vo2_max": 43.19,
+    "resting_hr_bpm": 53,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-13",
+    "weight_kg": 74.49,
+    "body_fat_pct": 17.96,
+    "vo2_max": 43.07,
+    "resting_hr_bpm": 55,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-15",
+    "weight_kg": 74.59,
+    "body_fat_pct": 18.11,
+    "vo2_max": 43.23,
+    "resting_hr_bpm": 50,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-16",
+    "weight_kg": 74.59,
+    "vo2_max": 43.29,
+    "resting_hr_bpm": 60,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-18",
+    "weight_kg": 74.77,
+    "body_fat_pct": 15.85,
+    "resting_hr_bpm": 59,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-19",
+    "weight_kg": 75.16,
+    "body_fat_pct": 18.24,
+    "vo2_max": 43.04,
+    "resting_hr_bpm": 50,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-20",
+    "weight_kg": 75.16,
+    "vo2_max": 43.2,
+    "resting_hr_bpm": 54,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-21",
+    "weight_kg": 76.69,
+    "body_fat_pct": 19.47,
+    "vo2_max": 43.15,
+    "resting_hr_bpm": 50,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-22",
+    "weight_kg": 74.83,
+    "body_fat_pct": 15.9,
+    "vo2_max": 42.71,
+    "resting_hr_bpm": 63,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-24",
+    "weight_kg": 74.83,
+    "vo2_max": 42.72,
+    "resting_hr_bpm": 66,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-26",
+    "weight_kg": 76.42,
+    "body_fat_pct": 19.22,
+    "vo2_max": 42.66,
+    "resting_hr_bpm": 47,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-27",
+    "weight_kg": 75.57,
+    "body_fat_pct": 18.98,
+    "vo2_max": 42.73,
+    "resting_hr_bpm": 50,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-28",
+    "weight_kg": 75.03,
+    "body_fat_pct": 18.42,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-29",
+    "weight_kg": 73.87,
+    "body_fat_pct": 17.71,
+    "vo2_max": 42.82,
+    "resting_hr_bpm": 57,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-30",
+    "weight_kg": 73.51,
+    "body_fat_pct": 17.64,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-01-31",
+    "weight_kg": 73.54,
+    "body_fat_pct": 17.6,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-02",
+    "weight_kg": 74.14,
+    "body_fat_pct": 17.6,
+    "vo2_max": 42.63,
+    "resting_hr_bpm": 51,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-03",
+    "weight_kg": 73.6,
+    "body_fat_pct": 17.57,
+    "vo2_max": 42.36,
+    "resting_hr_bpm": 48,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-04",
+    "weight_kg": 73.3,
+    "body_fat_pct": 17.33,
+    "vo2_max": 42.25,
+    "resting_hr_bpm": 50,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-05",
+    "weight_kg": 73.3,
+    "body_fat_pct": 17.18,
+    "vo2_max": 42.11,
+    "resting_hr_bpm": 49,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-06",
+    "weight_kg": 72.97,
+    "body_fat_pct": 17.06,
+    "resting_hr_bpm": 45,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-07",
+    "weight_kg": 72.97,
+    "vo2_max": 42.2,
+    "resting_hr_bpm": 52,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-08",
+    "weight_kg": 72.87,
+    "body_fat_pct": 17.09,
+    "vo2_max": 42.07,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-09",
+    "weight_kg": 72.08,
+    "body_fat_pct": 16.88,
+    "vo2_max": 42.35,
+    "resting_hr_bpm": 47,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-10",
+    "weight_kg": 72.13,
+    "body_fat_pct": 16.98,
+    "vo2_max": 42.38,
+    "resting_hr_bpm": 52,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-11",
+    "weight_kg": 72.32,
+    "body_fat_pct": 16.81,
+    "vo2_max": 42.45,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-12",
+    "weight_kg": 72.7,
+    "body_fat_pct": 15.34,
+    "vo2_max": 42.55,
+    "resting_hr_bpm": 62,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-13",
+    "weight_kg": 72.7,
+    "vo2_max": 42.66,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-14",
+    "weight_kg": 72.21,
+    "body_fat_pct": 16.69,
+    "resting_hr_bpm": 71,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-15",
+    "weight_kg": 72.85,
+    "body_fat_pct": 17.3,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-16",
+    "weight_kg": 72.63,
+    "body_fat_pct": 16.8,
+    "vo2_max": 42.94,
+    "resting_hr_bpm": 49,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-17",
+    "weight_kg": 72.56,
+    "body_fat_pct": 16.8,
+    "vo2_max": 43.07,
+    "resting_hr_bpm": 47,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-18",
+    "weight_kg": 71.99,
+    "body_fat_pct": 16.54,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-19",
+    "weight_kg": 72.66,
+    "body_fat_pct": 16.93,
+    "vo2_max": 43.18,
+    "resting_hr_bpm": 47,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-20",
+    "weight_kg": 71.9,
+    "body_fat_pct": 16.58,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-21",
+    "weight_kg": 71.52,
+    "body_fat_pct": 16.27,
+    "vo2_max": 43.26,
+    "resting_hr_bpm": 58,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-23",
+    "weight_kg": 72.4,
+    "body_fat_pct": 16.74,
+    "vo2_max": 43.03,
+    "resting_hr_bpm": 52,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-24",
+    "weight_kg": 71.76,
+    "body_fat_pct": 16.21,
+    "vo2_max": 42.92,
+    "resting_hr_bpm": 48,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-25",
+    "weight_kg": 71.88,
+    "body_fat_pct": 16.47,
+    "resting_hr_bpm": 49,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-26",
+    "weight_kg": 71.88,
+    "vo2_max": 43.11,
+    "resting_hr_bpm": 47,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-27",
+    "weight_kg": 71.66,
+    "body_fat_pct": 16.1,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-02-28",
+    "weight_kg": 71.19,
+    "body_fat_pct": 15.84,
+    "vo2_max": 43.27,
+    "resting_hr_bpm": 53,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-01",
+    "weight_kg": 71.19,
+    "vo2_max": 43.34,
+    "resting_hr_bpm": 48,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-02",
+    "weight_kg": 71.43,
+    "body_fat_pct": 15.6,
+    "vo2_max": 43.28,
+    "resting_hr_bpm": 47,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-03",
+    "weight_kg": 71.12,
+    "body_fat_pct": 15.71,
+    "vo2_max": 43.48,
+    "resting_hr_bpm": 47,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-04",
+    "weight_kg": 71.07,
+    "body_fat_pct": 15.79,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-05",
+    "weight_kg": 71.07,
+    "vo2_max": 43.93,
+    "resting_hr_bpm": 46,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-06",
+    "weight_kg": 70.84,
+    "body_fat_pct": 15.73,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-07",
+    "weight_kg": 70.84,
+    "resting_hr_bpm": 50,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-08",
+    "weight_kg": 70.84,
+    "vo2_max": 43.9,
+    "resting_hr_bpm": 47,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-09",
+    "weight_kg": 70.52,
+    "body_fat_pct": 15.63,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-10",
+    "weight_kg": 70.18,
+    "body_fat_pct": 7.48,
+    "vo2_max": 43.7,
+    "resting_hr_bpm": 49,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-11",
+    "weight_kg": 70.01,
+    "body_fat_pct": 15.1,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-12",
+    "weight_kg": 70.05,
+    "body_fat_pct": 15.05,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-13",
+    "weight_kg": 70.03,
+    "body_fat_pct": 15.18,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-14",
+    "weight_kg": 69.4,
+    "body_fat_pct": 14.87,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-16",
+    "weight_kg": 70.52,
+    "body_fat_pct": 15.19,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-17",
+    "weight_kg": 70.28,
+    "body_fat_pct": 15.17,
+    "vo2_max": 43.64,
+    "resting_hr_bpm": 47,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-18",
+    "weight_kg": 69.54,
+    "body_fat_pct": 15.11,
+    "vo2_max": 43.72,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-19",
+    "weight_kg": 69.7,
+    "body_fat_pct": 14.76,
+    "vo2_max": 43.94,
+    "resting_hr_bpm": 45,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-20",
+    "weight_kg": 70.03,
+    "body_fat_pct": 14.74,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-21",
+    "weight_kg": 70.03,
+    "vo2_max": 44.16,
+    "resting_hr_bpm": 64,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-23",
+    "weight_kg": 71.24,
+    "body_fat_pct": 15.58,
+    "vo2_max": 44.23,
+    "resting_hr_bpm": 47,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-24",
+    "weight_kg": 70.22,
+    "body_fat_pct": 15.08,
+    "vo2_max": 44.24,
+    "resting_hr_bpm": 46,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-25",
+    "weight_kg": 70.22,
+    "resting_hr_bpm": 43,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-27",
+    "weight_kg": 72.64,
+    "body_fat_pct": 16.69,
+    "resting_hr_bpm": 49,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-28",
+    "weight_kg": 72.64,
+    "vo2_max": 43.53,
+    "resting_hr_bpm": 55,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-29",
+    "weight_kg": 69.76,
+    "body_fat_pct": 15.18,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-30",
+    "weight_kg": 69.76,
+    "vo2_max": 43.73,
+    "resting_hr_bpm": 46,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-03-31",
+    "weight_kg": 69.76,
+    "vo2_max": 43.52,
+    "resting_hr_bpm": 45,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-04-01",
+    "weight_kg": 69.41,
+    "body_fat_pct": 11.04,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-04-03",
+    "weight_kg": 69.41,
+    "vo2_max": 43.38,
+    "resting_hr_bpm": 68,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
     "date": "2026-04-04",
     "weight_kg": 69,
     "resting_hr_bpm": 49,
@@ -74,5 +652,19 @@
     "notes": "auto-imported from Health Auto Export",
     "vo2_max": 43.55,
     "resting_hr_bpm": 56
+  },
+  {
+    "date": "2026-04-13",
+    "weight_kg": 69.41,
+    "vo2_max": 43.56,
+    "resting_hr_bpm": 46,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-04-14",
+    "weight_kg": 69.41,
+    "vo2_max": 43.65,
+    "resting_hr_bpm": 47,
+    "notes": "auto-imported from Health Auto Export"
   }
 ]

@@ -6,6 +6,518 @@
   "starting_date": "2026-04-05",
   "entries": [
     {
+      "date": "2026-01-02",
+      "weight_kg": 75.01,
+      "body_fat_pct": 18.09,
+      "lean_mass_kg": 61.43,
+      "change_kg": null,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-04",
+      "weight_kg": 74.87,
+      "body_fat_pct": 18.31,
+      "lean_mass_kg": 61.15,
+      "change_kg": -0.14,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-05",
+      "weight_kg": 74.54,
+      "body_fat_pct": 18.2,
+      "lean_mass_kg": 60.97,
+      "change_kg": -0.33,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-06",
+      "weight_kg": 75.18,
+      "body_fat_pct": 18.47,
+      "lean_mass_kg": 61.27,
+      "change_kg": 0.64,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-08",
+      "weight_kg": 75.49,
+      "body_fat_pct": 18.36,
+      "lean_mass_kg": 61.62,
+      "change_kg": 0.31,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-09",
+      "weight_kg": 74.71,
+      "body_fat_pct": 17.9,
+      "lean_mass_kg": 61.33,
+      "change_kg": -0.78,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-10",
+      "weight_kg": 74.72,
+      "body_fat_pct": 18.28,
+      "lean_mass_kg": 61.05,
+      "change_kg": 0.01,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-11",
+      "weight_kg": 76.62,
+      "body_fat_pct": 19.49,
+      "lean_mass_kg": 61.69,
+      "change_kg": 1.9,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-12",
+      "weight_kg": 74.45,
+      "body_fat_pct": 18.11,
+      "lean_mass_kg": 60.96,
+      "change_kg": -2.17,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-13",
+      "weight_kg": 74.49,
+      "body_fat_pct": 17.96,
+      "lean_mass_kg": 61.1,
+      "change_kg": 0.04,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-15",
+      "weight_kg": 74.59,
+      "body_fat_pct": 18.11,
+      "lean_mass_kg": 61.08,
+      "change_kg": 0.1,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-18",
+      "weight_kg": 74.77,
+      "body_fat_pct": 15.85,
+      "lean_mass_kg": 62.91,
+      "change_kg": 0.18,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-19",
+      "weight_kg": 75.16,
+      "body_fat_pct": 18.24,
+      "lean_mass_kg": 61.44,
+      "change_kg": 0.39,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-21",
+      "weight_kg": 76.69,
+      "body_fat_pct": 19.47,
+      "lean_mass_kg": 61.74,
+      "change_kg": 1.53,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-22",
+      "weight_kg": 74.83,
+      "body_fat_pct": 15.9,
+      "lean_mass_kg": 62.93,
+      "change_kg": -1.86,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-26",
+      "weight_kg": 76.42,
+      "body_fat_pct": 19.22,
+      "lean_mass_kg": 61.72,
+      "change_kg": 1.59,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-27",
+      "weight_kg": 75.57,
+      "body_fat_pct": 18.98,
+      "lean_mass_kg": 61.22,
+      "change_kg": -0.85,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-28",
+      "weight_kg": 75.03,
+      "body_fat_pct": 18.42,
+      "lean_mass_kg": 61.18,
+      "change_kg": -0.54,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-29",
+      "weight_kg": 73.87,
+      "body_fat_pct": 17.71,
+      "lean_mass_kg": 60.78,
+      "change_kg": -1.16,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-30",
+      "weight_kg": 73.51,
+      "body_fat_pct": 17.64,
+      "lean_mass_kg": 60.55,
+      "change_kg": -0.36,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-01-31",
+      "weight_kg": 73.54,
+      "body_fat_pct": 17.6,
+      "lean_mass_kg": 60.59,
+      "change_kg": 0.03,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-02",
+      "weight_kg": 74.14,
+      "body_fat_pct": 17.6,
+      "lean_mass_kg": 61.08,
+      "change_kg": 0.6,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-03",
+      "weight_kg": 73.6,
+      "body_fat_pct": 17.57,
+      "lean_mass_kg": 60.67,
+      "change_kg": -0.54,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-04",
+      "weight_kg": 73.3,
+      "body_fat_pct": 17.33,
+      "lean_mass_kg": 60.59,
+      "change_kg": -0.3,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-05",
+      "weight_kg": 73.3,
+      "body_fat_pct": 17.18,
+      "lean_mass_kg": 60.7,
+      "change_kg": 0,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-06",
+      "weight_kg": 72.97,
+      "body_fat_pct": 17.06,
+      "lean_mass_kg": 60.51,
+      "change_kg": -0.33,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-08",
+      "weight_kg": 72.87,
+      "body_fat_pct": 17.09,
+      "lean_mass_kg": 60.41,
+      "change_kg": -0.1,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-09",
+      "weight_kg": 72.08,
+      "body_fat_pct": 16.88,
+      "lean_mass_kg": 59.91,
+      "change_kg": -0.79,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-10",
+      "weight_kg": 72.13,
+      "body_fat_pct": 16.98,
+      "lean_mass_kg": 59.87,
+      "change_kg": 0.05,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-11",
+      "weight_kg": 72.32,
+      "body_fat_pct": 16.81,
+      "lean_mass_kg": 60.16,
+      "change_kg": 0.19,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-12",
+      "weight_kg": 72.7,
+      "body_fat_pct": 15.34,
+      "lean_mass_kg": 61.55,
+      "change_kg": 0.38,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-14",
+      "weight_kg": 72.21,
+      "body_fat_pct": 16.69,
+      "lean_mass_kg": 60.15,
+      "change_kg": -0.49,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-15",
+      "weight_kg": 72.85,
+      "body_fat_pct": 17.3,
+      "lean_mass_kg": 60.24,
+      "change_kg": 0.64,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-16",
+      "weight_kg": 72.63,
+      "body_fat_pct": 16.8,
+      "lean_mass_kg": 60.42,
+      "change_kg": -0.22,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-17",
+      "weight_kg": 72.56,
+      "body_fat_pct": 16.8,
+      "lean_mass_kg": 60.36,
+      "change_kg": -0.07,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-18",
+      "weight_kg": 71.99,
+      "body_fat_pct": 16.54,
+      "lean_mass_kg": 60.08,
+      "change_kg": -0.57,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-19",
+      "weight_kg": 72.66,
+      "body_fat_pct": 16.93,
+      "lean_mass_kg": 60.36,
+      "change_kg": 0.67,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-20",
+      "weight_kg": 71.9,
+      "body_fat_pct": 16.58,
+      "lean_mass_kg": 59.97,
+      "change_kg": -0.76,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-21",
+      "weight_kg": 71.52,
+      "body_fat_pct": 16.27,
+      "lean_mass_kg": 59.88,
+      "change_kg": -0.38,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-23",
+      "weight_kg": 72.4,
+      "body_fat_pct": 16.74,
+      "lean_mass_kg": 60.27,
+      "change_kg": 0.88,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-24",
+      "weight_kg": 71.76,
+      "body_fat_pct": 16.21,
+      "lean_mass_kg": 60.13,
+      "change_kg": -0.64,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-25",
+      "weight_kg": 71.88,
+      "body_fat_pct": 16.47,
+      "lean_mass_kg": 60.03,
+      "change_kg": 0.12,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-27",
+      "weight_kg": 71.66,
+      "body_fat_pct": 16.1,
+      "lean_mass_kg": 60.12,
+      "change_kg": -0.22,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-02-28",
+      "weight_kg": 71.19,
+      "body_fat_pct": 15.84,
+      "lean_mass_kg": 59.9,
+      "change_kg": -0.47,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-02",
+      "weight_kg": 71.43,
+      "body_fat_pct": 15.6,
+      "lean_mass_kg": 60.28,
+      "change_kg": 0.24,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-03",
+      "weight_kg": 71.12,
+      "body_fat_pct": 15.71,
+      "lean_mass_kg": 59.94,
+      "change_kg": -0.31,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-04",
+      "weight_kg": 71.07,
+      "body_fat_pct": 15.79,
+      "lean_mass_kg": 59.83,
+      "change_kg": -0.05,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-06",
+      "weight_kg": 70.84,
+      "body_fat_pct": 15.73,
+      "lean_mass_kg": 59.68,
+      "change_kg": -0.23,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-09",
+      "weight_kg": 70.52,
+      "body_fat_pct": 15.63,
+      "lean_mass_kg": 59.49,
+      "change_kg": -0.32,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-10",
+      "weight_kg": 70.18,
+      "body_fat_pct": 7.48,
+      "lean_mass_kg": 64.92,
+      "change_kg": -0.34,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-11",
+      "weight_kg": 70.01,
+      "body_fat_pct": 15.1,
+      "lean_mass_kg": 59.44,
+      "change_kg": -0.17,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-12",
+      "weight_kg": 70.05,
+      "body_fat_pct": 15.05,
+      "lean_mass_kg": 59.5,
+      "change_kg": 0.04,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-13",
+      "weight_kg": 70.03,
+      "body_fat_pct": 15.18,
+      "lean_mass_kg": 59.38,
+      "change_kg": -0.02,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-14",
+      "weight_kg": 69.4,
+      "body_fat_pct": 14.87,
+      "lean_mass_kg": 59.08,
+      "change_kg": -0.63,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-16",
+      "weight_kg": 70.52,
+      "body_fat_pct": 15.19,
+      "lean_mass_kg": 59.8,
+      "change_kg": 1.12,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-17",
+      "weight_kg": 70.28,
+      "body_fat_pct": 15.17,
+      "lean_mass_kg": 59.61,
+      "change_kg": -0.24,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-18",
+      "weight_kg": 69.54,
+      "body_fat_pct": 15.11,
+      "lean_mass_kg": 59.03,
+      "change_kg": -0.74,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-19",
+      "weight_kg": 69.7,
+      "body_fat_pct": 14.76,
+      "lean_mass_kg": 59.39,
+      "change_kg": 0.16,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-20",
+      "weight_kg": 70.03,
+      "body_fat_pct": 14.74,
+      "lean_mass_kg": 59.69,
+      "change_kg": 0.33,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-23",
+      "weight_kg": 71.24,
+      "body_fat_pct": 15.58,
+      "lean_mass_kg": 60.13,
+      "change_kg": 1.21,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-24",
+      "weight_kg": 70.22,
+      "body_fat_pct": 15.08,
+      "lean_mass_kg": 59.62,
+      "change_kg": -1.02,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-27",
+      "weight_kg": 72.64,
+      "body_fat_pct": 16.69,
+      "lean_mass_kg": 60.51,
+      "change_kg": 2.42,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-03-29",
+      "weight_kg": 69.76,
+      "body_fat_pct": 15.18,
+      "lean_mass_kg": 59.16,
+      "change_kg": -2.88,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-04-01",
+      "weight_kg": 69.41,
+      "body_fat_pct": 11.04,
+      "lean_mass_kg": 61.74,
+      "change_kg": -0.35,
+      "notes": "Withings (auto-imported)"
+    },
+    {
       "date": "2026-04-05",
       "weight_kg": 69,
       "change_kg": null,
@@ -16,7 +528,7 @@
       "weight_kg": 69.68,
       "body_fat_pct": 14.75,
       "lean_mass_kg": 59.4,
-      "change_kg": 0.68,
+      "change_kg": 0.27,
       "notes": "Withings (auto-imported)"
     },
     {
@@ -24,7 +536,7 @@
       "weight_kg": 69.75,
       "body_fat_pct": 15.28,
       "lean_mass_kg": 59.08,
-      "change_kg": 0.07,
+      "change_kg": 0.34,
       "notes": "Withings (auto-imported)"
     },
     {
@@ -32,7 +544,7 @@
       "weight_kg": 70.43,
       "body_fat_pct": 15.09,
       "lean_mass_kg": 59.79,
-      "change_kg": 0.68,
+      "change_kg": 1.02,
       "notes": "Withings (auto-imported)"
     },
     {
@@ -40,7 +552,7 @@
       "weight_kg": 70.6,
       "body_fat_pct": 14.86,
       "lean_mass_kg": 60.1,
-      "change_kg": 0.17,
+      "change_kg": 1.19,
       "notes": "Withings (auto-imported)"
     },
     {
@@ -48,7 +560,7 @@
       "weight_kg": 71.13,
       "body_fat_pct": 14.93,
       "lean_mass_kg": 60.5,
-      "change_kg": 0.53,
+      "change_kg": 1.72,
       "notes": "Withings (auto-imported)"
     },
     {
@@ -56,7 +568,7 @@
       "weight_kg": 70.66,
       "body_fat_pct": 15.43,
       "lean_mass_kg": 59.75,
-      "change_kg": -0.47,
+      "change_kg": 1.25,
       "notes": "Withings (auto-imported)"
     }
   ],
