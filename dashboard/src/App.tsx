@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { ScoreCard } from '@/components/ScoreCard'
 import { CategoryBreakdown } from '@/components/CategoryBreakdown'
 import { ScoreBreakdownChart, WeightChart, BodyFatChart, Vo2Chart, RhrChart, TrainingLoadChart, Zone2PaceChart } from '@/components/TrendCharts'
@@ -14,13 +15,8 @@ import { NutritionLog } from '@/components/NutritionLog'
 import { MuscleVolumeCard } from '@/components/MuscleVolumeCard'
 import { TimeRangeProvider, useTimeRange, TIME_RANGE_LABELS, type TimeRange } from '@/lib/TimeRangeContext'
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground pt-2">
-      {children}
-    </p>
-  )
-}
+const TABS = ['Overview', 'Training', 'Body', 'Strength', 'Nutrition'] as const
+type Tab = typeof TABS[number]
 
 function TimeRangeSelector() {
   const { range, setRange } = useTimeRange()
@@ -43,7 +39,95 @@ function TimeRangeSelector() {
   )
 }
 
+function TabBar({ active, onChange }: { active: Tab; onChange: (t: Tab) => void }) {
+  return (
+    <div className="flex gap-1 border-b border-border">
+      {TABS.map((tab) => (
+        <button
+          key={tab}
+          onClick={() => onChange(tab)}
+          className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px ${
+            active === tab
+              ? 'border-foreground text-foreground'
+              : 'border-transparent text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {tab}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+function OverviewTab() {
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-stretch">
+        <ScoreCard />
+        <ConsistencyGauge />
+        <HyroxCountdown />
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+        <div className="lg:col-span-2">
+          <ScoreBreakdownChart />
+        </div>
+        <CategoryBreakdown />
+      </div>
+    </div>
+  )
+}
+
+function TrainingTab() {
+  return (
+    <div className="space-y-4">
+      <TrainingLoadChart />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
+        <UpcomingSessions />
+        <WorkoutHistory />
+        <ComplianceWidget />
+      </div>
+    </div>
+  )
+}
+
+function BodyTab() {
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <WeightChart />
+        <BodyFatChart />
+        <Vo2Chart />
+        <RhrChart />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <SleepCard />
+        <ReadinessCard />
+      </div>
+      <Zone2PaceChart />
+    </div>
+  )
+}
+
+function StrengthTab() {
+  return (
+    <div className="space-y-4">
+      <PRTable />
+      <MuscleVolumeCard />
+    </div>
+  )
+}
+
+function NutritionTab() {
+  return (
+    <div className="space-y-4">
+      <NutritionLog />
+    </div>
+  )
+}
+
 function Dashboard() {
+  const [activeTab, setActiveTab] = useState<Tab>('Overview')
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 py-8 space-y-4">
@@ -57,61 +141,20 @@ function Dashboard() {
           <TimeRangeSelector />
         </div>
 
-        {/* Key numbers at a glance */}
+        {/* Persistent stat tiles */}
         <StatTiles />
 
-        {/* ── WHERE DO I STAND? ─────────────────────────────── */}
-        <SectionLabel>Where do I stand?</SectionLabel>
+        {/* Tab navigation */}
+        <TabBar active={activeTab} onChange={setActiveTab} />
 
-        {/* Score + consistency + event countdown */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-stretch">
-          <ScoreCard />
-          <ConsistencyGauge />
-          <HyroxCountdown />
+        {/* Tab content */}
+        <div className="pt-2">
+          {activeTab === 'Overview'   && <OverviewTab />}
+          {activeTab === 'Training'   && <TrainingTab />}
+          {activeTab === 'Body'       && <BodyTab />}
+          {activeTab === 'Strength'   && <StrengthTab />}
+          {activeTab === 'Nutrition'  && <NutritionTab />}
         </div>
-
-        {/* Score history + category breakdown */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
-          <div className="lg:col-span-2">
-            <ScoreBreakdownChart />
-          </div>
-          <CategoryBreakdown />
-        </div>
-
-        {/* ── HOW IS MY BODY DOING? ─────────────────────────── */}
-        <SectionLabel>How is my body doing?</SectionLabel>
-
-        <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
-          <WeightChart />
-          <BodyFatChart />
-          <Vo2Chart />
-          <RhrChart />
-          <SleepCard />
-          <ReadinessCard />
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <Zone2PaceChart />
-          <NutritionLog />
-        </div>
-
-        {/* ── WHAT AM I TRAINING & HOW HARD? ───────────────── */}
-        <SectionLabel>What am I training and how hard?</SectionLabel>
-
-        <TrainingLoadChart />
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
-          <UpcomingSessions />
-          <WorkoutHistory />
-          <ComplianceWidget />
-        </div>
-
-        {/* ── HOW STRONG AM I? ──────────────────────────────── */}
-        <SectionLabel>How strong am I?</SectionLabel>
-
-        <PRTable />
-
-        <MuscleVolumeCard />
 
       </div>
     </div>
