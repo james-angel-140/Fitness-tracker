@@ -133,5 +133,13 @@
     "protein_g": 20,
     "carbs_g": 20,
     "fat_g": 7
+  },
+  {
+    "date": "2026-04-15",
+    "description": "Breakfast: yogurt (225g), mixed berries, oats, honey",
+    "calories": 390,
+    "protein_g": 21,
+    "carbs_g": 64,
+    "fat_g": 6
   }
 ]
