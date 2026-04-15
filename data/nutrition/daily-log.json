@@ -141,5 +141,46 @@
     "protein_g": 21,
     "carbs_g": 64,
     "fat_g": 6
+  },
+  {
+    "date": "2026-04-15",
+    "description": "Lunch: PrepKitchen meal",
+    "calories": 675,
+    "protein_g": 54,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-15",
+    "description": "Lunch side: Beef brisket (~75g) in rich tomato sauce (estimate)",
+    "calories": 205,
+    "protein_g": 15,
+    "carbs_g": 6,
+    "fat_g": 11,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-15",
+    "description": "Snack: Chocolate digestive biscuits (~3) + chocolate nibbles (estimate)",
+    "calories": 270,
+    "protein_g": 3,
+    "carbs_g": 34,
+    "fat_g": 13,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-15",
+    "description": "Snack: Half avocado",
+    "calories": 120,
+    "protein_g": 1,
+    "carbs_g": 6,
+    "fat_g": 11,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-15",
+    "description": "Dinner: PrepKitchen meal",
+    "calories": 675,
+    "protein_g": 54,
+    "approximate": true
   }
 ]
