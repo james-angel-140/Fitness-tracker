@@ -14,7 +14,14 @@
   "avg_cadence_spm": 151,
   "source": "apple-watch",
   "rpe": 3,
-  "notes": "Technogym treadmill. Avg HR slightly above 120–130 bpm Z2 target (Apple Watch Zone 2: 133–146 bpm). 35:54 in Zone 2, 8:38 in Zone 1.",
+  "hr_zones": {
+    "zone1_min": 518,
+    "zone2_min": 2154,
+    "zone3_min": 0,
+    "zone4_min": 0,
+    "zone5_min": 0
+  },
+  "notes": "Technogym treadmill. 35:54 in Zone 2 (133–146 bpm), 8:38 in Zone 1 (<132 bpm).",
   "splits": [
     { "type": "steady", "distance_km": 1.0, "pace_per_km": "6:09", "avg_hr": 123, "cadence_spm": 150 },
     { "type": "steady", "distance_km": 1.0, "pace_per_km": "6:08", "avg_hr": 138, "cadence_spm": 152 },
