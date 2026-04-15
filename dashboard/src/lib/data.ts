@@ -799,3 +799,67 @@ export interface Injury {
 
 export const injuries = injuriesRaw as Injury[]
 export const activeInjuries = injuries.filter((i) => i.status !== 'resolved')
+
+// ─── Weight Prediction ────────────────────────────────────────────────────────
+// Uses 7-day avg calorie balance to project weight change.
+// Formula: surplus/deficit ÷ 7700 kcal per kg = predicted kg change.
+// BASE_TDEE: non-exercise TDEE estimate (sedentary base). Workout active
+// calories are added on top per training day.
+
+const BASE_TDEE_KCAL = 2000
+
+// Map of date → workout active calories burned (sum if multiple sessions)
+const workoutCalsByDate = new Map<string, number>()
+for (const w of workouts) {
+  const burned = w.calories_active ?? w.calories ?? 0
+  if (burned > 0) {
+    workoutCalsByDate.set(w.date, (workoutCalsByDate.get(w.date) ?? 0) + burned)
+  }
+}
+
+export interface DayCalorieBalance {
+  date: string
+  calories_in: number
+  calories_burned: number  // workout active calories
+  tdee_total: number       // base TDEE + workout burn
+  balance: number          // surplus (+) or deficit (-)
+}
+
+// Build last-7-days balance, but only for days where nutrition was actually logged
+const nutritionDateSet = new Set(dailyNutrition.map((d) => d.date))
+const last7DayStrs: string[] = []
+for (let i = 6; i >= 0; i--) {
+  const d = new Date(TODAY_STR)
+  d.setDate(d.getDate() - i)
+  last7DayStrs.push(d.toISOString().slice(0, 10))
+}
+const last7WithData = last7DayStrs.filter((d) => nutritionDateSet.has(d))
+
+export const calorieBalance7d: DayCalorieBalance[] = last7WithData.map((date) => {
+  const nut = dailyNutrition.find((n) => n.date === date)!
+  const calories_in = nut.calories
+  const calories_burned = workoutCalsByDate.get(date) ?? 0
+  const tdee_total = BASE_TDEE_KCAL + calories_burned
+  const balance = calories_in - tdee_total
+  return { date, calories_in, calories_burned, tdee_total, balance }
+})
+
+const _n = calorieBalance7d.length
+const avg7dCaloriesIn   = _n > 0 ? Math.round(calorieBalance7d.reduce((s, d) => s + d.calories_in, 0) / _n) : 0
+const avg7dCalsBurned   = _n > 0 ? Math.round(calorieBalance7d.reduce((s, d) => s + d.calories_burned, 0) / _n) : 0
+const avg7dBalance      = _n > 0 ? Math.round(calorieBalance7d.reduce((s, d) => s + d.balance, 0) / _n) : 0
+
+// Projected kg change over 7 days at the current avg daily balance
+const projectedWeightChange7d = Math.round((avg7dBalance * 7 / 7700) * 100) / 100
+const projectedWeight7d = Math.round((latestWeightAvg7 + projectedWeightChange7d) * 10) / 10
+
+export const weightPrediction = {
+  baseTdee: BASE_TDEE_KCAL,
+  daysWithData: _n,
+  avg7dCaloriesIn,
+  avg7dCalsBurned,
+  avg7dBalance,
+  projectedWeightChange7d,
+  projectedWeight7d,
+  currentWeight: latestWeightAvg7,
+}
