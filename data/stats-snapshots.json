@@ -671,6 +671,14 @@
     "date": "2026-04-15",
     "weight_kg": 69.41,
     "resting_hr_bpm": 47,
+    "notes": "auto-imported from Health Auto Export",
+    "vo2_max": 43.39
+  },
+  {
+    "date": "2026-04-16",
+    "weight_kg": 69.41,
+    "vo2_max": 43.32,
+    "resting_hr_bpm": 54,
     "notes": "auto-imported from Health Auto Export"
   }
 ]
