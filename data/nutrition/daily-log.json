@@ -182,5 +182,38 @@
     "calories": 675,
     "protein_g": 54,
     "approximate": true
+  },
+  {
+    "date": "2026-04-16",
+    "description": "Breakfast: yogurt (225g), mixed berries, oats, honey",
+    "calories": 390,
+    "protein_g": 21,
+    "carbs_g": 64,
+    "fat_g": 6
+  },
+  {
+    "date": "2026-04-16",
+    "description": "Lunch: Pork belly Bánh mì (estimate)",
+    "calories": 650,
+    "protein_g": 30,
+    "carbs_g": 65,
+    "fat_g": 30,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-16",
+    "description": "Dinner: PrepKitchen meal",
+    "calories": 675,
+    "protein_g": 54,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-16",
+    "description": "Dinner side: Beef brisket short rib (~100g, estimate)",
+    "calories": 330,
+    "protein_g": 23,
+    "carbs_g": 3,
+    "fat_g": 26,
+    "approximate": true
   }
 ]
