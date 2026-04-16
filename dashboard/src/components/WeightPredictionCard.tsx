@@ -28,7 +28,13 @@ const tooltipStyle = {
 
 export function WeightPredictionCard() {
   const {
-    baseTdee,
+    latestLeanMassKg,
+    bmrKcal,
+    katchMcArdleTdee,
+    calibratedTdee,
+    calibrationDays,
+    effectiveTdee,
+    tdeeSource,
     daysWithData,
     avg7dCaloriesIn,
     avg7dCalsBurned,
@@ -42,57 +48,65 @@ export function WeightPredictionCard() {
   const last14 = weightTrendWithAvg.slice(-14)
   const actualByDate = new Map(last14.map((p) => [p.date, p.value]))
 
-  // Projected line: anchor at today's smoothed weight, extend 7 days forward
-  const projectedByDate = new Map<string, number>()
+  // Projected line + ±0.5 kg confidence band (water weight noise)
+  const WATER_BAND = 0.5
   const dailyChange = avg7dBalance / 7700
+  const projectedByDate   = new Map<string, number>()
+  const bandHighByDate    = new Map<string, number>()
+  const bandLowByDate     = new Map<string, number>()
+
   for (let i = 0; i <= 7; i++) {
     const d = new Date(TODAY_STR)
     d.setDate(d.getDate() + i)
     const dateStr = d.toISOString().slice(0, 10)
-    projectedByDate.set(dateStr, Math.round((currentWeight + dailyChange * i) * 100) / 100)
+    const mid = Math.round((currentWeight + dailyChange * i) * 100) / 100
+    projectedByDate.set(dateStr, mid)
+    bandHighByDate.set(dateStr, Math.round((mid + WATER_BAND) * 100) / 100)
+    bandLowByDate.set(dateStr, Math.round((mid - WATER_BAND) * 100) / 100)
   }
 
-  // Merge all dates for chart
   const allDates = Array.from(
     new Set([...last14.map((p) => p.date), ...Array.from(projectedByDate.keys())])
   ).sort()
 
   const chartData = allDates.map((date) => ({
     label: shortDate(date),
-    actual: actualByDate.get(date) ?? null,
-    projected: projectedByDate.get(date) ?? null,
+    actual:       actualByDate.get(date)    ?? null,
+    projected:    projectedByDate.get(date)  ?? null,
+    band_high:    bandHighByDate.get(date)   ?? null,
+    band_low:     bandLowByDate.get(date)    ?? null,
   }))
+
+  const allWeights = [
+    ...last14.map((p) => p.value),
+    projectedWeight7d + WATER_BAND,
+    goalWeightKg,
+  ]
+  const yMin = Math.floor(Math.min(...allWeights) - 0.3)
+  const yMax = Math.ceil(Math.max(...allWeights) + 0.3)
 
   const isDeficit = avg7dBalance < -50
   const isSurplus = avg7dBalance > 50
-  const balanceColour = isDeficit
-    ? 'text-emerald-400'
-    : isSurplus
-    ? 'text-amber-400'
+  const balanceColour = isDeficit ? 'text-emerald-400' : isSurplus ? 'text-amber-400' : 'text-muted-foreground'
+  const changeColour  = projectedWeightChange7d < -0.05 ? 'text-emerald-400'
+    : projectedWeightChange7d > 0.05 ? 'text-amber-400'
     : 'text-muted-foreground'
 
-  const changeColour = projectedWeightChange7d < -0.05
-    ? 'text-emerald-400'
-    : projectedWeightChange7d > 0.05
-    ? 'text-amber-400'
-    : 'text-muted-foreground'
-
-  // Y-axis domain: bracket actual + projected + goal with a bit of padding
-  const allWeights = [
-    ...last14.map((p) => p.value),
-    projectedWeight7d,
-    goalWeightKg,
-  ]
-  const yMin = Math.floor(Math.min(...allWeights) - 0.5)
-  const yMax = Math.ceil(Math.max(...allWeights) + 0.5)
+  const tdeeLabel = tdeeSource === 'calibrated'
+    ? `${effectiveTdee} kcal (calibrated, ${calibrationDays}d)`
+    : `${effectiveTdee} kcal (Katch-McArdle × 1.2)`
 
   return (
     <Card>
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle>Weight Prediction</CardTitle>
-          <span className="text-xs text-muted-foreground">
-            {daysWithData}-day avg · base TDEE {baseTdee} kcal
+          <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${
+            tdeeSource === 'calibrated'
+              ? 'bg-emerald-500/15 text-emerald-400'
+              : 'bg-muted text-muted-foreground'
+          }`}>
+            {tdeeSource === 'calibrated' ? 'Self-calibrated' : 'Katch-McArdle est.'}
           </span>
         </div>
       </CardHeader>
@@ -124,23 +138,17 @@ export function WeightPredictionCard() {
         <ResponsiveContainer width="100%" height={150}>
           <ComposedChart data={chartData} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
-            <XAxis
-              dataKey="label"
-              tick={{ fontSize: 9 }}
-              axisLine={false}
-              tickLine={false}
-              interval={2}
-            />
-            <YAxis
-              domain={[yMin, yMax]}
-              tick={{ fontSize: 9 }}
-              axisLine={false}
-              tickLine={false}
-              tickFormatter={(v) => `${v}`}
-            />
+            <XAxis dataKey="label" tick={{ fontSize: 9 }} axisLine={false} tickLine={false} interval={2} />
+            <YAxis domain={[yMin, yMax]} tick={{ fontSize: 9 }} axisLine={false} tickLine={false} />
             <Tooltip
               contentStyle={tooltipStyle}
-              formatter={(v: any, name: string) => [`${v}kg`, name === 'actual' ? 'Actual' : 'Projected']}
+              formatter={(v: any, name: string) => {
+                if (name === 'actual')    return [`${v}kg`, 'Actual']
+                if (name === 'projected') return [`${v}kg`, 'Projected']
+                if (name === 'band_high') return [`${v}kg`, '+0.5kg band']
+                if (name === 'band_low')  return [`${v}kg`, '−0.5kg band']
+                return [v, name]
+              }}
             />
             <ReferenceLine
               y={goalWeightKg}
@@ -149,39 +157,41 @@ export function WeightPredictionCard() {
               strokeOpacity={0.4}
               label={{ value: `Goal ${goalWeightKg}kg`, position: 'insideTopRight', fontSize: 8, fill: 'hsl(var(--muted-foreground))' }}
             />
-            <Line
-              dataKey="actual"
-              stroke="hsl(210 100% 66%)"
-              strokeWidth={2}
-              dot={{ r: 2.5, fill: 'hsl(210 100% 66%)' }}
-              connectNulls={false}
-              isAnimationActive={false}
-            />
-            <Line
-              dataKey="projected"
-              stroke="hsl(var(--muted-foreground))"
-              strokeWidth={1.5}
-              strokeDasharray="5 3"
-              dot={false}
-              isAnimationActive={false}
-            />
+            {/* Confidence band — dashed lines at ±0.5 kg from projection */}
+            <Line dataKey="band_high" stroke="hsl(var(--muted-foreground))" strokeWidth={1} strokeDasharray="2 4" dot={false} strokeOpacity={0.4} isAnimationActive={false} />
+            <Line dataKey="band_low"  stroke="hsl(var(--muted-foreground))" strokeWidth={1} strokeDasharray="2 4" dot={false} strokeOpacity={0.4} isAnimationActive={false} />
+            {/* Projected centre line */}
+            <Line dataKey="projected" stroke="hsl(var(--muted-foreground))" strokeWidth={1.5} strokeDasharray="5 3" dot={false} isAnimationActive={false} />
+            {/* Actual weight */}
+            <Line dataKey="actual" stroke="hsl(210 100% 66%)" strokeWidth={2} dot={{ r: 2.5, fill: 'hsl(210 100% 66%)' }} connectNulls={false} isAnimationActive={false} />
           </ComposedChart>
         </ResponsiveContainer>
 
-        {/* Calorie breakdown */}
-        <div className="border-t border-border pt-3 grid grid-cols-3 gap-2 text-xs text-center">
-          <div>
-            <p className="text-muted-foreground">Food in</p>
-            <p className="font-semibold tabular-nums">{avg7dCaloriesIn} kcal</p>
+        {/* TDEE breakdown */}
+        <div className="border-t border-border pt-3 space-y-2 text-xs">
+          <div className="flex justify-between text-muted-foreground">
+            <span>Effective TDEE</span>
+            <span className="text-foreground font-medium">{tdeeLabel}</span>
           </div>
-          <div>
-            <p className="text-muted-foreground">Workout burn</p>
-            <p className="font-semibold tabular-nums">−{avg7dCalsBurned} kcal</p>
+          <div className="flex justify-between text-muted-foreground">
+            <span>Avg food in ({daysWithData}d)</span>
+            <span className="tabular-nums font-medium text-foreground">{avg7dCaloriesIn} kcal</span>
           </div>
-          <div>
-            <p className="text-muted-foreground">Base TDEE</p>
-            <p className="font-semibold tabular-nums">−{baseTdee} kcal</p>
+          <div className="flex justify-between text-muted-foreground">
+            <span>Avg workout burn</span>
+            <span className="tabular-nums font-medium text-foreground">−{avg7dCalsBurned} kcal</span>
           </div>
+          {tdeeSource !== 'calibrated' && latestLeanMassKg != null && (
+            <div className="flex justify-between text-muted-foreground">
+              <span>BMR (lean mass {latestLeanMassKg}kg)</span>
+              <span className="tabular-nums font-medium text-foreground">{bmrKcal} kcal → ×1.2 = {katchMcArdleTdee} kcal</span>
+            </div>
+          )}
+          {tdeeSource !== 'calibrated' && (
+            <p className="text-muted-foreground/70 text-[10px] pt-1">
+              Log food daily + weigh in regularly to enable self-calibrated TDEE
+            </p>
+          )}
         </div>
 
       </CardContent>
