@@ -87,7 +87,7 @@ When a screenshot of a workout is shared in the chat:
 2. **Determine workout type** from context:
    - `type`: `strength` | `cardio` | `hybrid` | `walk`
    - `cardio_subtype` (if cardio/hybrid): `run` | `zone2-run` | `hiit` | `stationary-bike` | `walk` | `other`
-   - Classify as `zone2-run` only if HR was clearly in Zone 2 per Apple Watch zones (133–146 bpm avg); otherwise use `run`.
+   - Classify as `zone2-run` only if HR was clearly in Zone 2 (120–130 bpm avg); otherwise use `run`.
 3. **Build the JSON** matching `schema/workout.ts` exactly:
    - `id`: `"YYYY-MM-DD-slug"` where slug describes the session (e.g. `upper-body`, `zone2-run`, `legs`)
    - `date`: ISO 8601 `"YYYY-MM-DD"`

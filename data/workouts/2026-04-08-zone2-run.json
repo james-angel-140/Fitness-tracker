@@ -17,6 +17,6 @@
     { "km": 4, "pace_per_km": "9:02", "avg_hr": 134, "notes": "Good HR control" },
     { "km": 5, "distance_km": 0.77, "pace_per_km": "8:48", "avg_hr": 134, "notes": "Final 0.77km" }
   ],
-  "notes": "First genuine Zone 2 attempt. Indoor treadmill. Avg HR 134 bpm — well within Apple Watch Zone 2 (133–146 bpm). Session completed despite DOMS from Monday's leg session.",
-  "source": "apple-watch"
+  "notes": "First genuine Zone 2 attempt. Avg HR 134 bpm — 4 bpm above 120–130 target but by far the lowest avg HR in the run log. True Zone 2 pace estimated ~9:00–9:30/km. Session completed despite DOMS from Monday's leg session.",
+  "source": "strava"
 }
