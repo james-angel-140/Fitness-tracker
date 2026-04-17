@@ -12,8 +12,8 @@
     {
       "name": "Phase 1 — Load Management",
       "start_date": "2026-04-12",
-      "end_date": "2026-04-17",
-      "duration_days": 6,
+      "end_date": "2026-04-18",
+      "duration_days": 7,
       "focus": "Bring ACWR from 1.5 back below 1.3 before the key simulation. Reduce acute training load with lighter sessions and extra rest. Maintain strength scores with one upper push and one lower posterior chain session. Strict Zone 2 HR discipline on the one easy run. By the end of this phase, the heavy April 6–11 block will have fully exited the 7-day acute window.",
       "days": [
         {
@@ -43,12 +43,18 @@
         {
           "day_of_week": "Thu",
           "date": "2026-04-16",
-          "focus": "Strength — Lower Body, posterior chain focus (Fitbod)",
-          "session": "Lower body — posterior chain focus: RDLs, hamstring curls, hip thrusts, calf raises. ~45 min. Moderate load — aim for RPE 6–7 on working sets. Keep leg score ≥60. This is the LAST significant lower body strength session before Hyrox. Do not go heavy or to failure. The goal is to maintain neuromuscular readiness without creating soreness that interferes with Saturday's simulation. If you have any doubt about recovery in 48 hours, reduce volume by one set per exercise. Avoid quad-dominant movements (squats, leg press) — the simulation run legs will handle quad stimulus on Saturday."
+          "focus": "Rest — Leg day rescheduled to Friday",
+          "session": "Rest day. Leg session moved to Friday due to scheduling. Walk OK. Focus on sleep and nutrition."
         },
         {
           "day_of_week": "Fri",
           "date": "2026-04-17",
+          "focus": "Strength — Lower Body, posterior chain focus (Fitbod)",
+          "session": "Lower body — posterior chain focus: RDLs, hamstring curls, hip thrusts, calf raises. ~45 min. Moderate load — aim for RPE 6–7 on working sets. Keep leg score ≥60. This is the LAST significant lower body strength session before Hyrox. Do not go heavy or to failure. The goal is to maintain neuromuscular readiness without creating soreness that interferes with Sunday's simulation. If you have any doubt about recovery in 48 hours, reduce volume by one set per exercise. Avoid quad-dominant movements (squats, leg press) — the simulation run legs will handle quad stimulus on Sunday."
+        },
+        {
+          "day_of_week": "Sat",
+          "date": "2026-04-18",
           "focus": "Rest — Pre-Simulation",
           "session": "Full rest. This is your pre-simulation recovery day. Walk, stretch, foam roll. Eat a larger meal with extra carbohydrates at dinner — you're fuelling for tomorrow's simulation. Lay out your kit. Review the station order and your pacing plan: 5:30–6:00/km run legs, conservative starts on ski erg and rower, rhythm on burpee broad jumps, break wall balls into manageable sets. Aim for 8+ hours sleep. Legs should feel fresh and ready."
         }
@@ -56,34 +62,28 @@
     },
     {
       "name": "Phase 2 — Race Simulation & Sharpen",
-      "start_date": "2026-04-18",
+      "start_date": "2026-04-19",
       "end_date": "2026-04-21",
       "duration_days": 4,
       "focus": "Execute the key race simulation at 70% effort to establish a baseline and build race-day confidence. Follow with recovery and one upper-body maintenance session to preserve Fitbod scores heading into the taper. Final Zone 2 run to close out meaningful training.",
       "days": [
         {
-          "day_of_week": "Sat",
-          "date": "2026-04-18",
+          "day_of_week": "Sun",
+          "date": "2026-04-19",
           "focus": "Hyrox Full Simulation — KEY SESSION",
           "session": "Full Hyrox race format at 70% effort. This is the most important session in the entire program — 11 days before race day, ideal for supercompensation. Structure: 8 × (1km run + station) in official order.\n\nRun legs: target 5:30–6:00/km — deliberately slower than your 5:16 interval pace since you're doing 8 of them with stations between. Walk 2–3 min between run+station if needed at 70% effort.\n\nStation order and cues:\n(1) Ski Erg 1000m — pace conservatively, don't blow up early. Aim for a 2:00–2:10/500m split.\n(2) Sled Push 50m — drive from hips, steady and controlled. Short powerful steps.\n(3) Sled Pull 50m — hand-over-hand, sit back and use bodyweight. Controlled rhythm.\n(4) Burpee Broad Jumps 80m — sustainable rhythm. This is where HR spikes hardest. Don't rush.\n(5) Rowing 1000m — hold a steady 500m split (~2:00–2:10), don't sprint the first 500m.\n(6) Farmer's Carry 200m — grip and posture, don't rush. Squeeze the handles hard, shoulders back.\n(7) Sandbag Lunges 100m — core tight, controlled steps, conserve energy for wall balls. Don't overstride.\n(8) Wall Balls 100 reps — biggest energy cost. Break into sets of 15–20 with 5–10 sec rest. Breathe at the top of each rep.\n\nLog: total elapsed time, each 1km run split, RPE per station (1–10), overall RPE, max HR. This data becomes your race-day pacing plan.\n\nSubstitutions if equipment unavailable: ski erg → assault bike 50 cal, sled push/pull → heavy prowler or loaded farmer's carry 100m, sandbag lunges → walking lunges with dumbbells (20–24kg each).\n\nCool down: 5 min walk. Stretch hamstrings, quads, hip flexors, shoulders. Eat within 60 min — high carb + protein (aim 40g+ protein, 80g+ carbs)."
         },
         {
-          "day_of_week": "Sun",
-          "date": "2026-04-19",
+          "day_of_week": "Mon",
+          "date": "2026-04-20",
           "focus": "Rest — Post-Simulation Recovery",
           "session": "Full rest. Do not train. Walk up to 20 min if desired. The simulation is the highest-load session in this plan and your body needs to absorb it. Foam roll any sore areas — expect quads, glutes, grip, and shoulders to be the main fatigue sites. Eat at a surplus — prioritise protein (1.6g/kg = ~113g) and carbohydrates for glycogen replenishment. Aim for 8+ hours sleep. Note which stations felt hardest and which muscle groups were unexpectedly fatigued — this informs race-day strategy."
         },
         {
-          "day_of_week": "Mon",
-          "date": "2026-04-20",
-          "focus": "Strength — Upper Body, pull focus (Fitbod)",
-          "session": "Upper body pull focus: barbell or dumbbell rows, pull-ups (aim toward your PR of 9 reps but don't max out), face pulls, bicep curls. ~40 min. Moderate volume at RPE 6–7 — do not go to failure. This is the last upper body session before the event. Aim to maintain pull score ≥60. Purpose: maintain pulling strength relevant for sled pull and rowing, and keep overall Fitbod score above 58 through the taper. Log scores."
-        },
-        {
           "day_of_week": "Tue",
           "date": "2026-04-21",
-          "focus": "Zone 2 Run — Final Meaningful Run",
-          "session": "20 min at STRICT 120–130 bpm. This is the last real running session before Hyrox. Keep it short and controlled. Compare HR and pace to your April 14 Zone 2 session — if pace is faster at the same HR, your aerobic fitness is responding well to the training block. Walk immediately if HR exceeds 130. Cool down with 5 min walk and light stretching. Log average HR and pace for comparison."
+          "focus": "Strength — Upper Body, pull focus (Fitbod)",
+          "session": "Upper body pull focus: barbell or dumbbell rows, pull-ups (aim toward your PR of 9 reps but don't max out), face pulls, bicep curls. ~40 min. Moderate volume at RPE 6–7 — do not go to failure. This is the last upper body session before the event. Aim to maintain pull score ≥60. Purpose: maintain pulling strength relevant for sled pull and rowing, and keep overall Fitbod score above 58 through the taper. Log scores."
         }
       ]
     },
