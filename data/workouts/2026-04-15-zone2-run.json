@@ -1,0 +1,34 @@
+{
+  "id": "2026-04-15-zone2-run",
+  "date": "2026-04-15",
+  "title": "Zone 2 Treadmill Run",
+  "type": "cardio",
+  "cardio_subtype": "zone2-run",
+  "duration_min": 45,
+  "distance_km": 6.64,
+  "avg_pace_per_km": "6:46",
+  "avg_hr": 134,
+  "max_hr": 145,
+  "calories_active": 445,
+  "calories_total": 514,
+  "avg_cadence_spm": 151,
+  "source": "apple-watch",
+  "rpe": 3,
+  "hr_zones": {
+    "zone1_min": 518,
+    "zone2_min": 2154,
+    "zone3_min": 0,
+    "zone4_min": 0,
+    "zone5_min": 0
+  },
+  "notes": "Technogym treadmill. 35:54 in Zone 2 (133–146 bpm), 8:38 in Zone 1 (<132 bpm).",
+  "splits": [
+    { "type": "steady", "distance_km": 1.0, "pace_per_km": "6:09", "avg_hr": 123, "cadence_spm": 150 },
+    { "type": "steady", "distance_km": 1.0, "pace_per_km": "6:08", "avg_hr": 138, "cadence_spm": 152 },
+    { "type": "steady", "distance_km": 1.0, "pace_per_km": "6:22", "avg_hr": 135, "cadence_spm": 155 },
+    { "type": "steady", "distance_km": 1.0, "pace_per_km": "6:35", "avg_hr": 136, "cadence_spm": 155 },
+    { "type": "steady", "distance_km": 1.0, "pace_per_km": "6:53", "avg_hr": 137, "cadence_spm": 153 },
+    { "type": "steady", "distance_km": 1.0, "pace_per_km": "7:35", "avg_hr": 136, "cadence_spm": 156 },
+    { "type": "steady", "distance_km": 0.64, "pace_per_km": "8:12", "avg_hr": 138, "cadence_spm": 151 }
+  ]
+}
