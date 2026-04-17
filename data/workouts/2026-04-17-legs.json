@@ -1,0 +1,55 @@
+{
+  "id": "2026-04-17-legs",
+  "date": "2026-04-17",
+  "title": "Legs",
+  "type": "strength",
+  "duration_min": 55,
+  "rpe": 7.5,
+  "exercises": [
+    {
+      "name": "Back Squat",
+      "notes": "Focus exercise",
+      "sets": [
+        { "reps": 9, "weight_kg": 52.5 },
+        { "reps": 9, "weight_kg": 52.5 },
+        { "reps": 9, "weight_kg": 52.5 }
+      ]
+    },
+    {
+      "name": "Deadlift",
+      "sets": [
+        { "reps": 5, "weight_kg": 75 },
+        { "reps": 5, "weight_kg": 75 },
+        { "reps": 5, "weight_kg": 75 },
+        { "reps": 5, "weight_kg": 75 }
+      ]
+    },
+    {
+      "name": "Leg Press",
+      "sets": [
+        { "reps": 8, "weight_kg": 100 },
+        { "reps": 8, "weight_kg": 100 },
+        { "reps": 8, "weight_kg": 100 },
+        { "reps": 8, "weight_kg": 100 },
+        { "reps": 8, "weight_kg": 100 }
+      ]
+    },
+    {
+      "name": "Leg Extension",
+      "sets": [
+        { "reps": 10, "weight_kg": 35 },
+        { "reps": 10, "weight_kg": 35 },
+        { "reps": 10, "weight_kg": 35 }
+      ]
+    },
+    {
+      "name": "Seated Leg Curl",
+      "sets": [
+        { "reps": 15, "weight_kg": 50 },
+        { "reps": 13, "weight_kg": 50 }
+      ]
+    }
+  ],
+  "notes": "Underfuelled — no food pre-session. Strong output despite this; deadlift PR at 75 kg.",
+  "source": "fitbod"
+}

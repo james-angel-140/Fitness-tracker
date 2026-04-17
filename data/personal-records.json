@@ -25,13 +25,14 @@
   },
   {
     "lift": "Deadlift",
-    "current_best_kg": 72.5,
-    "current_best_reps": 8,
-    "current_best_date": "2026-02-20",
-    "notes": "Working weight PR. Est. 1RM 97.7kg from Apr 6 volume session",
+    "current_best_kg": 75,
+    "current_best_reps": "4×5",
+    "current_best_date": "2026-04-17",
+    "notes": "Working weight PR. Est. 1RM ~97.7kg from Apr 6 volume session",
     "history": [
       { "date": "2026-02-20", "weight_kg": 72.5, "reps": 8, "notes": "Previous working weight PR" },
-      { "date": "2026-04-06", "weight_kg": 70, "reps": "10/10/8/8", "estimated_1rm_kg": 97.7, "notes": "Est. 1RM PR per app — volume 2,520kg" }
+      { "date": "2026-04-06", "weight_kg": 70, "reps": "10/10/8/8", "estimated_1rm_kg": 97.7, "notes": "Est. 1RM PR per app — volume 2,520kg" },
+      { "date": "2026-04-17", "weight_kg": 75, "reps": "4×5", "notes": "New working weight PR — underfuelled session" }
     ]
   },
   {
