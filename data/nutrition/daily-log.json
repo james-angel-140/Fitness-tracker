@@ -1,5 +1,31 @@
 [
   {
+    "date": "2026-04-18",
+    "time": "08:00",
+    "description": "Breakfast: 5% Greek yogurt (225g) + 6 McVitie's Ginger Biscuits",
+    "calories": 466,
+    "protein_g": 23,
+    "carbs_g": 54,
+    "fat_g": 18
+  },
+  {
+    "date": "2026-04-17",
+    "time": "19:00",
+    "description": "Dinner: Udon noodle & chilli chicken (restaurant — estimated)",
+    "calories": 750,
+    "protein_g": 40,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-17",
+    "time": "21:30",
+    "description": "Evening: Double scoop protein powder",
+    "calories": 260,
+    "protein_g": 50,
+    "carbs_g": 10,
+    "fat_g": 4
+  },
+  {
     "date": "2026-04-17",
     "time": "13:00",
     "description": "Post-workout: Barbell protein bar",
