@@ -22,12 +22,23 @@ export interface Exercise {
 export type SplitType = 'warmup' | 'cooldown' | 'interval' | 'rest' | 'work' | 'steady';
 
 export interface KmSplit {
-  km: number;
+  km?: number;
   type?: SplitType;
   distance_km?: number; // for partial final split (e.g. 0.77km)
   pace_per_km?: string;  // "8:23" (mm:ss)
   avg_hr?: number;
+  cadence_spm?: number;
   notes?: string;
+}
+
+// Apple Watch heart rate zones
+// Zone 1: <132 bpm  Zone 2: 133–146 bpm  Zone 3: 147–160 bpm  Zone 4: 161–174 bpm  Zone 5: 175+ bpm
+export interface HRZones {
+  zone1_min?: number;  // time in Zone 1 (<132 bpm), in seconds
+  zone2_min?: number;  // time in Zone 2 (133–146 bpm), in seconds
+  zone3_min?: number;  // time in Zone 3 (147–160 bpm), in seconds
+  zone4_min?: number;  // time in Zone 4 (161–174 bpm), in seconds
+  zone5_min?: number;  // time in Zone 5 (175+ bpm), in seconds
 }
 
 export interface Workout {
@@ -45,8 +56,10 @@ export interface Workout {
   calories_active?: number;
   calories_total?: number;
   calories?: number;             // when only one calorie figure is recorded
+  avg_cadence_spm?: number;
   cadence_spm?: number;
   total_volume_kg?: number;
+  hr_zones?: HRZones;
   exercises?: Exercise[];
   splits?: KmSplit[];
   notes?: string;

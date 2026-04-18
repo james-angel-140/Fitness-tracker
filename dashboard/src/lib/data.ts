@@ -40,6 +40,8 @@ export interface StatsSnapshot {
 export interface WeightEntry {
   date: string
   weight_kg: number
+  body_fat_pct?: number
+  lean_mass_kg?: number
   change_kg?: number | null
   notes?: string
 }
@@ -799,3 +801,144 @@ export interface Injury {
 
 export const injuries = injuriesRaw as Injury[]
 export const activeInjuries = injuries.filter((i) => i.status !== 'resolved')
+
+// ─── Weight Prediction ────────────────────────────────────────────────────────
+//
+// TDEE is derived in two stages:
+//
+// Stage 1 — Katch-McArdle BMR from lean mass (Withings):
+//   BMR = 370 + 21.6 × lean_mass_kg
+//   Base TDEE = BMR × 1.2  (sedentary NEAT; workout calories added separately)
+//   This is more accurate than a fixed number because it updates as body comp changes.
+//
+// Stage 2 — Self-calibration (kicks in when enough overlapping data exists):
+//   Uses actual weight change + logged calories to back-calculate real-world TDEE:
+//   Calibrated TDEE = (total_calories_in − Δweight_kg × 7700) / logged_days
+//   Requires ≥5 logged nutrition days bracketed by two weight measurements.
+//   Once available, this overrides the Katch-McArdle estimate.
+
+// --- Stage 1: Katch-McArdle BMR ---
+const latestLeanMassEntry = [...weightLog.entries]
+  .reverse()
+  .find((e) => e.lean_mass_kg != null)
+
+const latestLeanMassKg = latestLeanMassEntry?.lean_mass_kg ?? null
+const bmrKcal = latestLeanMassKg != null
+  ? Math.round(370 + 21.6 * latestLeanMassKg)
+  : 1700  // fallback if no lean mass data
+const katchMcArdleTdee = Math.round(bmrKcal * 1.2)
+
+// --- Workout calories per date ---
+const workoutCalsByDate = new Map<string, number>()
+for (const w of workouts) {
+  const burned = w.calories_active ?? w.calories ?? 0
+  if (burned > 0) {
+    workoutCalsByDate.set(w.date, (workoutCalsByDate.get(w.date) ?? 0) + burned)
+  }
+}
+
+// --- Raw daily data (calories in + workout burn, last 14 days with nutrition logged) ---
+export interface DayCalorieBalance {
+  date: string
+  calories_in: number
+  calories_burned: number  // workout active calories from Apple Watch
+  balance: number          // calories_in − (effective_tdee + calories_burned)
+}
+
+const nutritionDateSet = new Set(dailyNutrition.map((d) => d.date))
+const last14DayStrs: string[] = []
+for (let i = 13; i >= 0; i--) {
+  const d = new Date(TODAY_STR)
+  d.setDate(d.getDate() - i)
+  last14DayStrs.push(d.toISOString().slice(0, 10))
+}
+const last14WithData = last14DayStrs.filter((d) => nutritionDateSet.has(d))
+
+// Raw intake/burn — balance filled in after TDEE is resolved
+const rawDailyData = last14WithData.map((date) => {
+  const nut = dailyNutrition.find((n) => n.date === date)!
+  return {
+    date,
+    calories_in: nut.calories,
+    calories_burned: workoutCalsByDate.get(date) ?? 0,
+  }
+})
+
+// --- Stage 2: Self-calibration ---
+// Find the best window where weight measurements bracket logged nutrition days.
+// Requires ≥5 nutrition days and ≥5 total days between weight entries.
+const weightByDateMap = new Map(weightLog.entries.map((e) => [e.date, e.weight_kg]))
+const sortedWeightDates = weightLog.entries.map((e) => e.date).sort()
+
+let calibratedTdee: number | null = null
+let calibrationDays = 0
+let calibrationWindow = ''
+
+for (let i = sortedWeightDates.length - 1; i >= 1; i--) {
+  const endDate   = sortedWeightDates[i]
+  const startDate = sortedWeightDates[i - 1]
+  const spanDays  = (new Date(endDate).getTime() - new Date(startDate).getTime()) / 86_400_000
+
+  if (spanDays < 5) continue  // need a meaningful window
+
+  // Nutrition days strictly between the two weight measurements (or on endDate)
+  const windowNutrition = rawDailyData.filter((d) => d.date > startDate && d.date <= endDate)
+  if (windowNutrition.length < 5) continue
+
+  const totalIn       = windowNutrition.reduce((s, d) => s + d.calories_in, 0)
+  const startWeight   = weightByDateMap.get(startDate)!
+  const endWeight     = weightByDateMap.get(endDate)!
+  const deltaKg       = endWeight - startWeight
+
+  // actual_TDEE × logged_days = total_calories_in − delta_kg × 7700
+  const estimate = (totalIn - deltaKg * 7700) / windowNutrition.length
+  if (estimate > 1200 && estimate < 5000) {
+    calibratedTdee   = Math.round(estimate)
+    calibrationDays  = windowNutrition.length
+    calibrationWindow = `${startDate} → ${endDate}`
+    break
+  }
+}
+
+// Effective TDEE: calibrated if available, otherwise Katch-McArdle
+const effectiveTdee = calibratedTdee ?? katchMcArdleTdee
+const tdeeSource: 'calibrated' | 'katch-mcardleale' = calibratedTdee != null ? 'calibrated' : 'katch-mcardleale'
+
+// --- Final balance using effective TDEE ---
+export const calorieBalance14d: DayCalorieBalance[] = rawDailyData.map((d) => ({
+  ...d,
+  balance: d.calories_in - (effectiveTdee + d.calories_burned),
+}))
+
+// 7-day subset
+const last7Cutoff = (() => { const d = new Date(TODAY_STR); d.setDate(d.getDate() - 7); return d.toISOString().slice(0, 10) })()
+const balance7d = calorieBalance14d.filter((d) => d.date > last7Cutoff)
+const _n = balance7d.length
+
+const avg7dCaloriesIn  = _n > 0 ? Math.round(balance7d.reduce((s, d) => s + d.calories_in, 0) / _n) : 0
+const avg7dCalsBurned  = _n > 0 ? Math.round(balance7d.reduce((s, d) => s + d.calories_burned, 0) / _n) : 0
+const avg7dBalance     = _n > 0 ? Math.round(balance7d.reduce((s, d) => s + d.balance, 0) / _n) : 0
+
+// Projection: linear at avg daily balance; 7700 kcal = 1 kg fat
+const projectedWeightChange7d = Math.round((avg7dBalance * 7 / 7700) * 100) / 100
+const projectedWeight7d       = Math.round((latestWeightAvg7 + projectedWeightChange7d) * 10) / 10
+
+export const weightPrediction = {
+  // TDEE inputs
+  latestLeanMassKg,
+  bmrKcal,
+  katchMcArdleTdee,
+  calibratedTdee,
+  calibrationDays,
+  calibrationWindow,
+  effectiveTdee,
+  tdeeSource,
+  // Summary
+  daysWithData: _n,
+  avg7dCaloriesIn,
+  avg7dCalsBurned,
+  avg7dBalance,
+  projectedWeightChange7d,
+  projectedWeight7d,
+  currentWeight: latestWeightAvg7,
+}

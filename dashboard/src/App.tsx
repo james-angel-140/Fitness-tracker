@@ -15,6 +15,7 @@ import { NutritionLog } from '@/components/NutritionLog'
 import { MuscleVolumeCard } from '@/components/MuscleVolumeCard'
 import { NutritionHistory } from '@/components/NutritionHistory'
 import { InjuryCard } from '@/components/InjuryCard'
+import { WeightPredictionCard } from '@/components/WeightPredictionCard'
 import { TimeRangeProvider, useTimeRange, TIME_RANGE_LABELS, type TimeRange } from '@/lib/TimeRangeContext'
 
 const TABS = ['Overview', 'Training', 'Body', 'Strength', 'Nutrition'] as const
@@ -106,6 +107,7 @@ function BodyTab() {
         <SleepCard />
         <ReadinessCard />
       </div>
+      <WeightPredictionCard />
       <Zone2PaceChart />
     </div>
   )
