@@ -11,6 +11,7 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "types": ["vite/client"],
+    "ignoreDeprecations": "5.0",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
