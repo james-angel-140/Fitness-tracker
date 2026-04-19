@@ -103,6 +103,7 @@ function BottomNav({ active, onChange }: { active: Tab; onChange: (t: Tab) => vo
 function OverviewTab() {
   return (
     <div className="space-y-4">
+      <StatTiles />
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-stretch">
         <ScoreCard />
         <ConsistencyGauge />
@@ -184,9 +185,6 @@ function Dashboard() {
           </div>
           <TimeRangeSelector />
         </div>
-
-        {/* Persistent stat tiles */}
-        <StatTiles />
 
         {/* Tab navigation — desktop only */}
         <TabBar active={activeTab} onChange={setActiveTab} />
