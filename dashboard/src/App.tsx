@@ -19,6 +19,10 @@ import { NutritionHistory } from '@/components/NutritionHistory'
 import { InjuryCard } from '@/components/InjuryCard'
 import { WeightPredictionCard } from '@/components/WeightPredictionCard'
 import { TimeRangeProvider, useTimeRange, TIME_RANGE_LABELS, type TimeRange } from '@/lib/TimeRangeContext'
+import { WorkoutProvider, useWorkout } from '@/lib/WorkoutContext'
+import { WorkoutPreviewScreen } from '@/screens/WorkoutPreviewScreen'
+import { ActiveWorkoutScreen } from '@/screens/ActiveWorkoutScreen'
+import { CompletionScreen } from '@/screens/CompletionScreen'
 
 const TABS = ['Overview', 'Training', 'Body', 'Strength', 'Nutrition'] as const
 type Tab = typeof TABS[number]
@@ -206,10 +210,22 @@ function Dashboard() {
   )
 }
 
+// Root app — screen state machine sits here, above the tab layout
+function AppContent() {
+  const { screen } = useWorkout()
+
+  if (screen.type === 'preview') return <WorkoutPreviewScreen />
+  if (screen.type === 'active') return <ActiveWorkoutScreen />
+  if (screen.type === 'complete') return <CompletionScreen />
+  return <Dashboard />
+}
+
 export default function App() {
   return (
     <TimeRangeProvider>
-      <Dashboard />
+      <WorkoutProvider>
+        <AppContent />
+      </WorkoutProvider>
     </TimeRangeProvider>
   )
 }
