@@ -132,11 +132,12 @@ export interface Zone2DataPoint {
 export interface NutritionEntry {
   date: string
   time?: string
-  description: string
-  calories: number
-  protein_g: number
+  description?: string
+  calories?: number
+  protein_g?: number
   carbs_g?: number
   fat_g?: number
+  not_tracked?: boolean
 }
 
 export interface DailyNutrition {
@@ -657,6 +658,7 @@ export const nutritionLog = nutritionLogRaw as NutritionEntry[]
 
 const nutritionByDate = new Map<string, NutritionEntry[]>()
 for (const entry of nutritionLog) {
+  if (entry.not_tracked) continue
   if (!nutritionByDate.has(entry.date)) nutritionByDate.set(entry.date, [])
   nutritionByDate.get(entry.date)!.push(entry)
 }
@@ -664,8 +666,8 @@ for (const entry of nutritionLog) {
 export const dailyNutrition: DailyNutrition[] = Array.from(nutritionByDate.entries())
   .map(([date, entries]) => ({
     date,
-    calories: entries.reduce((s, e) => s + e.calories, 0),
-    protein_g: entries.reduce((s, e) => s + e.protein_g, 0),
+    calories: entries.reduce((s, e) => s + (e.calories ?? 0), 0),
+    protein_g: entries.reduce((s, e) => s + (e.protein_g ?? 0), 0),
     carbs_g: entries.reduce((s, e) => s + (e.carbs_g ?? 0), 0),
     fat_g: entries.reduce((s, e) => s + (e.fat_g ?? 0), 0),
     entries,
