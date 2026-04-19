@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import type React from 'react'
+import { LayoutDashboard, Activity, Scale, Dumbbell, Utensils } from 'lucide-react'
 import { ScoreCard } from '@/components/ScoreCard'
 import { CategoryBreakdown } from '@/components/CategoryBreakdown'
 import { ScoreBreakdownChart, WeightChart, BodyFatChart, Vo2Chart, RhrChart, TrainingLoadChart, Zone2PaceChart } from '@/components/TrendCharts'
@@ -20,6 +22,14 @@ import { TimeRangeProvider, useTimeRange, TIME_RANGE_LABELS, type TimeRange } fr
 
 const TABS = ['Overview', 'Training', 'Body', 'Strength', 'Nutrition'] as const
 type Tab = typeof TABS[number]
+
+const TAB_ICONS: Record<Tab, React.ElementType> = {
+  Overview:  LayoutDashboard,
+  Training:  Activity,
+  Body:      Scale,
+  Strength:  Dumbbell,
+  Nutrition: Utensils,
+}
 
 function TimeRangeSelector() {
   const { range, setRange } = useTimeRange()
@@ -44,7 +54,7 @@ function TimeRangeSelector() {
 
 function TabBar({ active, onChange }: { active: Tab; onChange: (t: Tab) => void }) {
   return (
-    <div className="flex gap-1 border-b border-border overflow-x-auto scrollbar-none max-w-full">
+    <div className="hidden md:flex gap-1 border-b border-border overflow-x-auto scrollbar-none max-w-full">
       {TABS.map((tab) => (
         <button
           key={tab}
@@ -59,6 +69,34 @@ function TabBar({ active, onChange }: { active: Tab; onChange: (t: Tab) => void 
         </button>
       ))}
     </div>
+  )
+}
+
+function BottomNav({ active, onChange }: { active: Tab; onChange: (t: Tab) => void }) {
+  return (
+    <nav
+      className="fixed bottom-0 left-0 right-0 md:hidden bg-background/95 backdrop-blur border-t border-border z-50"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+    >
+      <div className="flex">
+        {TABS.map((tab) => {
+          const Icon = TAB_ICONS[tab]
+          const isActive = active === tab
+          return (
+            <button
+              key={tab}
+              onClick={() => onChange(tab)}
+              className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 min-h-[56px] transition-colors ${
+                isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Icon className={`w-5 h-5 transition-all ${isActive ? 'stroke-[2.5px]' : ''}`} />
+              <span className="text-[10px] font-medium leading-tight">{tab}</span>
+            </button>
+          )
+        })}
+      </div>
+    </nav>
   )
 }
 
@@ -150,11 +188,11 @@ function Dashboard() {
         {/* Persistent stat tiles */}
         <StatTiles />
 
-        {/* Tab navigation */}
+        {/* Tab navigation — desktop only */}
         <TabBar active={activeTab} onChange={setActiveTab} />
 
-        {/* Tab content */}
-        <div className="pt-2">
+        {/* Tab content — extra bottom padding on mobile for the fixed nav bar */}
+        <div className="pt-2 pb-24 md:pb-2">
           {activeTab === 'Overview'   && <OverviewTab />}
           {activeTab === 'Training'   && <TrainingTab />}
           {activeTab === 'Body'       && <BodyTab />}
@@ -163,6 +201,9 @@ function Dashboard() {
         </div>
 
       </div>
+
+      {/* Bottom nav — mobile only */}
+      <BottomNav active={activeTab} onChange={setActiveTab} />
     </div>
   )
 }
