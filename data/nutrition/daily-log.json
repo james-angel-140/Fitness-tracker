@@ -226,18 +226,10 @@
   },
   {
     "date": "2026-04-17",
-    "description": "Snack: Barbell protein bar",
-    "calories": 200,
-    "protein_g": 20,
-    "carbs_g": 20,
-    "fat_g": 7
+    "not_tracked": true
   },
   {
-    "date": "2026-04-17",
-    "description": "Snack: 2x McVitie's ginger nut biscuits",
-    "calories": 90,
-    "protein_g": 1,
-    "carbs_g": 15,
-    "fat_g": 3
+    "date": "2026-04-18",
+    "not_tracked": true
   }
 ]
