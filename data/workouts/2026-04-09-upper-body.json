@@ -1,0 +1,50 @@
+{
+  "id": "2026-04-09-upper-body",
+  "date": "2026-04-09",
+  "title": "Upper Body",
+  "type": "strength",
+  "duration_min": 40,
+  "calories": 180,
+  "total_volume_kg": 2928,
+  "exercises": [
+    {
+      "name": "Pull Up",
+      "sets": [
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null }
+      ],
+      "notes": "Consistent — third session in a row holding 4×6"
+    },
+    {
+      "name": "Barbell Bench Press",
+      "sets": [
+        { "reps": 8, "weight_kg": 55 },
+        { "reps": 8, "weight_kg": 55 },
+        { "reps": 8, "weight_kg": 55 }
+      ],
+      "notes": "Down 5kg from Apr 7 (60kg) — fatigue likely"
+    },
+    {
+      "name": "Barbell Shoulder Press",
+      "sets": [
+        { "reps": 12, "weight_kg": 27.5 },
+        { "reps": 11, "weight_kg": 27.5 },
+        { "reps": 9, "weight_kg": 27.5 },
+        { "reps": 9, "weight_kg": 27.5 }
+      ],
+      "notes": "Clear rep drop-off — energy fading fast by end"
+    },
+    {
+      "name": "Barbell Curl",
+      "sets": [
+        { "reps": 12, "weight_kg": 20 },
+        { "reps": 12, "weight_kg": 20 }
+      ],
+      "notes": "Isolation finisher — light, cut short"
+    }
+  ],
+  "notes": "4th consecutive training day (Legs → Upper → Z2 Run → Upper). Felt low energy throughout — fatigue-driven decline in shoulder press reps and bench weight vs 2 days ago. Session cut short due to time and lack of drive.",
+  "source": "fitbod"
+}
