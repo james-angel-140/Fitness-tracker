@@ -115,7 +115,7 @@ export function MuscleVolumeCard() {
           {muscleVolume.map(m => (
             <div key={m.muscle} className="space-y-1">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground w-24 shrink-0">
+                <span className="text-muted-foreground w-20 sm:w-24 shrink-0">
                   {MUSCLE_LABELS[m.muscle] ?? m.muscle}
                 </span>
                 <div className="flex items-center gap-2 shrink-0">
@@ -161,7 +161,7 @@ export function MuscleVolumeCard() {
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-4 text-[10px] text-muted-foreground pt-0.5">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-muted-foreground pt-0.5">
           <span className="flex items-center gap-1.5">
             <span className="inline-block w-3 h-1.5 rounded-full bg-red-400/80" /> Below MEV
           </span>

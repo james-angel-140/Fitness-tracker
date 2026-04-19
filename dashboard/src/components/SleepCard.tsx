@@ -63,7 +63,7 @@ export function SleepCard() {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={140}>
-          <BarChart data={data} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+          <BarChart data={data} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
             <XAxis
               dataKey="label"
               tick={{ fontSize: 10, fill: 'hsl(215 20% 55%)' }}

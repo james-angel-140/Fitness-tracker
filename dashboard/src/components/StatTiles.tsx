@@ -29,10 +29,10 @@ function Tile({ label, value, sub, trend, good }: TileProps) {
 
   return (
     <Card>
-      <CardContent className="pt-5 pb-4 px-5">
+      <CardContent className="pt-4 pb-3 px-4 sm:pt-5 sm:pb-4 sm:px-5">
         <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">{label}</p>
         <div className="flex items-end justify-between gap-2">
-          <span className="text-3xl font-bold tabular-nums leading-none">{value}</span>
+          <span className="text-2xl sm:text-3xl font-bold tabular-nums leading-none">{value}</span>
           <TrendIcon className={`w-4 h-4 mb-0.5 shrink-0 ${trendColour}`} />
         </div>
         <p className="text-xs text-muted-foreground mt-1.5">{sub}</p>

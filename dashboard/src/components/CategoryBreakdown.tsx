@@ -11,7 +11,7 @@ interface BarProps {
 function MetricRow({ label, value, detail }: { label: string; value: number; detail?: string }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="w-32 shrink-0 text-xs text-muted-foreground">{label}</div>
+      <div className="w-20 sm:w-28 shrink-0 text-xs text-muted-foreground">{label}</div>
       <div className="flex-1 h-1.5 rounded-full bg-accent overflow-hidden">
         <div
           className="h-full rounded-full bg-primary/70 transition-all"
@@ -19,7 +19,7 @@ function MetricRow({ label, value, detail }: { label: string; value: number; det
         />
       </div>
       <div className="w-8 text-right text-xs font-medium tabular-nums">{value}</div>
-      {detail && <div className="text-xs text-muted-foreground w-16 text-right">{detail}</div>}
+      {detail && <div className="text-xs text-muted-foreground w-14 sm:w-16 text-right">{detail}</div>}
     </div>
   )
 }

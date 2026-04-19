@@ -49,7 +49,7 @@ function MiniChart({ title, data, color, unit = '', referenceValue, referenceLab
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={140}>
-          <LineChart data={formatted} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+          <LineChart data={formatted} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
             <XAxis
               dataKey="label"
               tick={{ fontSize: 10, fill: 'hsl(215 20% 55%)' }}
@@ -143,7 +143,7 @@ function ScoreBreakdownChart() {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
-          <AreaChart data={data} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+          <AreaChart data={data} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
             <XAxis
               dataKey="label"
               tick={{ fontSize: 10, fill: 'hsl(215 20% 55%)' }}
@@ -167,7 +167,7 @@ function ScoreBreakdownChart() {
             <Legend
               iconType="circle"
               iconSize={7}
-              wrapperStyle={{ fontSize: 11, paddingTop: 8 }}
+              wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
               formatter={(value) =>
                 CATEGORY_LABELS[value as keyof typeof CATEGORY_LABELS] ?? value
               }
@@ -209,7 +209,7 @@ export function WeightChart() {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={140}>
-          <LineChart data={data} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+          <LineChart data={data} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
             <XAxis
               dataKey="label"
               tick={{ fontSize: 10, fill: 'hsl(215 20% 55%)' }}
@@ -273,7 +273,7 @@ export function BodyFatChart() {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={140}>
-          <LineChart data={data} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+          <LineChart data={data} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
             <XAxis
               dataKey="label"
               tick={{ fontSize: 10, fill: 'hsl(215 20% 55%)' }}
@@ -427,7 +427,7 @@ export function TrainingLoadChart() {
       </CardHeader>
       <CardContent className="space-y-4">
         <ResponsiveContainer width="100%" height={180}>
-          <ComposedChart data={data} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+          <ComposedChart data={data} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
             <XAxis
               dataKey="label"
               tick={{ fontSize: 10, fill: 'hsl(215 20% 55%)' }}

@@ -45,10 +45,10 @@ export function NutritionHistory() {
                 {/* Day row */}
                 <button
                   onClick={() => setExpanded(isOpen ? null : day.date)}
-                  className="w-full flex items-center gap-4 px-4 py-3 hover:bg-muted/40 transition-colors text-left"
+                  className="w-full flex items-center gap-2 sm:gap-4 px-4 py-3 hover:bg-muted/40 transition-colors text-left"
                 >
                   {/* Date */}
-                  <span className="text-sm font-medium w-28 shrink-0">{formatDate(day.date)}</span>
+                  <span className="text-sm font-medium w-24 sm:w-28 shrink-0">{formatDate(day.date)}</span>
 
                   {/* Calories */}
                   <div className="flex flex-col gap-1 min-w-0">

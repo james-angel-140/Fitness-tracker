@@ -31,16 +31,16 @@ export function UpcomingSessions() {
       <CardContent className="p-0">
         <div className="divide-y divide-border">
           {upcomingSessions.map((day) => (
-            <div key={day.date} className="px-6 py-4 space-y-1">
-              <div className="flex items-center gap-3">
-                <span className="w-24 shrink-0 text-xs font-semibold text-muted-foreground">
+            <div key={day.date} className="px-4 sm:px-6 py-3 space-y-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-xs font-semibold text-muted-foreground shrink-0">
                   {dayLabel(day.date)}
                 </span>
                 <Badge variant={sessionBadgeVariant(day.focus)}>
                   {day.focus.replace(/\s*\(Fitbod\)/i, '')}
                 </Badge>
               </div>
-              <p className="text-xs text-muted-foreground pl-[108px] leading-relaxed">
+              <p className="text-xs text-muted-foreground leading-relaxed">
                 {day.session}
               </p>
             </div>

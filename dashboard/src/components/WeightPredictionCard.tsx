@@ -113,21 +113,21 @@ export function WeightPredictionCard() {
       <CardContent className="space-y-4">
 
         {/* Key stats */}
-        <div className="grid grid-cols-3 gap-3 text-center">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center">
           <div>
             <p className="text-xs text-muted-foreground uppercase tracking-wider mb-0.5">7d avg weight</p>
-            <p className="text-2xl font-bold tabular-nums">{currentWeight}kg</p>
+            <p className="text-lg sm:text-2xl font-bold tabular-nums">{currentWeight}kg</p>
           </div>
           <div>
             <p className="text-xs text-muted-foreground uppercase tracking-wider mb-0.5">Avg daily balance</p>
-            <p className={`text-2xl font-bold tabular-nums ${balanceColour}`}>
+            <p className={`text-lg sm:text-2xl font-bold tabular-nums ${balanceColour}`}>
               {avg7dBalance > 0 ? '+' : ''}{avg7dBalance}
             </p>
             <p className="text-xs text-muted-foreground">kcal/day</p>
           </div>
           <div>
             <p className="text-xs text-muted-foreground uppercase tracking-wider mb-0.5">In 7 days</p>
-            <p className="text-2xl font-bold tabular-nums">{projectedWeight7d}kg</p>
+            <p className="text-lg sm:text-2xl font-bold tabular-nums">{projectedWeight7d}kg</p>
             <p className={`text-xs font-medium ${changeColour}`}>
               {projectedWeightChange7d > 0 ? '+' : ''}{projectedWeightChange7d}kg
             </p>
@@ -136,7 +136,7 @@ export function WeightPredictionCard() {
 
         {/* Chart */}
         <ResponsiveContainer width="100%" height={150}>
-          <ComposedChart data={chartData} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
+          <ComposedChart data={chartData} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
             <XAxis dataKey="label" tick={{ fontSize: 9 }} axisLine={false} tickLine={false} interval={2} />
             <YAxis domain={[yMin, yMax]} tick={{ fontSize: 9 }} axisLine={false} tickLine={false} />

@@ -56,11 +56,11 @@ export function ConsistencyGauge() {
         </div>
         <div className="space-y-1">
           <div className="flex items-center gap-1.5 mb-0.5">
-            <span className="text-[10px] text-muted-foreground w-14">Cardio</span>
+            <span className="text-xs text-muted-foreground w-14">Cardio</span>
             <Bar value={cardio_sessions_7d} max={2} colour="#38bdf8" />
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] text-muted-foreground w-14">Strength</span>
+            <span className="text-xs text-muted-foreground w-14">Strength</span>
             <Bar value={strength_sessions_7d} max={2} colour="#a78bfa" />
           </div>
         </div>
@@ -79,18 +79,18 @@ export function ConsistencyGauge() {
         </div>
         <div className="space-y-1">
           <div className="flex items-center gap-1.5 mb-0.5">
-            <span className="text-[10px] text-muted-foreground w-14">Cardio</span>
+            <span className="text-xs text-muted-foreground w-14">Cardio</span>
             <Bar value={cardio_sessions_28d} max={8} colour="#38bdf8" />
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] text-muted-foreground w-14">Strength</span>
+            <span className="text-xs text-muted-foreground w-14">Strength</span>
             <Bar value={strength_sessions_28d} max={8} colour="#a78bfa" />
           </div>
         </div>
       </div>
 
       {/* Footer: weight reminder */}
-      <p className="text-[10px] text-muted-foreground mt-4">7d × 40% + 28d × 60%</p>
+      <p className="text-xs text-muted-foreground mt-4">7d × 40% + 28d × 60%</p>
     </Card>
   )
 }

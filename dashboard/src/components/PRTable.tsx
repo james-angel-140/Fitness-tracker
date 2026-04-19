@@ -46,61 +46,64 @@ export function PRTable() {
         <CardTitle>Personal Records</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        {/* Header row */}
-        <div className="flex items-center gap-3 px-6 py-2 border-b border-border">
-          <div className="flex-1 text-xs font-medium text-muted-foreground uppercase tracking-wide">Lift</div>
-          <div className="w-28 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide">Best set</div>
-          <div className="w-20 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide">Est. 1RM</div>
-          <div className="w-14 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide">×BW</div>
-          <div className="w-16 text-center text-xs font-medium text-muted-foreground uppercase tracking-wide">Trend</div>
-        </div>
-        <div className="divide-y divide-border">
-          {prs.map((pr) => {
-            const trend = oneRmTrends[pr.lift] ?? []
-            // Est. 1RM from current PR record (e.g. 70kg × 5 = 81.7kg)
-            const est1rm = currentEst1rm(pr.lift)
-            const peak = peakEst1rm(pr.lift)
-            const isPeak = est1rm != null && peak != null && est1rm >= peak
-            const xbw = pr.current_best_kg != null ? (pr.current_best_kg / bw).toFixed(2) : null
+        <div className="overflow-x-auto">
+          <div className="min-w-[480px]">
+            {/* Header row */}
+            <div className="flex items-center gap-3 px-4 sm:px-6 py-2 border-b border-border">
+              <div className="flex-1 text-xs font-medium text-muted-foreground uppercase tracking-wide">Lift</div>
+              <div className="w-28 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide">Best set</div>
+              <div className="w-20 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide">Est. 1RM</div>
+              <div className="w-14 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide">×BW</div>
+              <div className="w-16 text-center text-xs font-medium text-muted-foreground uppercase tracking-wide">Trend</div>
+            </div>
+            <div className="divide-y divide-border">
+              {prs.map((pr) => {
+                const trend = oneRmTrends[pr.lift] ?? []
+                const est1rm = currentEst1rm(pr.lift)
+                const peak = peakEst1rm(pr.lift)
+                const isPeak = est1rm != null && peak != null && est1rm >= peak
+                const xbw = pr.current_best_kg != null ? (pr.current_best_kg / bw).toFixed(2) : null
 
-            return (
-              <div key={pr.lift} className="flex items-center gap-3 px-6 py-3">
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm truncate">{pr.lift}</p>
-                  {pr.current_best_date && (
-                    <p className="text-xs text-muted-foreground">{pr.current_best_date}</p>
-                  )}
-                </div>
-                <div className="w-28 text-right text-sm font-semibold tabular-nums shrink-0">
-                  {pr.current_best_kg != null ? `${pr.current_best_kg}kg` : 'BW'}
-                  {' '}
-                  <span className="font-normal text-muted-foreground text-xs">× {pr.current_best_reps}</span>
-                </div>
-                <div className="w-20 text-right tabular-nums shrink-0">
-                  {est1rm != null ? (
-                    <span className="text-sm font-medium" title={!isPeak && peak != null ? `Peak: ${peak}kg` : undefined}>
-                      {est1rm}kg
-                      {!isPeak && peak != null && (
-                        <span className="text-xs text-muted-foreground ml-1">(pk {peak}kg)</span>
+                return (
+                  <div key={pr.lift} className="flex items-center gap-3 px-4 sm:px-6 py-3">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm truncate">{pr.lift}</p>
+                      {pr.current_best_date && (
+                        <p className="text-xs text-muted-foreground">{pr.current_best_date}</p>
                       )}
-                    </span>
-                  ) : (
-                    <span className="text-xs text-muted-foreground">—</span>
-                  )}
-                </div>
-                <div className="w-14 text-right tabular-nums shrink-0">
-                  {xbw != null ? (
-                    <span className="text-sm text-muted-foreground">{xbw}×</span>
-                  ) : (
-                    <span className="text-xs text-muted-foreground">—</span>
-                  )}
-                </div>
-                <div className="w-16 flex justify-center shrink-0">
-                  <Sparkline data={trend} />
-                </div>
-              </div>
-            )
-          })}
+                    </div>
+                    <div className="w-28 text-right text-sm font-semibold tabular-nums shrink-0">
+                      {pr.current_best_kg != null ? `${pr.current_best_kg}kg` : 'BW'}
+                      {' '}
+                      <span className="font-normal text-muted-foreground text-xs">× {pr.current_best_reps}</span>
+                    </div>
+                    <div className="w-20 text-right tabular-nums shrink-0">
+                      {est1rm != null ? (
+                        <span className="text-sm font-medium" title={!isPeak && peak != null ? `Peak: ${peak}kg` : undefined}>
+                          {est1rm}kg
+                          {!isPeak && peak != null && (
+                            <span className="text-xs text-muted-foreground ml-1">(pk {peak}kg)</span>
+                          )}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
+                    </div>
+                    <div className="w-14 text-right tabular-nums shrink-0">
+                      {xbw != null ? (
+                        <span className="text-sm text-muted-foreground">{xbw}×</span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
+                    </div>
+                    <div className="w-16 flex justify-center shrink-0">
+                      <Sparkline data={trend} />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>

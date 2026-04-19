@@ -83,7 +83,7 @@ export function ReadinessCard() {
       <CardContent className="space-y-3">
         {/* Score trend */}
         <ResponsiveContainer width="100%" height={100}>
-          <BarChart data={data} margin={{ top: 2, right: 4, left: -24, bottom: 0 }}>
+          <BarChart data={data} margin={{ top: 2, right: 4, left: -16, bottom: 0 }}>
             <XAxis dataKey="label" tick={{ fontSize: 9, fill: 'hsl(215 20% 55%)' }} axisLine={false} tickLine={false} />
             <YAxis domain={[0, 100]} tick={{ fontSize: 9, fill: 'hsl(215 20% 55%)' }} axisLine={false} tickLine={false} />
             <Tooltip
