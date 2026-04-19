@@ -3,7 +3,8 @@
 // (e.g. when running from gh-pages on phone, where no server is running)
 
 import { getSuggestion } from '@/lib/progressiveOverload'
-import { workouts, prs } from '@/lib/data'
+import { workouts, prs, muscleVolume, patternVolume, pushPullRatio7d, pushPullStatus } from '@/lib/data'
+import taxonomyRaw from '@data/exercise-taxonomy.json'
 import {
   type ParsedSession,
   type ActiveExercise,
@@ -37,9 +38,32 @@ interface AIResponse {
 
 // ─── Build the prompt ─────────────────────────────────────────────────────────
 
+const taxonomy = taxonomyRaw as typeof taxonomyRaw
+
 function buildPrompt(sessionText: string, focus: string, date: string): string {
-  // Summarise recent exercise history for context
-  const recentExercises: Record<string, { date: string; sets: string; weight: string }[]> = {}
+  // ── Exercise library section ────────────────────────────────────────────────
+  const libraryLines = taxonomy.exercises.map((ex) => {
+    const primary = ex.primary.join(', ')
+    const secondary = ex.secondary.length ? ` | secondary: ${ex.secondary.join(', ')}` : ''
+    const aliases = (ex.aliases as string[]).length ? ` (aka ${(ex.aliases as string[]).join(', ')})` : ''
+    return `• ${ex.name}${aliases} [${ex.pattern}] — primary: ${primary}${secondary}`
+  }).join('\n')
+
+  // ── Muscle volume status section ────────────────────────────────────────────
+  const volumeLines = muscleVolume.map((m) => {
+    const label = m.status_7d === 'under' ? '⬇ BELOW MEV' : m.status_7d === 'over' ? '⬆ NEAR MRV' : '✓ optimal'
+    return `  ${m.muscle.padEnd(12)} ${m.sets_7d} sets/7d  (MEV ${m.mev} – MRV ${m.mrv})  ${label}`
+  }).join('\n')
+
+  // ── Push:pull ratio ─────────────────────────────────────────────────────────
+  const pushSets = patternVolume.find((p) => p.pattern === 'push')?.sets_7d ?? 0
+  const pullSets = patternVolume.find((p) => p.pattern === 'pull')?.sets_7d ?? 0
+  const ratioLine = pushPullRatio7d !== null
+    ? `Push:Pull ratio = ${pushPullRatio7d}× (${pushPullStatus}) — push sets: ${pushSets}, pull sets: ${pullSets}`
+    : 'Push:Pull ratio = no data yet'
+
+  // ── Recent exercise history for progressive overload ────────────────────────
+  const recentExercises: Record<string, { date: string; weight: string }[]> = {}
   workouts
     .filter((w) => w.exercises && w.exercises.length > 0)
     .slice(-20)
@@ -51,46 +75,54 @@ function buildPrompt(sessionText: string, focus: string, date: string): string {
         const totalReps = ex.sets.reduce((s, set) => s + set.reps, 0)
         recentExercises[ex.name].push({
           date: w.date,
-          sets: `${ex.sets.length} sets`,
-          weight: maxW ? `${maxW}kg × ${Math.round(totalReps / ex.sets.length)} reps avg` : `${totalReps} reps (bodyweight)`,
+          weight: maxW ? `${maxW}kg × ${Math.round(totalReps / ex.sets.length)} reps avg` : `${totalReps} reps (BW)`,
         })
       })
     })
 
-  const prSummary = prs.map((p) => `${p.lift}: ${p.current_best_kg ?? 'BW'}kg × ${p.current_best_reps}`).join('\n')
-
   const historyLines = Object.entries(recentExercises)
-    .map(([name, entries]) => `${name}: ${entries.slice(0, 3).map((e) => `${e.date} ${e.weight}`).join(' | ')}`)
+    .map(([name, entries]) => `  ${name}: ${entries.slice(0, 3).map((e) => `${e.date} ${e.weight}`).join(' | ')}`)
     .join('\n')
 
-  return `You are a fitness AI coach. Parse the workout session below and return a JSON object.
+  const prSummary = prs.map((p) => `  ${p.lift}: ${p.current_best_kg ?? 'BW'}kg × ${p.current_best_reps}`).join('\n')
+
+  return `You are a fitness AI coach. Design an optimal workout for the session below.
 
 ## Session (${date})
 Focus: ${focus}
-Plan:
+Context / constraints:
 ${sessionText}
 
-## Recent Exercise History
-${historyLines || 'No history yet'}
+## Exercise Library — use ONLY these exercises
+${libraryLines}
+
+## Current Muscle Volume Status (7-day rolling window)
+${volumeLines}
+
+## Push : Pull Balance
+${ratioLine}
+
+## Recent Exercise History (for progressive overload)
+${historyLines || '  No history yet'}
 
 ## Personal Records
-${prSummary || 'No PRs recorded'}
+${prSummary || '  No PRs recorded'}
 
 ## Instructions
 Return ONLY valid JSON — no markdown, no explanation.
 
 If this is a REST day:
-{"type":"rest","exercises":[],"cardio":null,"notes":"<one-sentence rest day summary>"}
+{"type":"rest","exercises":[],"cardio":null,"notes":"<one-sentence summary>"}
 
 If this is a CARDIO day:
-{"type":"cardio","exercises":[],"cardio":{"subtype":"zone2-run|run|hiit|other","target_duration_min":N,"target_hr_min":N,"target_hr_max":N},"notes":"<key pacing or HR cues>"}
+{"type":"cardio","exercises":[],"cardio":{"subtype":"zone2-run|run|hiit|other","target_duration_min":N,"target_hr_min":N,"target_hr_max":N},"notes":"<key HR or pacing cues>"}
 
-If this is a STRENGTH or HYBRID day:
+If this is a STRENGTH or HYBRID day, design 4–6 main exercises and return:
 {
   "type": "strength",
   "exercises": [
     {
-      "name": "Exact exercise name",
+      "name": "Exact name from the Exercise Library",
       "target_sets": 3,
       "target_reps": "8-12",
       "target_rpe": 7,
@@ -100,15 +132,20 @@ If this is a STRENGTH or HYBRID day:
     }
   ],
   "cardio": null,
-  "notes": "<1-2 sentences covering injury warnings or key protocols>"
+  "notes": "<1-2 sentences: injury constraints or key cues>"
 }
 
-Rules:
-- Use exact exercise names matching the history data where possible
-- For bodyweight exercises (pull-ups, chin-ups, push-ups, dips): set is_bodyweight true and suggested_weight_kg null
-- Base suggestions on the exercise history and progressive overload (increase weight ~2.5kg if last session was strong)
-- Include ONLY the main working exercises — skip explicit warm-up or cooldown sets
-- For Hyrox simulation days, use type "hybrid" and list main stations as exercises`
+Exercise selection rules (apply in order):
+1. Match the session focus — push day = push/press patterns, pull day = row/pull patterns, legs = squat/hinge patterns
+2. Prioritise muscles marked BELOW MEV — they need volume most
+3. Avoid muscles marked NEAR MRV — they are already approaching max recoverable volume
+4. If push-dominant: lean toward more pull exercises this session; if pull-dominant: lean toward push
+5. Alternate antagonist pairs where possible (e.g. row after press, leg curl after squat)
+6. Use exact exercise names from the library — do not invent names outside the list
+7. For bodyweight exercises (Pull Up, Dip): set is_bodyweight true and suggested_weight_kg null
+8. Progressive overload: if last session was completed strongly at same weight → suggest +2.5kg; else hold weight
+9. Skip explicit warm-up sets — working sets only
+10. For Hyrox simulation days use type "hybrid" and list the main race stations as exercises`
 }
 
 // ─── Call the Vite middleware ─────────────────────────────────────────────────
@@ -133,24 +170,22 @@ async function callAI(prompt: string): Promise<AIResponse | null> {
 
 // ─── Fallback: keyword-based exercise extraction ──────────────────────────────
 
-const KNOWN_EXERCISES = [
-  'Deadlift', 'Romanian Deadlift', 'Back Squat', 'Front Squat', 'Leg Press',
-  'Barbell Bench Press', 'Dumbbell Bench Press', 'Barbell Shoulder Press',
-  'Pull-up', 'Chin-up', 'Lat Pulldown', 'Barbell Row', 'Cable Row', 'Seated Row',
-  'Face Pull', 'Bicep Curl', 'Tricep Extension', 'Dip',
-  'Lunges', 'Bulgarian Split Squat', 'Hip Thrust', 'Leg Curl', 'Calf Raise',
-]
+// Derived from taxonomy so fallback names always match what the dashboard tracks
+const KNOWN_EXERCISES: { name: string; pattern: string; primary: string[] }[] =
+  taxonomy.exercises.map((ex) => ({
+    name: ex.name,
+    pattern: ex.pattern,
+    primary: ex.primary as string[],
+  }))
 
 function fallbackParse(focus: string, sessionText: string): ParsedSession {
   const focusLower = focus.toLowerCase()
   const sessionLower = sessionText.toLowerCase()
 
-  // Detect rest day
   if (focusLower.includes('rest') || sessionLower.startsWith('full rest')) {
     return { type: 'rest', exercises: [], cardio: null, notes: sessionText.slice(0, 120), source: 'fallback' }
   }
 
-  // Detect cardio
   if (focusLower.includes('zone 2') || focusLower.includes('run') || focusLower.includes('cardio')) {
     const hrMatch = sessionText.match(/(\d{2,3})[–-](\d{2,3})\s*bpm/)
     const durMatch = sessionText.match(/(\d{2,3})\s*min/)
@@ -168,16 +203,26 @@ function fallbackParse(focus: string, sessionText: string): ParsedSession {
     }
   }
 
-  // Match known exercises against session text
-  const matched = KNOWN_EXERCISES.filter((ex) =>
-    sessionLower.includes(ex.toLowerCase())
-  )
+  // Infer movement pattern from focus text, then pick exercises accordingly
+  const isPull  = /pull|row|back|bicep/i.test(focusLower)
+  const isPush  = /push|press|chest|shoulder/i.test(focusLower)
+  const isLegs  = /leg|squat|hinge|lower/i.test(focusLower)
 
-  const exercises: ActiveExercise[] = matched.map((name) => {
-    const suggestion = getSuggestion(name)
+  const matched = KNOWN_EXERCISES.filter((ex) => {
+    // First try: exercise name appears in session text
+    if (sessionLower.includes(ex.name.toLowerCase())) return true
+    // Second try: match by movement pattern to session focus
+    if (isPull  && ex.pattern === 'pull')  return true
+    if (isPush  && ex.pattern === 'push')  return true
+    if (isLegs  && (ex.pattern === 'squat' || ex.pattern === 'hinge')) return true
+    return false
+  }).slice(0, 5)
+
+  const exercises: ActiveExercise[] = matched.map((ex) => {
+    const suggestion = getSuggestion(ex.name)
     return {
       id: makeExerciseId(),
-      name,
+      name: ex.name,
       target_sets: 3,
       target_reps: '8-12',
       target_rpe: 7,
