@@ -258,5 +258,22 @@
     "calories": 675,
     "protein_g": 54,
     "approximate": true
+  },
+  {
+    "date": "2026-04-20",
+    "time": "18:00",
+    "description": "Dinner: PrepKitchen meal",
+    "calories": 675,
+    "protein_g": 54,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-20",
+    "time": "20:00",
+    "description": "Snack: Form protein shake",
+    "calories": 120,
+    "protein_g": 25,
+    "carbs_g": 3,
+    "fat_g": 2
   }
 ]
