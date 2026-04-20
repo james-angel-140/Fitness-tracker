@@ -92,7 +92,7 @@
     },
     {
       "name": "Hammer Curl",
-      "aliases": ["Dumbbell Hammer Curl"],
+      "aliases": ["Dumbbell Hammer Curl", "Hammer Curls"],
       "pattern": "pull",
       "primary": ["biceps"],
       "secondary": ["forearms"],
@@ -179,6 +179,33 @@
       "secondary": ["glutes", "core"],
       "wger_muscles": [10, 2],
       "wger_muscles_secondary": [8, 6]
+    },
+    {
+      "name": "Cable One Arm Underhand Tricep Extension",
+      "aliases": ["Tricep Extension", "Cable Tricep Extension"],
+      "pattern": "push",
+      "primary": ["triceps"],
+      "secondary": [],
+      "wger_muscles": [5],
+      "wger_muscles_secondary": []
+    },
+    {
+      "name": "Cable Shoulder Internal Rotation",
+      "aliases": ["Shoulder Internal Rotation"],
+      "pattern": "push",
+      "primary": ["shoulders"],
+      "secondary": [],
+      "wger_muscles": [2],
+      "wger_muscles_secondary": []
+    },
+    {
+      "name": "Cable Rear Delt Fly",
+      "aliases": ["Rear Delt Fly", "Reverse Fly"],
+      "pattern": "pull",
+      "primary": ["shoulders"],
+      "secondary": ["upper_back"],
+      "wger_muscles": [2],
+      "wger_muscles_secondary": [9]
     }
   ],
   "volume_landmarks": {

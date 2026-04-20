@@ -1,0 +1,62 @@
+{
+  "id": "2026-04-20-upper-body-pull",
+  "date": "2026-04-20",
+  "title": "Upper Body Pull",
+  "type": "strength",
+  "source": "fitbod",
+  "duration_min": 40,
+  "approximate": true,
+  "rpe": 6,
+  "exercises": [
+    {
+      "name": "Pull Up",
+      "sets": [
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null },
+        { "reps": 6, "weight_kg": null }
+      ]
+    },
+    {
+      "name": "Cable Row",
+      "sets": [
+        { "reps": 10, "weight_kg": 50 },
+        { "reps": 10, "weight_kg": 50 },
+        { "reps": 10, "weight_kg": 50 }
+      ]
+    },
+    {
+      "name": "Hammer Curl",
+      "sets": [
+        { "reps": 10, "weight_kg": 10 },
+        { "reps": 9, "weight_kg": 10 },
+        { "reps": 9, "weight_kg": 10 }
+      ]
+    },
+    {
+      "name": "Cable One Arm Underhand Tricep Extension",
+      "sets": [
+        { "reps": 10, "weight_kg": 7.5 },
+        { "reps": 10, "weight_kg": 7.5 },
+        { "reps": 10, "weight_kg": 7.5 }
+      ]
+    },
+    {
+      "name": "Cable Shoulder Internal Rotation",
+      "sets": [
+        { "reps": 10, "weight_kg": 5 },
+        { "reps": 10, "weight_kg": 5 },
+        { "reps": 10, "weight_kg": 5 }
+      ]
+    },
+    {
+      "name": "Cable Rear Delt Fly",
+      "sets": [
+        { "reps": 10, "weight_kg": 5 },
+        { "reps": 10, "weight_kg": 5 },
+        { "reps": 10, "weight_kg": 5 }
+      ]
+    }
+  ]
+}
