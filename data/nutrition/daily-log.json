@@ -231,5 +231,32 @@
   {
     "date": "2026-04-18",
     "not_tracked": true
+  },
+  {
+    "date": "2026-04-20",
+    "time": "08:00",
+    "description": "Breakfast: Fage 5% yogurt (300g) + McVitie's ginger nut biscuits (7)",
+    "calories": 610,
+    "protein_g": 31,
+    "carbs_g": 63,
+    "fat_g": 24,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-20",
+    "time": "12:30",
+    "description": "Pre-gym: Barbell protein bar",
+    "calories": 200,
+    "protein_g": 20,
+    "carbs_g": 20,
+    "fat_g": 7
+  },
+  {
+    "date": "2026-04-20",
+    "time": "14:30",
+    "description": "Post-gym: PrepKitchen meal",
+    "calories": 675,
+    "protein_g": 54,
+    "approximate": true
   }
 ]
