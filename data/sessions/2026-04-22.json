@@ -1,0 +1,76 @@
+{
+  "type": "hybrid",
+  "exercises": [
+    {
+      "name": "Ski Erg (1000m)",
+      "target_sets": 8,
+      "target_reps": "1000m",
+      "target_rpe": 7,
+      "suggested_weight_kg": null,
+      "suggestion_note": "SHOULDER MODIFICATION: Shortened ROM, no full overhead reach. Drive from hip hinge and lats. Conservative pace 2:10–2:20/500m. If sharp pain (>6/10), substitute Assault Bike 50 cal. Rate shoulder pain 0–10 after each rep.",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Sled Push (50m)",
+      "target_sets": 8,
+      "target_reps": "50m",
+      "target_rpe": 7,
+      "suggested_weight_kg": null,
+      "suggestion_note": "Drive from hips, short powerful steps, arms at chest height (neutral shoulder position). Steady and controlled.",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Sled Pull (50m)",
+      "target_sets": 8,
+      "target_reps": "50m",
+      "target_rpe": 7,
+      "suggested_weight_kg": null,
+      "suggestion_note": "Hand-over-hand, sit back and use bodyweight. Horizontal pulling at neutral angle — generally tolerable for rotator cuff. Controlled rhythm.",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Wall Ball (100 reps)",
+      "target_sets": 8,
+      "target_reps": "100",
+      "target_rpe": 8,
+      "suggested_weight_kg": 4,
+      "suggestion_note": "CRITICAL SHOULDER TEST: Start with set of 10. If pain ≤3/10, continue 15–20 reps per set with 5–10 sec rest. If 4–6/10, reduce to 8–10 reps per set with longer rest. If >6/10, STOP and substitute remaining with goblet squats. This data is ESSENTIAL for race-day planning.",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Cable Row (1000m equivalent)",
+      "target_sets": 8,
+      "target_reps": "1000m",
+      "target_rpe": 7,
+      "suggested_weight_kg": 50,
+      "suggestion_note": "Horizontal pull at low angle (safe for shoulder). Hold steady 2:00–2:10/500m split. Do not sprint the first 500m. Last session 50kg × 10–11 reps — maintain.",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Farmer's Carry (200m)",
+      "target_sets": 8,
+      "target_reps": "200m",
+      "target_rpe": 6,
+      "suggested_weight_kg": null,
+      "suggestion_note": "Arms at sides, grip and posture fully shoulder-safe. Squeeze handles hard, shoulders back and down. Do not rush.",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Barbell Hip Thrust (sandbag lunge alternative)",
+      "target_sets": 8,
+      "target_reps": "100m / ~12 reps",
+      "target_rpe": 7,
+      "suggested_weight_kg": 55,
+      "suggestion_note": "Substitute for sandbag lunges (100m bear-hug): if right shoulder grip position bothersome, use barbell hip thrust 55kg × 12 reps to conserve energy and avoid overhead/grip stress. Core tight, controlled tempo.",
+      "is_bodyweight": false
+    }
+  ],
+  "cardio": {
+    "subtype": "other",
+    "target_duration_min": 65,
+    "target_hr_min": 140,
+    "target_hr_max": 165,
+    "notes": "8 × (1km run @ 5:30–6:00/km + station). Target consistent splits, NOT fast splits. HR spikes hardest at Burpee Broad Jumps (station 4). Walk 2–3 min between run+station if needed. Total session ~65–75 min at ~70% effort (ACWR ~1.0–1.1 optimal)."
+  },
+  "notes": "FULL HYROX SIMULATION — KEY SESSION 7 days before race. RIGHT ROTATOR CUFF TEAR: Monitor shoulder pain 0–10 at every station. Wall Balls (station 8) is critical test — data directly informs race-day strategy. Log total elapsed time, each 1km run split, time per station, RPE per station, shoulder pain per station, avg/max HR. Substitute Ski Erg → Assault Bike 50 cal if sharp pain; Wall Balls → goblet squats if >6/10 pain. Cool down: 5 min walk, stretch hamstrings/quads/hips/calves, band external rotations 1 × 15 each arm. Eat within 60 min: 40g+ protein, 80g+ carbs."
+}

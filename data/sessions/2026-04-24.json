@@ -1,0 +1,11 @@
+{
+  "type": "cardio",
+  "exercises": [],
+  "cardio": {
+    "subtype": "zone2-run",
+    "target_duration_min": 20,
+    "target_hr_min": 120,
+    "target_hr_max": 130
+  },
+  "notes": "HR-controlled active recovery run. Expect ~9:00–9:30/km. If HR drifts above 130, walk until <125 then resume. Legs should feel light post-simulation — if heavy or sore, reduce to 15 min or replace with 20 min walk. Log average HR. This is the final run >10 min before race day."
+}

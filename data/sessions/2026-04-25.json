@@ -1,0 +1,52 @@
+{
+  "type": "hybrid",
+  "exercises": [
+    {
+      "name": "Cable Row",
+      "target_sets": 1,
+      "target_reps": "8-10",
+      "target_rpe": 4,
+      "suggested_weight_kg": 50,
+      "suggestion_note": "250m easy row equivalent — light, movement priming only",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Wall Ball",
+      "target_sets": 1,
+      "target_reps": "5",
+      "target_rpe": 3,
+      "suggested_weight_kg": 4,
+      "suggestion_note": "CONDITIONAL: skip entirely if shoulder pain >2/10 on Wednesday. Substitute 10 goblet squats if omitted.",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Leg Press",
+      "target_sets": 1,
+      "target_reps": "10",
+      "target_rpe": 3,
+      "suggested_weight_kg": 100,
+      "suggestion_note": "Goblet squat equivalent — easy tempo, mental rhythm focus",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Deadlift",
+      "target_sets": 1,
+      "target_reps": "5",
+      "target_rpe": 3,
+      "suggested_weight_kg": 75,
+      "suggestion_note": "Farmer's carry + lunges + burpees equivalent — hold light weight, focus on movement quality",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Hanging Knee Raise",
+      "target_sets": 1,
+      "target_reps": "10-15",
+      "target_rpe": 3,
+      "suggested_weight_kg": null,
+      "suggestion_note": "Light core activation — low fatigue, mental priming focus",
+      "is_bodyweight": true
+    }
+  ],
+  "cardio": null,
+  "notes": "20–25 min total at 50% effort max. This is mental rehearsal and pattern priming, not physical stress. Walk and visualise race-day transitions between each station. **SHOULDER CHECK**: Skip Wall Ball entirely if Wednesday simulation caused >2/10 pain; substitute 10 goblet squats instead. Stop immediately if anything feels heavy or sluggish—taper is active, fitness is banked. Focus: pacing targets, wall ball set/rest strategy, pre-race timing, warm-up routine."
+}
