@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type React from 'react'
-import { LayoutDashboard, Activity, Scale, Dumbbell, Utensils } from 'lucide-react'
+import { Sun, TrendingUp, Activity, Scale, Utensils } from 'lucide-react'
 import { ScoreCard } from '@/components/ScoreCard'
 import { CategoryBreakdown } from '@/components/CategoryBreakdown'
 import { ScoreBreakdownChart, WeightChart, BodyFatChart, Vo2Chart, RhrChart, TrainingLoadChart, Zone2PaceChart } from '@/components/TrendCharts'
@@ -24,14 +24,14 @@ import { WorkoutPreviewScreen } from '@/screens/WorkoutPreviewScreen'
 import { ActiveWorkoutScreen } from '@/screens/ActiveWorkoutScreen'
 import { CompletionScreen } from '@/screens/CompletionScreen'
 
-const TABS = ['Overview', 'Training', 'Body', 'Strength', 'Nutrition'] as const
+const TABS = ['Today', 'Progress', 'Training', 'Body', 'Nutrition'] as const
 type Tab = typeof TABS[number]
 
 const TAB_ICONS: Record<Tab, React.ElementType> = {
-  Overview:  LayoutDashboard,
+  Today:     Sun,
+  Progress:  TrendingUp,
   Training:  Activity,
   Body:      Scale,
-  Strength:  Dumbbell,
   Nutrition: Utensils,
 }
 
@@ -104,14 +104,31 @@ function BottomNav({ active, onChange }: { active: Tab; onChange: (t: Tab) => vo
   )
 }
 
-function OverviewTab() {
+function TodayTab() {
   return (
     <div className="space-y-4">
       <StatTiles />
+      <InjuryCard />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
+        <HyroxCountdown />
+        <UpcomingSessions />
+        <NutritionLog />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <SleepCard />
+        <ReadinessCard />
+      </div>
+    </div>
+  )
+}
+
+function ProgressTab() {
+  return (
+    <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-stretch">
         <ScoreCard />
         <ConsistencyGauge />
-        <HyroxCountdown />
+        <ComplianceWidget />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
         <div className="lg:col-span-2">
@@ -127,11 +144,14 @@ function TrainingTab() {
   return (
     <div className="space-y-4">
       <TrainingLoadChart />
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
-        <UpcomingSessions />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
         <WorkoutHistory />
-        <ComplianceWidget />
+        <div className="space-y-4">
+          <PRTable />
+          <MuscleVolumeCard />
+        </div>
       </div>
+      <Zone2PaceChart />
     </div>
   )
 }
@@ -139,28 +159,13 @@ function TrainingTab() {
 function BodyTab() {
   return (
     <div className="space-y-4">
-      <InjuryCard />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <WeightChart />
         <BodyFatChart />
         <Vo2Chart />
         <RhrChart />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <SleepCard />
-        <ReadinessCard />
-      </div>
       <WeightPredictionCard />
-      <Zone2PaceChart />
-    </div>
-  )
-}
-
-function StrengthTab() {
-  return (
-    <div className="space-y-4">
-      <PRTable />
-      <MuscleVolumeCard />
     </div>
   )
 }
@@ -175,7 +180,7 @@ function NutritionTab() {
 }
 
 function Dashboard() {
-  const [activeTab, setActiveTab] = useState<Tab>('Overview')
+  const [activeTab, setActiveTab] = useState<Tab>('Today')
 
   return (
     <div className="min-h-screen bg-background">
@@ -195,11 +200,11 @@ function Dashboard() {
 
         {/* Tab content — extra bottom padding on mobile for the fixed nav bar */}
         <div className="pt-2 pb-24 md:pb-2">
-          {activeTab === 'Overview'   && <OverviewTab />}
-          {activeTab === 'Training'   && <TrainingTab />}
-          {activeTab === 'Body'       && <BodyTab />}
-          {activeTab === 'Strength'   && <StrengthTab />}
-          {activeTab === 'Nutrition'  && <NutritionTab />}
+          {activeTab === 'Today'     && <TodayTab />}
+          {activeTab === 'Progress'  && <ProgressTab />}
+          {activeTab === 'Training'  && <TrainingTab />}
+          {activeTab === 'Body'      && <BodyTab />}
+          {activeTab === 'Nutrition' && <NutritionTab />}
         </div>
 
       </div>
