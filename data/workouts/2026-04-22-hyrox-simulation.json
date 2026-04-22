@@ -1,0 +1,39 @@
+{
+  "id": "2026-04-22-hyrox-simulation",
+  "date": "2026-04-22",
+  "title": "Hyrox Full Simulation",
+  "type": "hybrid",
+  "duration_min": 103,
+  "avg_hr": 155,
+  "max_hr": 174,
+  "calories_active": 1155,
+  "calories_total": 1311,
+  "rpe": 8,
+  "source": "apple-watch",
+  "hr_zones": {
+    "zone1_min": 126,
+    "zone2_min": 991,
+    "zone3_min": 3483,
+    "zone4_min": 1552,
+    "zone5_min": 0
+  },
+  "splits": [
+    { "km": 1, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:18", "avg_hr": 135, "notes": "Run 1 — treadmill 10 kph" },
+    { "km": 2, "type": "work",     "distance_km": 1.0, "avg_hr": 149, "notes": "Station 1: SkiErg 1000m" },
+    { "km": 3, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:44", "avg_hr": 146, "notes": "Run 2 — treadmill 10 kph" },
+    { "km": 4, "type": "work",     "distance_km": 0.05, "avg_hr": 160, "notes": "Station 2: Sled Push 50m" },
+    { "km": 5, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:45", "avg_hr": 163, "notes": "Run 3 — treadmill 10 kph" },
+    { "km": 6, "type": "work",     "distance_km": 0.05, "avg_hr": 158, "notes": "Station 3: Sled Pull 50m" },
+    { "km": 7, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:51", "avg_hr": 156, "notes": "Run 4 — treadmill 10 kph" },
+    { "km": 8, "type": "work",     "distance_km": 0.08, "avg_hr": 162, "notes": "Station 4: Burpee Broad Jumps 80m" },
+    { "km": 9, "type": "interval", "distance_km": 1.0, "pace_per_km": "7:24", "avg_hr": 154, "notes": "Run 5 — treadmill 10 kph; slowest run, post-burpees" },
+    { "km": 10, "type": "work",    "distance_km": 1.0, "avg_hr": 150, "notes": "Station 5: Rowing 1000m" },
+    { "km": 11, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:37", "avg_hr": 155, "notes": "Run 6 — treadmill 10 kph" },
+    { "km": 12, "type": "work",    "distance_km": 0.2, "avg_hr": 152, "notes": "Station 6: Farmer's Carry ~200m (slightly over to be safe)" },
+    { "km": 13, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:37", "avg_hr": 154, "notes": "Run 7 — treadmill 10 kph" },
+    { "km": 14, "type": "work",    "distance_km": 0.1, "avg_hr": 158, "notes": "Station 7: Sandbag Lunges 100m — 16kg bag (race weight 20kg, only available weight)" },
+    { "km": 15, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:04", "avg_hr": 160, "notes": "Run 8 — treadmill 10 kph; fastest run, strong finish" },
+    { "km": 16, "type": "work",    "avg_hr": 159, "notes": "Station 8: Wall Balls 100 reps" }
+  ],
+  "notes": "Full Hyrox simulation — all 8 stations + 8×1km treadmill runs in correct order. Treadmill set to 10 kph (6:00/km) for all runs; segment times include transition overhead (treadmill ramp-up). Caveats: sandbag was 16kg not 20kg; farmer's carry distance estimated (went slightly over 200m). Race-day projection: ~1:34–1:37 after removing treadmill transition overhead (~5–8 min). Shoulder condition: rotator cuff active — ski erg and wall ball pain ratings to be recorded separately."
+}
