@@ -26,14 +26,14 @@
     { "km": 6, "type": "work",     "distance_km": 0.05, "avg_hr": 158, "notes": "Station 3: Sled Pull 50m" },
     { "km": 7, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:51", "avg_hr": 156, "notes": "Run 4 — treadmill 10 kph" },
     { "km": 8, "type": "work",     "distance_km": 0.08, "avg_hr": 162, "notes": "Station 4: Burpee Broad Jumps 80m" },
-    { "km": 9, "type": "interval", "distance_km": 1.0, "pace_per_km": "7:24", "avg_hr": 154, "notes": "Run 5 — treadmill 10 kph; slowest run, post-burpees" },
+    { "km": 9, "type": "interval", "distance_km": 1.0, "pace_per_km": "7:24", "avg_hr": 154, "notes": "Run 5 — treadmill 10 kph; extra time due to water bottle refill stop, not fatigue" },
     { "km": 10, "type": "work",    "distance_km": 1.0, "avg_hr": 150, "notes": "Station 5: Rowing 1000m" },
     { "km": 11, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:37", "avg_hr": 155, "notes": "Run 6 — treadmill 10 kph" },
     { "km": 12, "type": "work",    "distance_km": 0.2, "avg_hr": 152, "notes": "Station 6: Farmer's Carry ~200m (slightly over to be safe)" },
     { "km": 13, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:37", "avg_hr": 154, "notes": "Run 7 — treadmill 10 kph" },
     { "km": 14, "type": "work",    "distance_km": 0.1, "avg_hr": 158, "notes": "Station 7: Sandbag Lunges 100m — 16kg bag (race weight 20kg, only available weight)" },
     { "km": 15, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:04", "avg_hr": 160, "notes": "Run 8 — treadmill 10 kph; fastest run, strong finish" },
-    { "km": 16, "type": "work",    "avg_hr": 159, "notes": "Station 8: Wall Balls 100 reps" }
+    { "km": 16, "type": "work",    "avg_hr": 159, "notes": "Station 8: Wall Balls 100 reps @ 6kg" }
   ],
-  "notes": "Full Hyrox simulation — all 8 stations + 8×1km treadmill runs in correct order. Treadmill set to 10 kph (6:00/km) for all runs; segment times include transition overhead (treadmill ramp-up). Caveats: sandbag was 16kg not 20kg; farmer's carry distance estimated (went slightly over 200m). Race-day projection: ~1:34–1:37 after removing treadmill transition overhead (~5–8 min). Shoulder condition: rotator cuff active — ski erg and wall ball pain ratings to be recorded separately."
+  "notes": "Full Hyrox simulation — all 8 stations + 8×1km treadmill runs in correct order. Treadmill set to 10 kph (6:00/km) for all runs; segment times include transition overhead (treadmill ramp-up). Caveats: sandbag was 16kg not 20kg; farmer's carry distance estimated (went slightly over 200m); Run 5 extended by water bottle stop. Race-day projection: ~1:34–1:37 after removing treadmill transition overhead (~5–8 min). Shoulder: right rotator cuff active — pain 2/10 on ski erg and wall balls, minimal impact on performance; some stiffness post-session."
 }
