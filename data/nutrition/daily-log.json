@@ -346,5 +346,15 @@
     "protein_g": 20,
     "carbs_g": 20,
     "fat_g": 7
+  },
+  {
+    "date": "2026-04-22",
+    "time": "19:30",
+    "description": "Dinner: Chinese takeaway — chicken spring rolls (x3), egg fried rice, mixed meats in sweet and sour sauce",
+    "calories": 1390,
+    "protein_g": 52,
+    "carbs_g": 173,
+    "fat_g": 42,
+    "approximate": true
   }
 ]
