@@ -474,6 +474,16 @@ async function main() {
         }
         console.log(`\nActive plan set: data/programs/${filename}`)
 
+        // Pre-generate sessions for the next 7 days so they're ready on mobile
+        console.log('\nPreloading sessions for next 7 days...')
+        const preloadResult = spawnSync('npx', ['tsx', join(__dirname, 'preload-sessions.ts')], {
+          stdio: 'inherit',
+          cwd: join(__dirname, '..'),
+        })
+        if (preloadResult.status !== 0) {
+          console.warn('Session preload failed — sessions will fall back to keyword extraction on mobile.')
+        }
+
         const deployAnswer = (await ask(rl, '\nDeploy to dashboard now? (y/n): ')).toLowerCase()
         if (deployAnswer === 'y' || deployAnswer === 'yes') {
           console.log('\nBuilding and deploying dashboard...')

@@ -11,6 +11,7 @@
     "context": "tsx cli/context.ts",
     "upcoming": "tsx cli/upcoming.ts",
     "plan": "tsx cli/plan.ts",
+    "preload-sessions": "tsx cli/preload-sessions.ts",
     "log:nutrition": "tsx cli/log-nutrition.ts",
     "import:health": "tsx cli/import-health-export.ts",
     "typecheck": "tsc --noEmit",

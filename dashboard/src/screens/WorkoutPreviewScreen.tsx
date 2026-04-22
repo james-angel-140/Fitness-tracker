@@ -115,6 +115,11 @@ export function WorkoutPreviewScreen() {
                   <Sparkles className="w-3.5 h-3.5 text-sky-400 animate-pulse" />
                   <span className="text-muted-foreground">Building your workout with AI…</span>
                 </>
+              ) : parsed?.source === 'preloaded' ? (
+                <>
+                  <Sparkles className="w-3.5 h-3.5 text-sky-400" />
+                  <span className="text-muted-foreground">Pre-loaded plan · edit as needed</span>
+                </>
               ) : parsed?.source === 'ai' ? (
                 <>
                   <Sparkles className="w-3.5 h-3.5 text-sky-400" />

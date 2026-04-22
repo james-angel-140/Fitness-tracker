@@ -36,7 +36,7 @@ export interface ParsedSession {
   exercises: ActiveExercise[]
   cardio: CardioTarget | null
   notes: string
-  source: 'ai' | 'fallback'
+  source: 'ai' | 'preloaded' | 'fallback'
 }
 
 // In-progress workout state

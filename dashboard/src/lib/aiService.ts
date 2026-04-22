@@ -1,10 +1,14 @@
-// AI service — calls the Vite dev-server middleware (/api/ai/parse-workout)
-// Falls back to local keyword extraction if the endpoint is unavailable
-// (e.g. when running from gh-pages on phone, where no server is running)
+// AI service — resolution order:
+//   1. Pre-generated session file from data/sessions/YYYY-MM-DD.json (static, works on mobile)
+//   2. Vite dev-server middleware (/api/ai/parse-workout) — requires API key on desktop
+//   3. Local keyword extraction fallback (always available)
 
 import { getSuggestion } from '@/lib/progressiveOverload'
 import { workouts, prs, muscleVolume, patternVolume, pushPullRatio7d, pushPullStatus } from '@/lib/data'
 import taxonomyRaw from '@data/exercise-taxonomy.json'
+
+// Pre-generated sessions — bundled at build time, available with no API call
+const preloadedSessions = import.meta.glob('@data/sessions/*.json', { eager: true })
 import {
   type ParsedSession,
   type ActiveExercise,
@@ -244,11 +248,49 @@ function fallbackParse(focus: string, sessionText: string): ParsedSession {
 
 // ─── Public entry point ───────────────────────────────────────────────────────
 
+function loadPregenerated(date: string): AIResponse | null {
+  const key = Object.keys(preloadedSessions).find(k => k.endsWith(`/${date}.json`))
+  if (!key) return null
+  const mod = preloadedSessions[key] as { default?: AIResponse } | AIResponse
+  return ((mod as any).default ?? mod) as AIResponse
+}
+
 export async function parseWorkoutSession(
   sessionText: string,
   focus: string,
   date: string,
 ): Promise<ParsedSession> {
+  // 1. Pre-generated session (static file — works on mobile, no API needed)
+  const pregenerated = loadPregenerated(date)
+  if (pregenerated) {
+    const exercises: ActiveExercise[] = (pregenerated.exercises ?? []).map((ex) => {
+      const localSuggestion = getSuggestion(ex.name)
+      return {
+        id: makeExerciseId(),
+        name: ex.name,
+        target_sets: ex.target_sets ?? 3,
+        target_reps: ex.target_reps ?? '8-12',
+        target_rpe: ex.target_rpe ?? null,
+        suggested_weight_kg: ex.suggested_weight_kg ?? localSuggestion.suggested_weight_kg,
+        suggestion_note: ex.suggestion_note || localSuggestion.suggestion_note,
+        is_bodyweight: ex.is_bodyweight ?? false,
+        sets: defaultSets(
+          ex.target_sets ?? 3,
+          ex.suggested_weight_kg ?? localSuggestion.suggested_weight_kg,
+          ex.is_bodyweight ?? false,
+        ),
+      }
+    })
+    return {
+      type: pregenerated.type as ParsedSession['type'],
+      exercises,
+      cardio: pregenerated.cardio ?? null,
+      notes: pregenerated.notes ?? '',
+      source: 'preloaded',
+    }
+  }
+
+  // 2. Live API call via Vite middleware (desktop dev server only)
   const prompt = buildPrompt(sessionText, focus, date)
   const aiResult = await callAI(prompt)
 
