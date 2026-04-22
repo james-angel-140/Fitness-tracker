@@ -328,5 +328,23 @@
     "calories": 675,
     "protein_g": 54,
     "approximate": true
+  },
+  {
+    "date": "2026-04-22",
+    "time": "17:00",
+    "description": "Post-simulation: Banana",
+    "calories": 100,
+    "protein_g": 1,
+    "carbs_g": 23,
+    "fat_g": 0
+  },
+  {
+    "date": "2026-04-22",
+    "time": "17:05",
+    "description": "Post-simulation: Barbell protein bar",
+    "calories": 200,
+    "protein_g": 20,
+    "carbs_g": 20,
+    "fat_g": 7
   }
 ]
