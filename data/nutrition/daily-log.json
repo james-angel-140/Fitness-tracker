@@ -356,5 +356,14 @@
     "carbs_g": 173,
     "fat_g": 42,
     "approximate": true
+  },
+  {
+    "date": "2026-04-22",
+    "time": "21:00",
+    "description": "Protein shake: Form",
+    "calories": 120,
+    "protein_g": 25,
+    "carbs_g": 3,
+    "fat_g": 2
   }
 ]
