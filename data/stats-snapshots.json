@@ -699,7 +699,30 @@
   {
     "date": "2026-04-21",
     "weight_kg": 70.84,
-    "resting_hr_bpm": 47,
+    "resting_hr_bpm": 49,
+    "notes": "auto-imported from Health Auto Export",
+    "vo2_max": 43.23
+  },
+  {
+    "date": "2026-04-22",
+    "weight_kg": 71.17,
+    "body_fat_pct": 15.25,
+    "vo2_max": 43.38,
+    "resting_hr_bpm": 45,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-04-23",
+    "weight_kg": 71.35,
+    "body_fat_pct": 15.5,
+    "vo2_max": 43.68,
+    "resting_hr_bpm": 50,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-04-24",
+    "weight_kg": 70.65,
+    "body_fat_pct": 15.17,
     "notes": "auto-imported from Health Auto Export"
   }
 ]

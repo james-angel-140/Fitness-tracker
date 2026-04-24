@@ -578,6 +578,30 @@
       "lean_mass_kg": 59.73,
       "change_kg": 0.18,
       "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-04-22",
+      "weight_kg": 71.17,
+      "body_fat_pct": 15.25,
+      "lean_mass_kg": 60.31,
+      "change_kg": 0.33,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-04-23",
+      "weight_kg": 71.35,
+      "body_fat_pct": 15.5,
+      "lean_mass_kg": 60.27,
+      "change_kg": 0.18,
+      "notes": "Withings (auto-imported)"
+    },
+    {
+      "date": "2026-04-24",
+      "weight_kg": 70.65,
+      "body_fat_pct": 15.17,
+      "lean_mass_kg": 59.92,
+      "change_kg": -0.7,
+      "notes": "Withings (auto-imported)"
     }
   ],
   "monthly_averages": []
