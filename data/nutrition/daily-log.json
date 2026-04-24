@@ -400,5 +400,39 @@
     "calories": 675,
     "protein_g": 54,
     "approximate": true
+  },
+  {
+    "date": "2026-04-24",
+    "time": "08:00",
+    "description": "Breakfast: Fage 5% yogurt (225g), oats (~35g), honey (~15g)",
+    "calories": 555,
+    "protein_g": 26,
+    "carbs_g": 73,
+    "fat_g": 18,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-24",
+    "time": "13:00",
+    "description": "Lunch: PrepKitchen meal",
+    "calories": 675,
+    "protein_g": 54,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-24",
+    "description": "Snack: Barbell protein bar",
+    "calories": 200,
+    "protein_g": 20,
+    "carbs_g": 20,
+    "fat_g": 7
+  },
+  {
+    "date": "2026-04-24",
+    "time": "19:00",
+    "description": "Dinner: PrepKitchen meal",
+    "calories": 675,
+    "protein_g": 54,
+    "approximate": true
   }
 ]
