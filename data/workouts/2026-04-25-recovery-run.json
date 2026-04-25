@@ -1,0 +1,31 @@
+{
+  "id": "2026-04-25-recovery-run",
+  "date": "2026-04-25",
+  "title": "Recovery Run",
+  "type": "cardio",
+  "cardio_subtype": "run",
+  "duration_min": 20,
+  "distance_km": 2.85,
+  "avg_pace_per_km": "7:01",
+  "avg_hr": 131,
+  "avg_cadence_spm": 149,
+  "calories_active": 190,
+  "calories_total": 221,
+  "rpe": 3,
+  "source": "apple-watch",
+  "notes": "Indoor treadmill (Technogym). Moved from Apr 24. Easy effort — avg HR just below Zone 2.",
+  "splits": [
+    {
+      "type": "steady",
+      "distance_km": 1.0,
+      "pace_per_km": "7:05",
+      "avg_hr": 120
+    },
+    {
+      "type": "steady",
+      "distance_km": 1.0,
+      "pace_per_km": "6:58",
+      "avg_hr": 134
+    }
+  ]
+}

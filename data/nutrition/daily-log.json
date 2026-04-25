@@ -443,5 +443,14 @@
     "carbs_g": 11,
     "fat_g": 26,
     "approximate": true
+  },
+  {
+    "date": "2026-04-25",
+    "description": "Lunch: Tesco Finest sausages x2 in sourdough with mayo and onion chutney (estimate)",
+    "calories": 700,
+    "protein_g": 23,
+    "carbs_g": 66,
+    "fat_g": 38,
+    "approximate": true
   }
 ]
