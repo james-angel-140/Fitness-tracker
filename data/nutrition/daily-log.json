@@ -474,5 +474,25 @@
     "protein_g": 20,
     "carbs_g": 20,
     "fat_g": 7
+  },
+  {
+    "date": "2026-04-26",
+    "time": "08:00",
+    "description": "Breakfast: Fage 5% yogurt (100g), honey, sourdough bread (1 slice), small amount of berries",
+    "calories": 285,
+    "protein_g": 13,
+    "carbs_g": 43,
+    "fat_g": 6,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-26",
+    "time": "13:00",
+    "description": "Lunch: BBQ chicken wings x8 with butter & chilli sauce, fries, store-bought coleslaw (estimate)",
+    "calories": 1370,
+    "protein_g": 62,
+    "carbs_g": 73,
+    "fat_g": 84,
+    "approximate": true
   }
 ]
