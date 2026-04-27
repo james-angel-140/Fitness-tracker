@@ -952,7 +952,31 @@
       "awake_hr": 0.23,
       "source": "health-auto-export",
       "hrv_ms": 87,
+      "resting_hr": 56,
       "respiratory_rate": 16.37
+    },
+    {
+      "date": "2026-04-26",
+      "duration_hr": 8.66,
+      "sleep_hr": 8.39,
+      "deep_hr": 1.23,
+      "rem_hr": 2.31,
+      "awake_hr": 0.27,
+      "source": "health-auto-export",
+      "hrv_ms": 98,
+      "resting_hr": 55,
+      "respiratory_rate": 16.14
+    },
+    {
+      "date": "2026-04-27",
+      "duration_hr": 8.76,
+      "sleep_hr": 8.64,
+      "deep_hr": 1.38,
+      "rem_hr": 2.44,
+      "awake_hr": 0.12,
+      "source": "health-auto-export",
+      "hrv_ms": 68,
+      "respiratory_rate": 16.84
     }
   ]
 }

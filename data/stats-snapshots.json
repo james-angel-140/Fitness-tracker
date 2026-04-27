@@ -729,6 +729,22 @@
     "date": "2026-04-25",
     "weight_kg": 70.84,
     "body_fat_pct": 15.39,
+    "notes": "auto-imported from Health Auto Export",
+    "vo2_max": 43.85,
+    "resting_hr_bpm": 56
+  },
+  {
+    "date": "2026-04-26",
+    "weight_kg": 70.43,
+    "body_fat_pct": 15.45,
+    "vo2_max": 44.26,
+    "resting_hr_bpm": 55,
+    "notes": "auto-imported from Health Auto Export"
+  },
+  {
+    "date": "2026-04-27",
+    "weight_kg": 71.21,
+    "body_fat_pct": 15.6,
     "notes": "auto-imported from Health Auto Export"
   }
 ]
