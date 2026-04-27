@@ -544,5 +544,42 @@
     "protein_g": 20,
     "carbs_g": 20,
     "fat_g": 7
+  },
+  {
+    "date": "2026-04-26",
+    "time": "19:00",
+    "description": "Dinner: Sausage pasta — 3 pork sausages, pasta, tomato pesto, tomato puree, half pepper, half onion, grated chorizo",
+    "calories": 1050,
+    "protein_g": 43,
+    "carbs_g": 91,
+    "fat_g": 56,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-26",
+    "time": "21:00",
+    "description": "Evening: Protein shake (Form)",
+    "calories": 120,
+    "protein_g": 25,
+    "carbs_g": 3,
+    "fat_g": 2
+  },
+  {
+    "date": "2026-04-27",
+    "description": "Breakfast: Barbell protein bar",
+    "calories": 200,
+    "protein_g": 20,
+    "carbs_g": 20,
+    "fat_g": 7
+  },
+  {
+    "date": "2026-04-27",
+    "time": "08:30",
+    "description": "Breakfast: Fage 5% yogurt (225g), small amount of oats, large handful of berries, honey drizzle",
+    "calories": 410,
+    "protein_g": 24,
+    "carbs_g": 47,
+    "fat_g": 13,
+    "approximate": true
   }
 ]
