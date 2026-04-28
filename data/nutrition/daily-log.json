@@ -581,5 +581,34 @@
     "carbs_g": 47,
     "fat_g": 13,
     "approximate": true
+  },
+  {
+    "date": "2026-04-27",
+    "time": "13:00",
+    "description": "Lunch: Peri peri chicken wings with chips and coleslaw",
+    "calories": 1000,
+    "protein_g": 52,
+    "carbs_g": 60,
+    "fat_g": 55,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-27",
+    "time": "19:00",
+    "description": "Dinner: Chicken thighs, lamb stew, bread, hummus, tiramisu",
+    "calories": 1250,
+    "protein_g": 68,
+    "carbs_g": 85,
+    "fat_g": 62,
+    "approximate": true
+  },
+  {
+    "date": "2026-04-27",
+    "time": "22:00",
+    "description": "Evening: Protein shake (Form)",
+    "calories": 120,
+    "protein_g": 25,
+    "carbs_g": 3,
+    "fat_g": 2
   }
 ]
