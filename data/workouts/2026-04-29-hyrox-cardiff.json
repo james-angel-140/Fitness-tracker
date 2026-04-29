@@ -7,6 +7,7 @@
   "distance_km": 8.0,
   "avg_pace_per_km": "5:58",
   "source": "manual",
+  "rpe": 10,
   "splits": [
     { "km": 1,  "type": "interval", "distance_km": 1.0, "pace_per_km": "5:33", "notes": "Run 1" },
     { "km": 2,  "type": "work",     "distance_km": 1.0,                         "notes": "Station 1: SkiErg 1000m — 4:55" },
