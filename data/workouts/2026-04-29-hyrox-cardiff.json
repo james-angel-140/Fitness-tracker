@@ -1,0 +1,29 @@
+{
+  "id": "2026-04-29-hyrox-cardiff",
+  "date": "2026-04-29",
+  "title": "Hyrox Cardiff 2026",
+  "type": "hybrid",
+  "duration_min": 105,
+  "distance_km": 8.0,
+  "avg_pace_per_km": "5:58",
+  "source": "manual",
+  "splits": [
+    { "km": 1,  "type": "interval", "distance_km": 1.0, "pace_per_km": "5:33", "notes": "Run 1" },
+    { "km": 2,  "type": "work",     "distance_km": 1.0,                         "notes": "Station 1: SkiErg 1000m — 4:55" },
+    { "km": 3,  "type": "interval", "distance_km": 1.0, "pace_per_km": "5:05", "notes": "Run 2" },
+    { "km": 4,  "type": "work",     "distance_km": 0.05,                        "notes": "Station 2: Sled Push 50m — 3:26" },
+    { "km": 5,  "type": "interval", "distance_km": 1.0, "pace_per_km": "6:28", "notes": "Run 3 — pace dropped, redlining after sled push" },
+    { "km": 6,  "type": "work",     "distance_km": 0.05,                        "notes": "Station 3: Sled Pull 50m — 6:14 (incl. +15s penalty)" },
+    { "km": 7,  "type": "interval", "distance_km": 1.0, "pace_per_km": "5:39", "notes": "Run 4" },
+    { "km": 8,  "type": "work",     "distance_km": 0.08,                        "notes": "Station 4: Burpee Broad Jumps 80m — 9:14" },
+    { "km": 9,  "type": "interval", "distance_km": 1.0, "pace_per_km": "5:45", "notes": "Run 5" },
+    { "km": 10, "type": "work",     "distance_km": 1.0,                         "notes": "Station 5: Rowing 1000m — 5:07" },
+    { "km": 11, "type": "interval", "distance_km": 1.0, "pace_per_km": "5:50", "notes": "Run 6" },
+    { "km": 12, "type": "work",     "distance_km": 0.2,                         "notes": "Station 6: Farmers Carry 200m — 3:49" },
+    { "km": 13, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:54", "notes": "Run 7 — heavy leg fatigue, cramping starting" },
+    { "km": 14, "type": "work",     "distance_km": 0.1,                         "notes": "Station 7: Sandbag Lunges 100m — 6:34 (incl. +15s penalty)" },
+    { "km": 15, "type": "interval", "distance_km": 1.0, "pace_per_km": "6:27", "notes": "Run 8 — severe leg cramp" },
+    { "km": 16, "type": "work",                                                  "notes": "Station 8: Wall Balls 100 reps — 13:08; shoulder stiffness, legs gave out" }
+  ],
+  "notes": "Hyrox Cardiff 2026. Official result: 1:44:56, #421/458 overall (top 82.7%), #55 in AG 25-29. Runs: 47:40 (#367/458). Workouts: 52:31 (#442/458). Roxzone transitions: 04:45 (#343/458). Two penalties: Sled Pull +15s, Sandbag Lunges +15s. Went off too fast — hit Zone 5 immediately after sled push and couldn't bring HR down. Severe leg cramping and stiffness in final third. Shoulder stiffened on wall balls. Pre-race: only 5 hours broken sleep. Matched simulation time of ~1:43–1:45 despite race conditions."
+}
