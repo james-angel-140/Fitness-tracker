@@ -2,8 +2,45 @@ import 'dotenv/config'
 import express, { Request, Response, NextFunction } from 'express'
 import path from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
+import { spawn } from 'child_process'
+import chokidar from 'chokidar'
 
 const DATA_DIR = path.resolve(__dirname, '../data')
+const ROOT_DIR = path.resolve(__dirname, '..')
+
+// ─── Auto-rebuild on data changes ────────────────────────────────────────────
+
+let rebuildTimer: ReturnType<typeof setTimeout> | null = null
+let building = false
+
+function triggerRebuild(changedPath: string) {
+  if (rebuildTimer) clearTimeout(rebuildTimer)
+  // Debounce: wait 1.5s after last change before building
+  rebuildTimer = setTimeout(() => {
+    if (building) return
+    building = true
+    console.log(`[rebuild] ${path.relative(ROOT_DIR, changedPath)} changed — rebuilding dashboard…`)
+    const proc = spawn('/opt/homebrew/bin/npm', ['run', 'dashboard:build'], {
+      cwd: ROOT_DIR,
+      stdio: 'pipe',
+      env: { ...process.env, PATH: '/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin' },
+    })
+    proc.on('close', (code) => {
+      building = false
+      if (code === 0) {
+        console.log('[rebuild] done ✓')
+      } else {
+        console.error(`[rebuild] failed (exit ${code})`)
+      }
+    })
+  }, 1500)
+}
+
+chokidar.watch(DATA_DIR, {
+  ignored: /node_modules/,
+  ignoreInitial: true,
+  awaitWriteFinish: { stabilityThreshold: 500 },
+}).on('add', triggerRebuild).on('change', triggerRebuild)
 
 const app = express()
 const PORT = parseInt(process.env.PORT ?? '3001')
