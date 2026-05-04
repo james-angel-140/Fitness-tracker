@@ -96,6 +96,7 @@ export async function saveToServer(workout: SaveableWorkout): Promise<{ ok: bool
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ workout }),
+      credentials: 'include',
       signal: AbortSignal.timeout(10_000),
     })
     if (!res.ok) {
@@ -113,6 +114,7 @@ export async function updatePROnServer(lift: string, weight_kg: number, reps: nu
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ lift, weight_kg, reps }),
+    credentials: 'include',
     signal: AbortSignal.timeout(10_000),
   }).catch(() => {}) // best-effort, don't block the UI
 }

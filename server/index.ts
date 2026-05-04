@@ -72,18 +72,20 @@ app.post('/api/ai/parse-workout', async (req: Request, res: Response) => {
 // ─── Nutrition: parse free text → macro estimate ─────────────────────────────
 
 app.post('/api/nutrition/parse', async (req: Request, res: Response) => {
+  console.log('nutrition/parse body:', JSON.stringify(req.body))
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) { res.status(503).json({ error: 'ANTHROPIC_API_KEY not set' }); return }
 
   const { text } = req.body ?? {}
   if (!text || typeof text !== 'string') { res.status(400).json({ error: 'Missing text field' }); return }
 
-  const prompt = `Estimate the macros for this food or meal description.
-Return ONLY valid JSON — no markdown, no explanation:
-{"description":"<cleaned-up description>","calories":<number>,"protein_g":<number>,"carbs_g":<number>,"fat_g":<number>,"approximate":<true|false>}
+  const prompt = `Estimate the macros for this food or meal description. If multiple meals are listed, sum them into one combined entry.
+Return ONLY a single valid JSON object — no markdown, no array, no explanation:
+{"description":"<concise combined description>","calories":<number>,"protein_g":<number>,"carbs_g":<number>,"fat_g":<number>,"approximate":<true|false>}
 
 Rules:
-- description: normalise capitalisation and fix typos, keep it concise
+- description: normalise capitalisation and fix typos, keep it concise (max 80 chars)
+- If multiple items: combine descriptions with " + " and sum all macros
 - approximate: true for restaurant food, homemade meals, or vague descriptions; false only for packaged food with known labels
 - calories/protein_g/carbs_g/fat_g: integers, conservative estimates when uncertain
 
@@ -105,8 +107,26 @@ Food: "${text.slice(0, 500)}"`
     })
     const data = await response.json()
     const raw: string = data?.content?.[0]?.text ?? ''
-    const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim()
-    res.json(JSON.parse(cleaned))
+
+    // Extract JSON — could be an object {...} or array [...]
+    const match = raw.match(/(\[[\s\S]*\]|\{[\s\S]*\})/)
+    if (!match) throw new Error('No JSON found in AI response')
+    const parsed = JSON.parse(match[0])
+
+    // If Claude returned an array (multiple meals), combine into one entry
+    if (Array.isArray(parsed)) {
+      const combined = {
+        description: parsed.map((e: any) => e.description).join(' + '),
+        calories: parsed.reduce((s: number, e: any) => s + (e.calories ?? 0), 0),
+        protein_g: parsed.reduce((s: number, e: any) => s + (e.protein_g ?? 0), 0),
+        carbs_g: parsed.reduce((s: number, e: any) => s + (e.carbs_g ?? 0), 0),
+        fat_g: parsed.reduce((s: number, e: any) => s + (e.fat_g ?? 0), 0),
+        approximate: true,
+      }
+      res.json(combined)
+    } else {
+      res.json(parsed)
+    }
   } catch (err) {
     console.error('Nutrition parse error:', err)
     res.status(500).json({ error: String(err) })

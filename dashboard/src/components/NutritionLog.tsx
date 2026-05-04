@@ -84,6 +84,7 @@ export function NutritionLog() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: inputText.trim() }),
+        credentials: 'include',
         signal: AbortSignal.timeout(20_000),
       })
       if (!res.ok) throw new Error(`Server error ${res.status}`)
@@ -104,6 +105,7 @@ export function NutritionLog() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(estimate),
+        credentials: 'include',
         signal: AbortSignal.timeout(10_000),
       })
       if (!res.ok) throw new Error(`Server error ${res.status}`)
