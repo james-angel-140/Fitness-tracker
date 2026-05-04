@@ -3,11 +3,20 @@
   "exercises": [
     {
       "name": "Barbell Bench Press",
-      "target_sets": 4,
+      "target_sets": 3,
       "target_reps": "8-10",
       "target_rpe": 7,
       "suggested_weight_kg": 60,
-      "suggestion_note": "Last session 2026-03-24 60kg × 9 reps — hold weight, focus on controlled ROM (no elbow flare) and 3-1-2 tempo. Provides ~4 sets indirect front delt stimulus.",
+      "suggestion_note": "Last session 2026-03-24 60kg × 9 reps — maintain weight, focus on controlled ROM and mind-muscle connection. No elbow flaring.",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Cable Rear Delt Fly",
+      "target_sets": 3,
+      "target_reps": "12-15",
+      "target_rpe": 6,
+      "suggested_weight_kg": 5,
+      "suggestion_note": "Last session 2026-04-20 5kg × 10 reps — hold weight, increase reps to 12–15 for shoulder balance and rotator cuff rehab on push day.",
       "is_bodyweight": false
     },
     {
@@ -15,20 +24,20 @@
       "target_sets": 3,
       "target_reps": "10-12",
       "target_rpe": 7,
-      "suggested_weight_kg": 8,
-      "suggestion_note": "Last session 2026-04-20 7.5kg × 10 reps — increase to 8kg. Shoulder-safe unilateral tricep isolation.",
+      "suggested_weight_kg": 7.5,
+      "suggestion_note": "Last session 2026-04-20 7.5kg × 10 reps — maintain weight, shoulder-safe underhand grip avoids impingement.",
       "is_bodyweight": false
     },
     {
-      "name": "Cable Rear Delt Fly",
-      "target_sets": 3,
-      "target_reps": "10-12",
-      "target_rpe": 7,
-      "suggested_weight_kg": 5.5,
-      "suggestion_note": "Last session 2026-04-20 5kg × 10 reps — increase to 5.5kg. Contributes to rear delt MEV (6 sets total this week) and balances front delt indirect stimulus from bench.",
+      "name": "Cable Shoulder Internal Rotation",
+      "target_sets": 2,
+      "target_reps": "12-15",
+      "target_rpe": 5,
+      "suggested_weight_kg": 5,
+      "suggestion_note": "Last session 2026-04-20 5kg × 10 reps — rotator cuff rehab accessory, light weight, high reps. Perform as final warm-down set.",
       "is_bodyweight": false
     }
   ],
   "cardio": null,
-  "notes": "Week 1 introduction — all muscles at MEV. Perform shoulder rehab warm-up (band external rotations 2×15/arm, band pull-aparts 2×15) before starting. Bench press: controlled ROM, 3-1-2 tempo, mind-muscle connection on chest squeeze. Stop 3–4 reps from failure (RPE 7). No overhead pressing due to active rotator cuff tear. Nutrition: 2800 kcal, 155g protein supports hypertrophy volume build."
+  "notes": "Week 1 MEV: chest 8 sets (3+3 from bench and rear delt fly secondary), triceps 6 sets (3+3 from underhand tricep + internal rotation secondary). Shoulder rehab warm-up: band external rotations 2×15/arm, band pull-aparts 2×15 before session. Tempo 3-1-2 (eccentric-pause-concentric), stop 3–4 reps from failure. NO overhead pressing, lateral raises, or dips. Nutrition 2800 kcal / 155g protein."
 }

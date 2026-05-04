@@ -5,7 +5,7 @@
     "subtype": "zone2-run",
     "target_duration_min": 30,
     "target_hr_min": 120,
-    "target_hr_max": 145
+    "target_hr_max": 140
   },
-  "notes": "Zone 2 active recovery session — maintain conversational pace, ~120–145 bpm. Supports ACWR rise toward 0.8–1.0 while allowing CNS recovery before next strength session. 2800 kcal / 155g protein supports MPS without demanding acute training stimulus."
+  "notes": "Active recovery Zone 2 cardio to support ACWR recovery toward 0.8–1.0 range post-Hyrox taper. Maintain conversational pace; no intensity. Resume resistance training tomorrow (Tuesday push)."
 }

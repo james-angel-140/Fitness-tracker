@@ -7,25 +7,25 @@
       "target_reps": "8-10",
       "target_rpe": 7,
       "suggested_weight_kg": 50,
-      "suggestion_note": "Last session 52.5kg × 9 — conservative start week 1; build tempo control (3-1-2)",
+      "suggestion_note": "Last session 2026-04-17 52.5kg × 9 reps; start conservative at MEV week 1, RPE 7 (3 reps in reserve)",
       "is_bodyweight": false
     },
     {
       "name": "Leg Press",
       "target_sets": 3,
-      "target_reps": "10-12",
+      "target_reps": "8-12",
       "target_rpe": 7,
-      "suggested_weight_kg": 105,
-      "suggestion_note": "Last session 100kg × 8 — stay controlled, emphasise mind-muscle connection quads/glutes",
+      "suggested_weight_kg": 100,
+      "suggestion_note": "Last session 2026-04-17 100kg × 8 reps; hold weight, control eccentric 3-1-2 tempo",
       "is_bodyweight": false
     },
     {
       "name": "Romanian Deadlift",
-      "target_sets": 3,
+      "target_sets": 2,
       "target_reps": "8-10",
       "target_rpe": 7,
-      "suggested_weight_kg": 50,
-      "suggestion_note": "Last session 52.5kg × 9 — neutral grip, hinge pattern for hamstrings/glutes/lower back",
+      "suggested_weight_kg": 52.5,
+      "suggestion_note": "Last session 2026-03-05 52.5kg × 9 reps; neutral grip to respect rotator cuff, drive from hamstrings/glutes",
       "is_bodyweight": false
     },
     {
@@ -34,7 +34,7 @@
       "target_reps": "10-12",
       "target_rpe": 7,
       "suggested_weight_kg": 50,
-      "suggestion_note": "Last session 50kg × 14 — isolate hamstrings, antagonist to quad-dominant patterns above",
+      "suggestion_note": "Last session 2026-04-17 50kg × 14 reps; reduce reps slightly for controlled tempo, maintain hamstring MEV",
       "is_bodyweight": false
     },
     {
@@ -43,19 +43,19 @@
       "target_reps": "8-10",
       "target_rpe": 7,
       "suggested_weight_kg": 55,
-      "suggestion_note": "Last session 55kg × 8 — direct glute stimulus, hold top position 1s for mind-muscle",
+      "suggestion_note": "Last session 2026-03-05 55kg × 8 reps; glutes at optimal volume but include for hypertrophy momentum, squeeze peak contraction 1-2 sec",
       "is_bodyweight": false
     },
     {
       "name": "Hanging Knee Raise",
-      "target_sets": 3,
+      "target_sets": 2,
       "target_reps": "12-15",
       "target_rpe": 7,
       "suggested_weight_kg": null,
-      "suggestion_note": "Last session 28 reps — strict abs work, controlled descent (3-1-2 tempo); lower reps/set this week for MEV",
+      "suggestion_note": "Last session 2026-04-13 28 reps BW; aim 12–15 reps with control, 2-1-2 tempo; abs MEV = 8 total for week (4 this session + 4 Friday)",
       "is_bodyweight": true
     }
   ],
   "cardio": null,
-  "notes": "Leg day week 1 MEV: quads 3+3=6 sets, hamstrings 3+2=5 sets, glutes 2+2=4 sets (✓ optimal), lower_back 3 sets, abs 3 sets. All at RPE 7, stop 3–4 reps from failure. Emphasise 3-1-2 tempo throughout; mind-muscle connection on every rep. 2800 kcal, 155g protein. Neutral grip RDL for shoulder safety."
+  "notes": "Leg day accumulation week 1 — all muscles at MEV. Back squat conservative to allow quality reps after Hyrox taper (ACWR 0.0). 3-1-2 tempo (eccentric-pause-concentric) on all working sets, RPE 6–7 (3–4 reps from failure). Total leg volume this session: quads 3+3=6, hamstrings 2+2=4, glutes 2, lower_back 0 (RDL secondary), abs 2 of 8 target. Nutrition: 2800 kcal / 155g protein (surplus +150 kcal) to support muscle protein synthesis during recomp."
 }

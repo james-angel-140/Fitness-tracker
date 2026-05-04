@@ -6,8 +6,8 @@
       "target_sets": 3,
       "target_reps": "8-12",
       "target_rpe": 7,
-      "suggested_weight_kg": 60,
-      "suggestion_note": "PR 60kg × 5-10 — start at top of rep range, RPE 7, 3-1-2 tempo",
+      "suggested_weight_kg": 55,
+      "suggestion_note": "Last session 60kg × 5-10 reps; regress slightly to MEV volume at RPE 7, rebuild momentum",
       "is_bodyweight": false
     },
     {
@@ -15,38 +15,47 @@
       "target_sets": 3,
       "target_reps": "8-12",
       "target_rpe": 7,
-      "suggested_weight_kg": 50,
-      "suggestion_note": "Recent 50kg × 10-14 reps — hold weight, focus on upper back squeeze, 3-1-2 tempo",
+      "suggested_weight_kg": 48,
+      "suggestion_note": "Last session 50kg × 10 reps; hold conservative at RPE 7 for volume accumulation",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Face Pull",
+      "target_sets": 3,
+      "target_reps": "12-15",
+      "target_rpe": 6,
+      "suggested_weight_kg": 8,
+      "suggestion_note": "Week 1 rear delt volume = 3 sets here + 3 sets Cable Rear Delt Fly = 6 total ≥ front delt MEV 4. Shoulder-safe, high reps for scapular health and rotator cuff activation",
       "is_bodyweight": false
     },
     {
       "name": "Cable Rear Delt Fly",
       "target_sets": 3,
-      "target_reps": "10-15",
+      "target_reps": "10-12",
       "target_rpe": 7,
-      "suggested_weight_kg": 5,
-      "suggestion_note": "Last 5kg × 10 — hold weight, emphasise mind-muscle connection, higher rep range for rear delt",
+      "suggested_weight_kg": 6,
+      "suggestion_note": "Last session 5kg × 10 reps; progress to 6kg to maintain rear delt stimulus and balance anterior shoulder dominance",
       "is_bodyweight": false
     },
     {
       "name": "Barbell Curl",
-      "target_sets": 3,
+      "target_sets": 4,
       "target_reps": "8-12",
       "target_rpe": 7,
-      "suggested_weight_kg": 25,
-      "suggestion_note": "Recent 25kg × 8 reps — strong baseline, maintain weight week 1, 3-1-2 tempo",
+      "suggested_weight_kg": 24,
+      "suggestion_note": "Last session 25kg × 8 reps; hold at 24kg for MEV accumulation (4 sets toward biceps MEV 8). Primary biceps stimulus",
       "is_bodyweight": false
     },
     {
       "name": "Hammer Curl",
-      "target_sets": 2,
-      "target_reps": "10-15",
+      "target_sets": 4,
+      "target_reps": "10-12",
       "target_rpe": 7,
       "suggested_weight_kg": 10,
-      "suggestion_note": "Recent 10kg × 9 reps — hold weight, higher reps for isolation, supplementary volume",
+      "suggestion_note": "Last session 10kg × 9 reps; maintain at 10kg for volume accumulation. Completes biceps MEV at RPE 7",
       "is_bodyweight": false
     }
   ],
   "cardio": null,
-  "notes": "Pull day week 1 — all target muscles (lats 10, upper_back 10, rear_delts 6, biceps 8 MEV). Shoulder rehab warm-up mandatory (band external rotations 2×15/arm, band pull-aparts 2×15). No overhead pressing due to active rotator cuff tear. Tempo 3-1-2 throughout; stop 3-4 reps from failure. Total rear delt volume = 3 sets (3 additional sets on Friday to reach 6 sets/week MEV)."
+  "notes": "PULL DAY WEEK 1 MEV. Warm-up: Band external rotations 2×15/arm + band pull-aparts 2×15 before working sets — rotator cuff rehab mandatory. Tempo 3-1-2 (eccentric-pause-concentric) throughout. Stop 3–4 reps from failure (RPE 7). Rear delt volume = 6 sets (Face Pull 3 + Rear Delt Fly 3) ≥ front delt 4 sets (indirect from bench only) ✓. Lats = 6 sets (Lat Pulldown 3 + Cable Row 3), upper_back = 6 sets (Cable Row 3 secondary + Face Pull 3 secondary), biceps = 8 sets (Barbell Curl 4 + Hammer Curl 4). All target muscles hit at MEV. No wide-grip or overhead pulling. Nutrition: 2800 kcal / 155g protein. Monitor shoulder — zero sharp pain >3/10."
 }

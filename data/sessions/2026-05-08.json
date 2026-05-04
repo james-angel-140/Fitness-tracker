@@ -7,34 +7,34 @@
       "target_reps": "8-10",
       "target_rpe": 7,
       "suggested_weight_kg": 60,
-      "suggestion_note": "Last session 2026-03-24 60kg × 9 — hold weight, focus on controlled ROM and tempo (3-1-2), no elbow flare",
+      "suggestion_note": "Last session 60kg × 9 on 2026-03-24 — conservative restart at 60kg to re-establish form and provide secondary front delt stimulus",
       "is_bodyweight": false
     },
     {
       "name": "Cable Row",
       "target_sets": 3,
-      "target_reps": "8-12",
+      "target_reps": "10-12",
       "target_rpe": 7,
       "suggested_weight_kg": 50,
-      "suggestion_note": "Last session 2026-04-13 50kg × 10 — hold weight, emphasise mind-muscle connection on upper back and lats",
+      "suggestion_note": "Last session 50kg × 10 on 2026-04-13 — hold 50kg for controlled compound pulling",
       "is_bodyweight": false
     },
     {
-      "name": "Cable Rear Delt Fly",
+      "name": "Face Pull",
       "target_sets": 3,
-      "target_reps": "10-15",
-      "target_rpe": 7,
-      "suggested_weight_kg": 5,
-      "suggestion_note": "Last session 2026-04-20 5kg × 10 — hold weight, strict form with controlled eccentric (3-sec), rear delt focus for shoulder balance",
+      "target_reps": "12-15",
+      "target_rpe": 6,
+      "suggested_weight_kg": 12.5,
+      "suggestion_note": "Rear delt priority for shoulder balance correction — light weight, high reps, focus on mind-muscle connection and scapular retraction",
       "is_bodyweight": false
     },
     {
       "name": "Barbell Curl",
       "target_sets": 3,
-      "target_reps": "8-12",
+      "target_reps": "8-10",
       "target_rpe": 7,
       "suggested_weight_kg": 25,
-      "suggestion_note": "Last session 2026-04-13 25kg × 8 — hold weight, bring volume to MEV (8 sets biceps needed across week), tempo control",
+      "suggestion_note": "Last session 25kg × 8 on 2026-04-13 — hold 25kg to accumulate quality bicep volume at MEV",
       "is_bodyweight": false
     },
     {
@@ -43,10 +43,10 @@
       "target_reps": "10-12",
       "target_rpe": 7,
       "suggested_weight_kg": 7.5,
-      "suggestion_note": "Last session 2026-04-20 7.5kg × 10 — hold weight, shoulder-safe single-arm variation, continuous tension",
+      "suggestion_note": "Last session 7.5kg × 10 on 2026-04-20 — shoulder-safe unilateral tricep isolation, maintain neutral arm position",
       "is_bodyweight": false
     }
   ],
   "cardio": null,
-  "notes": "Shoulder rehab warm-up: band external rotations 2×15/arm + band pull-aparts 2×15 before session. Week 1 MEV introduction — all muscles start at MEV baseline. Tempo emphasis 3-1-2 (eccentric-pause-concentric), stop 3–4 reps from failure. Rear delt total this session = 3 sets (3 more on Friday to reach 6 sets/week). NO overhead pressing, NO lateral raises, NO dips due to active rotator cuff tear. Front delts receive ~4 sets indirect stimulus from bench press only. Consume 2800 kcal + 155g protein + ~150 kcal surplus to support MPS."
+  "notes": "Warm-up: band external rotations 2×15/arm + band pull-aparts 2×15 before working sets. Rear delt volume = 3 sets (Face Pull) toward weekly MEV of 6 total. Front delt indirect stimulus from bench press secondary activation only — no direct front delt work. Tempo 3-1-2 (eccentric-pause-concentric), stop 3–4 reps from failure. Monitor shoulder — zero sharp pain above 3/10. Nutrition: 2800 kcal + 155g protein."
 }
