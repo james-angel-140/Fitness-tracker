@@ -256,8 +256,15 @@ function buildPrompt(sessionText: string, focus: string, date: string): string {
 
   const prSummary = prs.map(p => `  ${p.lift}: ${p.current_best_kg ?? 'BW'}kg × ${p.current_best_reps}`).join('\n')
 
-  return `You are a fitness AI coach. Design an optimal workout for the session below.
+  const hardConstraintParts: string[] = []
+  if (program.goal) hardConstraintParts.push(program.goal)
+  if (program.notes) hardConstraintParts.push(program.notes)
+  const constraintsBlock = hardConstraintParts.length > 0
+    ? `\n## HARD CONSTRAINTS — read before selecting any exercise\n${hardConstraintParts.join('\n\n')}\n`
+    : ''
 
+  return `You are a fitness AI coach. Design an optimal workout for the session below.
+${constraintsBlock}
 ## Session (${date})
 Focus: ${focus}
 Context / constraints:

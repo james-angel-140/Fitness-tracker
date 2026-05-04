@@ -21,7 +21,7 @@ const programModules = import.meta.glob('@data/programs/*.json', { eager: true }
 const eventModules   = import.meta.glob('@data/events/*.json',   { eager: true })
 
 // Pick the first (and only) active program file, whatever it's named
-const programRaw: any = Object.values(programModules)[0] ?? { phases: [] }
+export const programRaw: any = Object.values(programModules)[0] ?? { phases: [] }
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

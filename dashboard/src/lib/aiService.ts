@@ -4,7 +4,7 @@
 //   3. Local keyword extraction fallback (always available)
 
 import { getSuggestion } from '@/lib/progressiveOverload'
-import { workouts, prs, muscleVolume, patternVolume, pushPullRatio7d, pushPullStatus, activeMesocycleWeek } from '@/lib/data'
+import { workouts, prs, muscleVolume, patternVolume, pushPullRatio7d, pushPullStatus, activeMesocycleWeek, programRaw } from '@/lib/data'
 import taxonomyRaw from '@data/exercise-taxonomy.json'
 
 // Pre-generated sessions — bundled at build time, available with no API call
@@ -110,8 +110,16 @@ function buildPrompt(sessionText: string, focus: string, date: string): string {
   }
   const mesoContext = mesoLines.length > 0 ? `\n## Mesocycle Context\n${mesoLines.join('\n')}` : ''
 
-  return `You are a fitness AI coach. Design an optimal workout for the session below.
+  // ── Program-level hard constraints (goal + notes from active mesocycle) ────────
+  const hardConstraints: string[] = []
+  if (programRaw.goal) hardConstraints.push(programRaw.goal)
+  if (programRaw.notes) hardConstraints.push(programRaw.notes)
+  const constraintsBlock = hardConstraints.length > 0
+    ? `\n## HARD CONSTRAINTS — read before selecting any exercise\n${hardConstraints.join('\n\n')}\n`
+    : ''
 
+  return `You are a fitness AI coach. Design an optimal workout for the session below.
+${constraintsBlock}
 ## Session (${date})
 Focus: ${focus}
 Context / constraints:
