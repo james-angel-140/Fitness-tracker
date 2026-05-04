@@ -1,5 +1,4 @@
-// Save abstraction — localStorage + JSON file download
-// When a backend exists, replace this with an API call
+// Save abstraction — POST to backend API, localStorage fallback for offline
 
 import type { SaveableWorkout, CompletedWorkoutData, ActiveWorkout, PRHit } from '@/lib/activeWorkout'
 import { prs } from '@/lib/data'
@@ -89,7 +88,36 @@ export function buildSaveableWorkout(
   return { workout: savedWorkout, newPRs, totalVolumeKg, durationMin }
 }
 
-// ─── Persist to localStorage ──────────────────────────────────────────────────
+// ─── Save to server (primary) ─────────────────────────────────────────────────
+
+export async function saveToServer(workout: SaveableWorkout): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const res = await fetch('/api/workouts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ workout }),
+      signal: AbortSignal.timeout(10_000),
+    })
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      return { ok: false, error: data.error ?? `Server error ${res.status}` }
+    }
+    return { ok: true }
+  } catch (err) {
+    return { ok: false, error: String(err) }
+  }
+}
+
+export async function updatePROnServer(lift: string, weight_kg: number, reps: number): Promise<void> {
+  await fetch('/api/prs', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ lift, weight_kg, reps }),
+    signal: AbortSignal.timeout(10_000),
+  }).catch(() => {}) // best-effort, don't block the UI
+}
+
+// ─── localStorage fallback (offline / dev) ───────────────────────────────────
 
 export function saveToLocalStorage(workout: SaveableWorkout) {
   const existing: SaveableWorkout[] = JSON.parse(localStorage.getItem(LS_KEY) ?? '[]')
@@ -104,19 +132,4 @@ export function saveToLocalStorage(workout: SaveableWorkout) {
 
 export function getSavedWorkouts(): SaveableWorkout[] {
   return JSON.parse(localStorage.getItem(LS_KEY) ?? '[]')
-}
-
-// ─── Trigger JSON file download ───────────────────────────────────────────────
-
-export function downloadWorkoutJSON(workout: SaveableWorkout) {
-  const json = JSON.stringify(workout, null, 2)
-  const blob = new Blob([json], { type: 'application/json' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `${workout.id}.json`
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
-  URL.revokeObjectURL(url)
 }

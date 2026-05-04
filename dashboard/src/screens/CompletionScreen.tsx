@@ -1,17 +1,35 @@
-import { Download, Home, Trophy, Dumbbell, Clock } from 'lucide-react'
+import { useState } from 'react'
+import { CheckCircle, AlertCircle, Home, Trophy, Dumbbell, Clock, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useWorkout } from '@/lib/WorkoutContext'
-import { saveToLocalStorage, downloadWorkoutJSON } from '@/lib/workoutSave'
+import { saveToServer, saveToLocalStorage, updatePROnServer } from '@/lib/workoutSave'
+
+type SaveState = 'idle' | 'saving' | 'saved' | 'error'
 
 export function CompletionScreen() {
   const { screen, navigateTo } = useWorkout()
+  const [saveState, setSaveState] = useState<SaveState>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
+
   if (screen.type !== 'complete') return null
 
   const { workout, newPRs, totalVolumeKg, durationMin } = screen.data
 
-  function handleSave() {
-    saveToLocalStorage(workout)
-    downloadWorkoutJSON(workout)
+  async function handleSave() {
+    setSaveState('saving')
+    const result = await saveToServer(workout)
+
+    if (result.ok) {
+      // Also update any new PRs on the server
+      for (const pr of newPRs) {
+        await updatePROnServer(pr.lift, pr.weight_kg, pr.reps)
+      }
+      saveToLocalStorage(workout) // keep local copy in sync
+      setSaveState('saved')
+    } else {
+      setErrorMsg(result.error ?? 'Unknown error')
+      setSaveState('error')
+    }
   }
 
   const hours = Math.floor(durationMin / 60)
@@ -101,25 +119,46 @@ export function CompletionScreen() {
           </Card>
         )}
 
-        {/* Save instructions */}
-        <Card className="bg-muted/30">
-          <CardContent className="py-3 text-xs text-muted-foreground space-y-1">
-            <p className="font-medium text-foreground">To add this to your dashboard:</p>
-            <p>1. Tap "Save & download" below</p>
-            <p>2. Copy the downloaded file to <code className="bg-muted px-1 rounded">data/workouts/</code></p>
-            <p>3. Commit and push → dashboard updates automatically</p>
-          </CardContent>
-        </Card>
+        {/* Save status / action */}
+        {saveState === 'saved' ? (
+          <Card className="border-emerald-500/30 bg-emerald-500/5">
+            <CardContent className="py-4 flex items-center gap-3 text-emerald-400">
+              <CheckCircle className="w-5 h-5 shrink-0" />
+              <div>
+                <p className="font-semibold text-sm">Saved to server</p>
+                <p className="text-xs text-muted-foreground">Workout logged in data/workouts/{workout.id}.json</p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : saveState === 'error' ? (
+          <Card className="border-destructive/30 bg-destructive/5">
+            <CardContent className="py-4 flex items-center gap-3 text-destructive">
+              <AlertCircle className="w-5 h-5 shrink-0" />
+              <div>
+                <p className="font-semibold text-sm">Save failed</p>
+                <p className="text-xs text-muted-foreground">{errorMsg}</p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : null}
 
         {/* Actions */}
         <div className="space-y-2 pt-2">
-          <button
-            onClick={handleSave}
-            className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
-          >
-            <Download className="w-4 h-4" />
-            Save & download JSON
-          </button>
+          {saveState !== 'saved' && (
+            <button
+              onClick={handleSave}
+              disabled={saveState === 'saving'}
+              className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
+            >
+              {saveState === 'saving' ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Saving…</>
+              ) : saveState === 'error' ? (
+                <>Retry save</>
+              ) : (
+                <>Save workout</>
+              )}
+            </button>
+          )}
           <button
             onClick={() => navigateTo({ type: 'dashboard' })}
             className="w-full py-3 rounded-xl bg-muted text-muted-foreground text-sm font-medium flex items-center justify-center gap-2 hover:bg-muted/80 transition-colors"

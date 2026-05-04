@@ -1,7 +1,9 @@
 import 'dotenv/config'
 import express, { Request, Response, NextFunction } from 'express'
 import path from 'path'
-import { existsSync } from 'fs'
+import { existsSync, writeFileSync, readFileSync } from 'fs'
+
+const DATA_DIR = path.resolve(__dirname, '../data')
 
 const app = express()
 const PORT = parseInt(process.env.PORT ?? '3001')
@@ -65,6 +67,51 @@ app.post('/api/ai/parse-workout', async (req: Request, res: Response) => {
     console.error('AI proxy error:', err)
     res.status(500).json({ error: String(err) })
   }
+})
+
+// ─── Save workout ─────────────────────────────────────────────────────────────
+
+app.post('/api/workouts', (req: Request, res: Response) => {
+  const workout = req.body?.workout
+  if (!workout?.id || !workout?.date || !workout?.type) {
+    res.status(400).json({ error: 'Missing required fields: id, date, type' })
+    return
+  }
+
+  // Sanitise id — only allow safe filename characters
+  const safeId = String(workout.id).replace(/[^a-zA-Z0-9_-]/g, '-').slice(0, 80)
+  const filePath = path.join(DATA_DIR, 'workouts', `${safeId}.json`)
+
+  writeFileSync(filePath, JSON.stringify(workout, null, 2))
+  console.log(`Saved workout: ${safeId}.json`)
+  res.json({ ok: true, file: `data/workouts/${safeId}.json` })
+})
+
+// ─── Update personal records ──────────────────────────────────────────────────
+
+app.post('/api/prs', (req: Request, res: Response) => {
+  const { lift, weight_kg, reps } = req.body ?? {}
+  if (!lift || weight_kg == null || reps == null) {
+    res.status(400).json({ error: 'Missing required fields: lift, weight_kg, reps' })
+    return
+  }
+
+  const prsPath = path.join(DATA_DIR, 'personal-records.json')
+  const prs: any[] = JSON.parse(readFileSync(prsPath, 'utf-8'))
+
+  const existing = prs.find((p: any) => p.lift.toLowerCase() === String(lift).toLowerCase())
+  if (!existing) {
+    res.status(404).json({ error: `Lift "${lift}" not found in personal-records.json` })
+    return
+  }
+
+  existing.current_best_kg = weight_kg
+  existing.current_best_reps = reps
+  existing.date_achieved = new Date().toISOString().slice(0, 10)
+
+  writeFileSync(prsPath, JSON.stringify(prs, null, 2))
+  console.log(`Updated PR: ${lift} → ${weight_kg}kg × ${reps}`)
+  res.json({ ok: true })
 })
 
 // ─── Serve built dashboard ────────────────────────────────────────────────────
