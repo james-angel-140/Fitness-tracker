@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-05-04",
+    "time": "21:04",
+    "description": "High protein kefir with berries + PrepKitchen meals (x2) + buffalo sauce + mayo + protein bar + protein shake",
+    "calories": 2150,
+    "protein_g": 180,
+    "carbs_g": 140,
+    "fat_g": 70,
+    "approximate": true
+  },
+  {
     "date": "2026-04-18",
     "time": "08:00",
     "description": "Breakfast: 5% Greek yogurt (225g) + 6 McVitie's Ginger Biscuits",

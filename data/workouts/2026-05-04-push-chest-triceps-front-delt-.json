@@ -1,0 +1,78 @@
+{
+  "id": "2026-05-04-push-chest-triceps-front-delt-",
+  "date": "2026-05-04",
+  "title": "Push — Chest / Triceps (front delt indirect via bench only)",
+  "type": "strength",
+  "duration_min": 53,
+  "exercises": [
+    {
+      "name": "Barbell Bench Press",
+      "sets": [
+        {
+          "reps": 7,
+          "weight_kg": 55
+        },
+        {
+          "reps": 7,
+          "weight_kg": 55
+        },
+        {
+          "reps": 7,
+          "weight_kg": 55
+        }
+      ]
+    },
+    {
+      "name": "Cable Rear Delt Fly",
+      "sets": [
+        {
+          "reps": 10,
+          "weight_kg": 5
+        },
+        {
+          "reps": 10,
+          "weight_kg": 5
+        },
+        {
+          "reps": 10,
+          "weight_kg": 5
+        }
+      ]
+    },
+    {
+      "name": "Cable One Arm Underhand Tricep Extension",
+      "sets": [
+        {
+          "reps": 10,
+          "weight_kg": 7.25
+        },
+        {
+          "reps": 10,
+          "weight_kg": 7.25
+        },
+        {
+          "reps": 15,
+          "weight_kg": 7.25
+        }
+      ]
+    },
+    {
+      "name": "Cable Shoulder Internal Rotation",
+      "sets": [
+        {
+          "reps": 10,
+          "weight_kg": 2.5
+        },
+        {
+          "reps": 10,
+          "weight_kg": 2.5
+        }
+      ]
+    }
+  ],
+  "total_volume_kg": 1609,
+  "rpe": 3,
+  "trimp": 158,
+  "notes": "I did lots of extra warm up sets for the bench press to not damage the shoulder further and purposely didn’t push myself too hard",
+  "source": "manual"
+}

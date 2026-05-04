@@ -7,7 +7,7 @@
 
   <key>ProgramArguments</key>
   <array>
-    <!-- Uses the tsx installed in the project's node_modules -->
+    <string>/opt/homebrew/bin/node</string>
     <string>/Users/jamesangel/Documents/Development/Fitness-tracker/node_modules/.bin/tsx</string>
     <string>/Users/jamesangel/Documents/Development/Fitness-tracker/server/index.ts</string>
   </array>
