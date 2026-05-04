@@ -467,12 +467,66 @@ export const activeMesocycleWeek: ActiveMesocycleWeek | null = (() => {
   return null
 })()
 
-export const upcomingSessions: ProgramDay[] = (programRaw as any).phases
-  .flatMap((phase: any) =>
-    (phase.days ?? []).map((d: any) => ({ ...d, phase: phase.name }))
-  )
-  .filter((d: any) => d.date >= TODAY_STR)
-  .slice(0, 3)
+export const upcomingSessions: ProgramDay[] = (() => {
+  const weeklySplit: any[] = (programRaw as any).weekly_split ?? []
+
+  if (weeklySplit.length === 0) {
+    // Fallback: old format with phase.days[] arrays
+    return ((programRaw as any).phases ?? [])
+      .flatMap((phase: any) =>
+        (phase.days ?? []).map((d: any) => ({ ...d, phase: phase.name }))
+      )
+      .filter((d: any) => d.date >= TODAY_STR)
+      .slice(0, 3)
+  }
+
+  const WEEKDAY_ABBR = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const splitByDay = new Map<string, any>()
+  for (const entry of weeklySplit) splitByDay.set(entry.day, entry)
+
+  function getWeekContext(dateStr: string): { phase: any; week: any } | null {
+    for (const phase of (programRaw as any).phases ?? []) {
+      for (const week of phase.weeks ?? []) {
+        if (dateStr >= week.start_date && dateStr <= week.end_date) return { phase, week }
+      }
+    }
+    return null
+  }
+
+  const days: ProgramDay[] = []
+  const startDate = new Date(TODAY_STR)
+
+  for (let i = 0; i < 14 && days.length < 3; i++) {
+    const d = new Date(startDate)
+    d.setDate(startDate.getDate() + i)
+    const dateStr = d.toISOString().slice(0, 10)
+    const dayAbbr = WEEKDAY_ABBR[d.getDay()]
+    const splitEntry = splitByDay.get(dayAbbr)
+
+    if (!splitEntry || /^rest/i.test(splitEntry.focus)) continue
+
+    const ctx = getWeekContext(dateStr)
+    const contextLines: string[] = []
+    if (ctx) {
+      contextLines.push(`Phase: ${ctx.phase.name} — ${ctx.phase.focus}`)
+      contextLines.push(`Week ${ctx.week.week}: vol ×${ctx.week.volume_modifier}  int ×${ctx.week.intensity_modifier}`)
+      contextLines.push(`Nutrition: ${ctx.week.calorie_target} kcal / ${ctx.week.protein_target_g}g protein`)
+    }
+    if (splitEntry.muscle_groups?.length > 0) {
+      contextLines.push(`Target: ${splitEntry.muscle_groups.join(', ')}`)
+    }
+
+    days.push({
+      day_of_week: dayAbbr,
+      date: dateStr,
+      focus: splitEntry.focus,
+      session: contextLines.join('\n'),
+      phase: ctx?.phase.name ?? '',
+    })
+  }
+
+  return days
+})()
 
 export const trainingLoad: TrainingLoadPoint[] = workoutDates.map((date) => {
   const atl = rollingAvg(trimpByDate, date, 7)
@@ -665,10 +719,27 @@ function isoWeekStart(dateStr: string): string {
   return d.toISOString().slice(0, 10)
 }
 
-const allProgramDays: { date: string; focus: string }[] = ((programRaw as any).phases ?? [])
-  .flatMap((phase: any) =>
-    (phase.days ?? []).map((d: any) => ({ date: d.date as string, focus: (d.focus ?? '') as string }))
-  )
+const allProgramDays: { date: string; focus: string }[] = (() => {
+  const weeklySplit: any[] = (programRaw as any).weekly_split ?? []
+  if (weeklySplit.length === 0) {
+    return ((programRaw as any).phases ?? [])
+      .flatMap((phase: any) =>
+        (phase.days ?? []).map((d: any) => ({ date: d.date as string, focus: (d.focus ?? '') as string }))
+      )
+  }
+  const WEEKDAY_ABBR = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const splitByDay = new Map<string, any>()
+  for (const entry of weeklySplit) splitByDay.set(entry.day, entry)
+  const days: { date: string; focus: string }[] = []
+  const start = new Date((programRaw as any).start_date ?? TODAY_STR)
+  const end = new Date((programRaw as any).end_date ?? TODAY_STR)
+  for (const d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    const dateStr = d.toISOString().slice(0, 10)
+    const entry = splitByDay.get(WEEKDAY_ABBR[d.getDay()])
+    if (entry) days.push({ date: dateStr, focus: entry.focus as string })
+  }
+  return days
+})()
 
 const plannedTrainDays = allProgramDays.filter((d) => !/^rest/i.test(d.focus) && d.date <= TODAY_STR)
 const workoutDateSet = new Set(workouts.map((w) => w.date))
