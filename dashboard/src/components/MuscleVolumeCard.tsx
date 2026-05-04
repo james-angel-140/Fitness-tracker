@@ -2,17 +2,18 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { muscleVolume, patternVolume, pushPullRatio7d, pushPullStatus } from '@/lib/data'
 
 const MUSCLE_LABELS: Record<string, string> = {
-  chest:      'Chest',
-  lats:       'Lats',
-  upper_back: 'Upper back',
-  shoulders:  'Shoulders',
-  triceps:    'Triceps',
-  biceps:     'Biceps',
-  quads:      'Quads',
-  hamstrings: 'Hamstrings',
-  glutes:     'Glutes',
-  lower_back: 'Lower back',
-  abs:        'Abs',
+  chest:       'Chest',
+  lats:        'Lats',
+  upper_back:  'Upper back',
+  front_delts: 'Front delts',
+  rear_delts:  'Rear delts',
+  triceps:     'Triceps',
+  biceps:      'Biceps',
+  quads:       'Quads',
+  hamstrings:  'Hamstrings',
+  glutes:      'Glutes',
+  lower_back:  'Lower back',
+  abs:         'Abs',
 }
 
 const PATTERN_LABELS: Record<string, string> = {

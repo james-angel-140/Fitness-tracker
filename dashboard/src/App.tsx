@@ -6,7 +6,7 @@ import { CategoryBreakdown } from '@/components/CategoryBreakdown'
 import { ScoreBreakdownChart, WeightChart, BodyFatChart, Vo2Chart, RhrChart, TrainingLoadChart, Zone2PaceChart } from '@/components/TrendCharts'
 import { WorkoutHistory } from '@/components/WorkoutHistory'
 import { PRTable } from '@/components/PRTable'
-import { HyroxCountdown } from '@/components/HyroxCountdown'
+import { MesocycleCard } from '@/components/MesocycleCard'
 import { StatTiles } from '@/components/StatTiles'
 import { SleepCard } from '@/components/SleepCard'
 import { ReadinessCard } from '@/components/ReadinessCard'
@@ -110,7 +110,7 @@ function TodayTab() {
       <StatTiles />
       <InjuryCard />
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
-        <HyroxCountdown />
+        <MesocycleCard />
         <UpcomingSessions />
         <NutritionLog />
       </div>
@@ -190,7 +190,7 @@ function Dashboard() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-2">
           <div>
             <h1 className="text-2xl font-bold">Fitness Dashboard</h1>
-            <p className="text-muted-foreground text-sm mt-1">James Angel · Hyrox 2026 Training</p>
+            <p className="text-muted-foreground text-sm mt-1">James Angel · Lean Mass & Performance</p>
           </div>
           <TimeRangeSelector />
         </div>

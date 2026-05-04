@@ -419,6 +419,55 @@ export const activeProgram: ActiveProgram = {
   taper_start_date: programRaw.taper_start_date,
 }
 
+// ─── Active mesocycle / current week nutrition targets ────────────────────────
+
+export interface ActiveMesocycleWeek {
+  mesocycleName: string
+  phaseName: string
+  phaseType: string
+  weekNumber: number
+  weekStart: string
+  weekEnd: string
+  calorie_target: number
+  protein_target_g: number
+  volume_modifier: number
+  intensity_modifier: number
+  notes?: string
+  totalWeeks: number
+  currentWeekInMeso: number
+}
+
+export const activeMesocycleWeek: ActiveMesocycleWeek | null = (() => {
+  const meso = programRaw
+  if (!meso?.phases) return null
+
+  let weekInMeso = 0
+  for (const phase of meso.phases) {
+    for (const week of (phase.weeks ?? [])) {
+      weekInMeso++
+      if (TODAY_STR >= week.start_date && TODAY_STR <= week.end_date) {
+        const totalWeeks = meso.phases.reduce((acc: number, p: any) => acc + (p.weeks?.length ?? 0), 0)
+        return {
+          mesocycleName: meso.name ?? 'Active Mesocycle',
+          phaseName: phase.name,
+          phaseType: phase.type,
+          weekNumber: week.week,
+          weekStart: week.start_date,
+          weekEnd: week.end_date,
+          calorie_target: week.calorie_target,
+          protein_target_g: week.protein_target_g,
+          volume_modifier: week.volume_modifier,
+          intensity_modifier: week.intensity_modifier,
+          notes: week.notes,
+          totalWeeks,
+          currentWeekInMeso: weekInMeso,
+        }
+      }
+    }
+  }
+  return null
+})()
+
 export const upcomingSessions: ProgramDay[] = (programRaw as any).phases
   .flatMap((phase: any) =>
     (phase.days ?? []).map((d: any) => ({ ...d, phase: phase.name }))

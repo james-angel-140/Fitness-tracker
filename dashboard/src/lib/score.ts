@@ -40,7 +40,7 @@ export interface CardioResult {
   vo2_max_score: number;
   zone2_pace_score: number;
   resting_hr_score: number;
-  contribution: number; // out of 40
+  contribution: number; // out of 15
 }
 
 export interface StrengthResult {
@@ -49,13 +49,13 @@ export interface StrengthResult {
   deadlift_score: number;
   leg_press_score: number;
   pullup_score: number;
-  contribution: number; // out of 35
+  contribution: number; // out of 40
 }
 
 export interface BodyCompResult {
   body_fat_score: number;
   weight_vs_goal_score: number;
-  contribution: number; // out of 25
+  contribution: number; // out of 35
 }
 
 export interface ConsistencyResult {
@@ -101,14 +101,14 @@ function round1(n: number): number {
 // ─── Category calculators ────────────────────────────────────────────────────
 
 /**
- * Cardio — 35% of composite score.
+ * Cardio — 15% of composite score.
  *
  * Metrics:
  *   VO2 Max          floor 35  ceiling 60  higher better
  *   Zone 2 pace      floor 5.5 ceiling 9.0 lower better  (min/km)
  *   Resting HR       floor 38  ceiling 80  lower better  (bpm)
  *
- * contribution = avg(three scores) / 100 × 35
+ * contribution = avg(three scores) / 100 × 15
  */
 export function calcCardio(inputs: CardioInputs): CardioResult {
   const vo2_max_score = round1(norm(inputs.vo2_max, 35, 60));
@@ -116,13 +116,13 @@ export function calcCardio(inputs: CardioInputs): CardioResult {
   const resting_hr_score = round1(normInv(inputs.resting_hr_bpm, 38, 80));
 
   const avg = (vo2_max_score + zone2_pace_score + resting_hr_score) / 3;
-  const contribution = round1((avg / 100) * 35);
+  const contribution = round1((avg / 100) * 15);
 
   return { vo2_max_score, zone2_pace_score, resting_hr_score, contribution };
 }
 
 /**
- * Strength — 40% of composite score.
+ * Strength — 40% of composite score. Primary focus for lean mass goals.
  *
  * Metrics and weights within category:
  *   Fitbod Overall   floor 40  ceiling 90   30%  higher better
@@ -162,20 +162,20 @@ export function calcStrength(inputs: StrengthInputs): StrengthResult {
 }
 
 /**
- * Body Composition — 25% of composite score.
+ * Body Composition — 35% of composite score. Reflects lean mass / recomp goal.
  *
  * Metrics and weights within category:
- *   Body Fat %       floor 10%  ceiling 25%  60%  lower better
- *   Weight vs goal   floor 65kg ceiling 75kg  40%  higher better
+ *   Body Fat %       floor 8%   ceiling 22%  70%  lower better
+ *   Weight vs goal   floor 75kg ceiling 90kg  30%  higher better (lean mass gain)
  *
- * contribution = weighted_avg / 100 × 25
+ * contribution = weighted_avg / 100 × 35
  */
 export function calcBodyComp(inputs: BodyCompInputs): BodyCompResult {
-  const body_fat_score = round1(normInv(inputs.body_fat_pct, 10, 25));
-  const weight_vs_goal_score = round1(norm(inputs.weight_kg, 65, 75));
+  const body_fat_score = round1(normInv(inputs.body_fat_pct, 8, 22));
+  const weight_vs_goal_score = round1(norm(inputs.weight_kg, 75, 90));
 
-  const weighted = body_fat_score * 0.60 + weight_vs_goal_score * 0.40;
-  const contribution = round1((weighted / 100) * 25);
+  const weighted = body_fat_score * 0.70 + weight_vs_goal_score * 0.30;
+  const contribution = round1((weighted / 100) * 35);
 
   return { body_fat_score, weight_vs_goal_score, contribution };
 }

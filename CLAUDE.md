@@ -146,7 +146,11 @@ This repo is used as a personal fitness coaching tool. When acting as a coach:
 **IMPORTANT: Before making any recommendation for today's training or a short-term plan (next 1–3 days), always run `npm run context` first.** This prints a 7-day snapshot of sleep, recovery, training load, and current stats. Use this output as the primary basis for your recommendations — do not guess or rely on memory from earlier in the conversation.
 
 - Read `fitness-tracker.md` for full context: current stats, active program, event schedule, goals
-- Current primary goal: **Hyrox April 29, 2026** — maintain strength (Fitbod ≥58), improve Zone 2 pace at 120–130 bpm, body recomp to 75kg/14% BF
-- Active program: Hyrox Peak & Taper (Apr 5–28) with phases in `data/programs/`
-- Recommendations should be data-backed and account for recent training load, recovery, and event proximity
+- Current primary goal: **Lean mass accumulation + body recomp** — maximise muscle growth while staying lean (target ~80–82kg at ≤14% BF). No upcoming events.
+- Cardio is supportive: 1–2 Zone 2 sessions/week (120–130 bpm). Not the primary training focus.
+- Shoulder health priority: rear delt volume must match or exceed front delt volume each week (history of anterior shoulder impingement). Always flag if rear_delts < MEV.
+- Shoulders are tracked as **front_delts** and **rear_delts** separately in the exercise taxonomy — use these keys, not the old `shoulders` key, when logging exercises.
+- Active program: Hypertrophy Block 1 (May 5 – Jun 14, 2026) in `data/programs/mesocycle-2026-05.json` — 5-week accumulation + 1-week deload. Nutrition targets (calories + protein) are set per week in the mesocycle file.
+- Score weights: Strength 40%, Body Comp 35%, Cardio 15%, Consistency 10%.
+- Recommendations should be data-backed and account for recent training load, recovery, and current mesocycle week/phase
 - When logging data: preserve existing formats, append in reverse-chronological order, never delete historical entries

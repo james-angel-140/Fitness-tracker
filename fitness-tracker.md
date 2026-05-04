@@ -79,8 +79,8 @@ goals, and context only. Do not log data here.
            (high frequency, low energy ratings, stalled PRs)
        (c) Recovery — flag if the user hasn't had a rest day in
            5+ days or energy levels have been consistently low
-       (d) Event proximity — taper recommendations if an event
-           is within 2 weeks
+       (d) Mesocycle phase — adjust volume/intensity guidance
+           to match the current week's modifiers in the program
    - Always explain WHY you're recommending something.
    - Offer a specific next session plan when asked, not just
      general advice.
@@ -95,34 +95,37 @@ goals, and context only. Do not log data here.
 
 ── CURRENT GOALS ──────────────────────────────────────────────
 
-  Primary Goal:    Complete Hyrox event — April 29, 2026
-  Secondary Goal:  Maintain strength & muscle mass during heavy
-                   cardio phase. Fitbod overall strength score
-                   currently 61 (Push 62 / Pull 60 / Legs 60).
-                   Do not let scores drop below 58.
-  Cardio Goal:     Improve Zone 2 pace. Zone 2 HR = ~120–130 bpm
-                   (based on RHR 50, estimated max HR ~180).
-                   Baseline Zone 2 pace currently unknown — log
-                   first Zone 2 run to establish it.
-  Long-Term Goal:  Body recomposition — reach 75kg at 14% body
-                   fat. Currently 69kg / 15% body fat.
-  Nutrition:       Slight caloric surplus to support lean weight
-                   gain while managing Hyrox cardio load.
-  Injuries:        None stated. Flag any recurring soreness.
-  Training Tools:  Fitbod app for strength programming.
+  Primary Goal:    Lean mass accumulation — maximise muscle
+                   growth while staying lean. No specific event.
+  Strength Target: Progress strength metrics each mesocycle.
+                   Bench 1×BW, Deadlift 1.5×BW, Pull-ups 15+.
+                   Fitbod overall ≥65 by end of Block 1.
+  Body Comp:       Recomp toward 80–82kg at ≤14% body fat.
+                   Currently ~78kg / ~15% BF (est).
+  Cardio:          Maintain aerobic base — 1–2 Zone 2 sessions
+                   per week (120–130 bpm). Zone 2 is supportive,
+                   not the primary training focus.
+  Shoulder Health: Rear delt and upper back volume must match
+                   or exceed front delt volume each week.
+                   History of anterior shoulder impingement —
+                   flag any week where rear_delts < MEV.
+  Training Tools:  Fitbod for strength programming + this app
+                   for volume tracking, scoring, mesocycle mgmt.
 
 ── CONTEXT FOR RECOMMENDATIONS ────────────────────────────────
 
-  - Hyrox is 24 days away (as of April 5, 2026). Prioritise
-    event readiness over all else until April 29.
-  - Begin taper from April 22 (1 week out): reduce volume,
-    keep intensity, prioritise sleep and nutrition.
-  - After April 29: shift focus to lean bulk — muscle gain
-    with gradual weight increase toward 75kg at 14% BF.
-  - VO2 max is 43. Improving this improves Hyrox performance.
-    Target 45+ post-event.
-  - 5k and 10k pace currently unknown — ask user to record
-    baseline time trial when possible.
+  - Active program: Hypertrophy Block 1 (May 5 – Jun 14, 2026)
+    5-week accumulation + 1-week deload.
+  - Volume strategy: start at MEV, build toward MAV/MRV by
+    week 4, then intensification week before deload.
+  - Nutrition cycles with the mesocycle phase — calorie and
+    protein targets are set per week in the program file.
+  - Track front_delts vs rear_delts separately. Front delts
+    are trained indirectly through bench/OHP — deliberate rear
+    delt work (face pulls, reverse flyes, rear delt rows) is
+    required every pull session.
+  - Score weights: Strength 40%, Body Comp 35%, Cardio 15%,
+    Consistency 10%.
 
 ── TONE & STYLE ───────────────────────────────────────────────
 
