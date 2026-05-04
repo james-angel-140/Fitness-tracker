@@ -69,6 +69,81 @@ app.post('/api/ai/parse-workout', async (req: Request, res: Response) => {
   }
 })
 
+// ─── Nutrition: parse free text → macro estimate ─────────────────────────────
+
+app.post('/api/nutrition/parse', async (req: Request, res: Response) => {
+  const apiKey = process.env.ANTHROPIC_API_KEY
+  if (!apiKey) { res.status(503).json({ error: 'ANTHROPIC_API_KEY not set' }); return }
+
+  const { text } = req.body ?? {}
+  if (!text || typeof text !== 'string') { res.status(400).json({ error: 'Missing text field' }); return }
+
+  const prompt = `Estimate the macros for this food or meal description.
+Return ONLY valid JSON — no markdown, no explanation:
+{"description":"<cleaned-up description>","calories":<number>,"protein_g":<number>,"carbs_g":<number>,"fat_g":<number>,"approximate":<true|false>}
+
+Rules:
+- description: normalise capitalisation and fix typos, keep it concise
+- approximate: true for restaurant food, homemade meals, or vague descriptions; false only for packaged food with known labels
+- calories/protein_g/carbs_g/fat_g: integers, conservative estimates when uncertain
+
+Food: "${text.slice(0, 500)}"`
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 256,
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    })
+    const data = await response.json()
+    const raw: string = data?.content?.[0]?.text ?? ''
+    const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim()
+    res.json(JSON.parse(cleaned))
+  } catch (err) {
+    console.error('Nutrition parse error:', err)
+    res.status(500).json({ error: String(err) })
+  }
+})
+
+// ─── Nutrition: save entry to daily-log.json ──────────────────────────────────
+
+app.post('/api/nutrition/log', (req: Request, res: Response) => {
+  const entry = req.body ?? {}
+  if (!entry.description || entry.calories == null || entry.protein_g == null) {
+    res.status(400).json({ error: 'Missing required fields: description, calories, protein_g' })
+    return
+  }
+
+  const logPath = path.join(DATA_DIR, 'nutrition', 'daily-log.json')
+  const log: any[] = JSON.parse(readFileSync(logPath, 'utf-8'))
+
+  const now = new Date()
+  const newEntry = {
+    date: now.toISOString().slice(0, 10),
+    time: now.toTimeString().slice(0, 5),
+    description: entry.description,
+    calories: Math.round(entry.calories),
+    protein_g: Math.round(entry.protein_g),
+    ...(entry.carbs_g != null && { carbs_g: Math.round(entry.carbs_g) }),
+    ...(entry.fat_g != null && { fat_g: Math.round(entry.fat_g) }),
+    ...(entry.approximate && { approximate: true }),
+  }
+
+  // Prepend (file is newest-first)
+  log.unshift(newEntry)
+  writeFileSync(logPath, JSON.stringify(log, null, 2))
+  console.log(`Logged nutrition: ${newEntry.description} — ${newEntry.calories}kcal / ${newEntry.protein_g}g protein`)
+  res.json({ ok: true, entry: newEntry })
+})
+
 // ─── Save workout ─────────────────────────────────────────────────────────────
 
 app.post('/api/workouts', (req: Request, res: Response) => {
