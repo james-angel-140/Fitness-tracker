@@ -7,9 +7,9 @@ export interface CardioInputs {
 }
 
 export interface StrengthInputs {
-  fitbod_overall: number;
   bench_press_kg: number;
   deadlift_kg: number;
+  squat_kg: number;
   leg_press_kg: number;
   pullup_reps: number;
   body_weight_kg: number; // used to compute ×BW ratios
@@ -44,9 +44,9 @@ export interface CardioResult {
 }
 
 export interface StrengthResult {
-  fitbod_overall_score: number;
   bench_press_score: number;
   deadlift_score: number;
+  squat_score: number;
   leg_press_score: number;
   pullup_score: number;
   contribution: number; // out of 40
@@ -125,9 +125,9 @@ export function calcCardio(inputs: CardioInputs): CardioResult {
  * Strength — 40% of composite score. Primary focus for lean mass goals.
  *
  * Metrics and weights within category:
- *   Fitbod Overall   floor 40  ceiling 90   30%  higher better
- *   Bench Press ×BW  floor 0.5 ceiling 1.5  20%  higher better
- *   Deadlift ×BW     floor 0.75 ceiling 2.0 20%  higher better
+ *   Bench Press ×BW  floor 0.5 ceiling 1.5  25%  higher better
+ *   Deadlift ×BW     floor 0.75 ceiling 2.0 25%  higher better
+ *   Back Squat ×BW   floor 0.5 ceiling 1.75 20%  higher better
  *   Leg Press ×BW    floor 1.0 ceiling 3.0  15%  higher better
  *   Pull-ups (reps)  floor 0   ceiling 20   15%  higher better
  *
@@ -136,25 +136,25 @@ export function calcCardio(inputs: CardioInputs): CardioResult {
 export function calcStrength(inputs: StrengthInputs): StrengthResult {
   const bw = inputs.body_weight_kg;
 
-  const fitbod_overall_score = round1(norm(inputs.fitbod_overall, 40, 90));
   const bench_press_score = round1(norm(inputs.bench_press_kg / bw, 0.5, 1.5));
   const deadlift_score = round1(norm(inputs.deadlift_kg / bw, 0.75, 2.0));
+  const squat_score = round1(norm(inputs.squat_kg / bw, 0.5, 1.75));
   const leg_press_score = round1(norm(inputs.leg_press_kg / bw, 1.0, 3.0));
   const pullup_score = round1(norm(inputs.pullup_reps, 0, 20));
 
   const weighted =
-    fitbod_overall_score * 0.30 +
-    bench_press_score    * 0.20 +
-    deadlift_score       * 0.20 +
-    leg_press_score      * 0.15 +
-    pullup_score         * 0.15;
+    bench_press_score * 0.25 +
+    deadlift_score    * 0.25 +
+    squat_score       * 0.20 +
+    leg_press_score   * 0.15 +
+    pullup_score      * 0.15;
 
   const contribution = round1((weighted / 100) * 40);
 
   return {
-    fitbod_overall_score,
     bench_press_score,
     deadlift_score,
+    squat_score,
     leg_press_score,
     pullup_score,
     contribution,

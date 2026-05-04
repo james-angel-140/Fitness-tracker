@@ -67,7 +67,7 @@ export function CategoryBreakdown() {
         <CardTitle>Score Breakdown</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <CategorySection title="Cardio" contribution={savedCardio} max={35}>
+        <CategorySection title="Cardio" contribution={savedCardio} max={15}>
           <MetricRow label="VO2 Max" value={cardio.vo2_max_score} detail={`${ci.vo2_max}`} />
           <MetricRow
             label="Zone 2 Pace"
@@ -85,11 +85,6 @@ export function CategoryBreakdown() {
 
         <CategorySection title="Strength" contribution={savedStrength} max={40}>
           <MetricRow
-            label="Fitbod Overall"
-            value={strength.fitbod_overall_score}
-            detail={`${si.fitbod_overall}`}
-          />
-          <MetricRow
             label="Bench Press"
             value={strength.bench_press_score}
             detail={`${si.bench_press_kg}kg`}
@@ -98,6 +93,11 @@ export function CategoryBreakdown() {
             label="Deadlift"
             value={strength.deadlift_score}
             detail={`${si.deadlift_kg}kg`}
+          />
+          <MetricRow
+            label="Back Squat"
+            value={strength.squat_score}
+            detail={`${si.squat_kg}kg`}
           />
           <MetricRow
             label="Leg Press"
@@ -111,7 +111,7 @@ export function CategoryBreakdown() {
           />
         </CategorySection>
 
-        <CategorySection title="Body Comp" contribution={savedBodyComp} max={25}>
+        <CategorySection title="Body Comp" contribution={savedBodyComp} max={35}>
           <MetricRow
             label="Body Fat"
             value={body_comp.body_fat_score}

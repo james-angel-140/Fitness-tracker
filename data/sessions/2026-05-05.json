@@ -1,0 +1,52 @@
+{
+  "type": "strength",
+  "exercises": [
+    {
+      "name": "Lat Pulldown",
+      "target_sets": 3,
+      "target_reps": "8-12",
+      "target_rpe": 7,
+      "suggested_weight_kg": 60,
+      "suggestion_note": "PR 60kg × 5-10 — start at top of rep range, RPE 7, 3-1-2 tempo",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Cable Row",
+      "target_sets": 3,
+      "target_reps": "8-12",
+      "target_rpe": 7,
+      "suggested_weight_kg": 50,
+      "suggestion_note": "Recent 50kg × 10-14 reps — hold weight, focus on upper back squeeze, 3-1-2 tempo",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Cable Rear Delt Fly",
+      "target_sets": 3,
+      "target_reps": "10-15",
+      "target_rpe": 7,
+      "suggested_weight_kg": 5,
+      "suggestion_note": "Last 5kg × 10 — hold weight, emphasise mind-muscle connection, higher rep range for rear delt",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Barbell Curl",
+      "target_sets": 3,
+      "target_reps": "8-12",
+      "target_rpe": 7,
+      "suggested_weight_kg": 25,
+      "suggestion_note": "Recent 25kg × 8 reps — strong baseline, maintain weight week 1, 3-1-2 tempo",
+      "is_bodyweight": false
+    },
+    {
+      "name": "Hammer Curl",
+      "target_sets": 2,
+      "target_reps": "10-15",
+      "target_rpe": 7,
+      "suggested_weight_kg": 10,
+      "suggestion_note": "Recent 10kg × 9 reps — hold weight, higher reps for isolation, supplementary volume",
+      "is_bodyweight": false
+    }
+  ],
+  "cardio": null,
+  "notes": "Pull day week 1 — all target muscles (lats 10, upper_back 10, rear_delts 6, biceps 8 MEV). Shoulder rehab warm-up mandatory (band external rotations 2×15/arm, band pull-aparts 2×15). No overhead pressing due to active rotator cuff tear. Tempo 3-1-2 throughout; stop 3-4 reps from failure. Total rear delt volume = 3 sets (3 additional sets on Friday to reach 6 sets/week MEV)."
+}

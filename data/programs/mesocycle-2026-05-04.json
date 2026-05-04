@@ -1,0 +1,151 @@
+{
+  "id": "mesocycle-2026-05-04",
+  "name": "Hypertrophy Recomp Block — Post-Hyrox Rebuild",
+  "goal": "Maximise lean muscle mass while staying lean (body recomp). Rebuild all muscle group volumes from sub-MEV levels to MAV over 5 weeks of accumulation, then deload. Correct anterior shoulder dominance by maintaining rear delt volume ≥ front delt volume in every week. Respect active right rotator cuff tear — zero overhead pressing, lateral raises, upright rows, behind-neck press, or dips. Zone 2 cardio 1–2×/week for cardiovascular maintenance only.",
+  "start_date": "2026-05-04",
+  "end_date": "2026-06-14",
+  "baseline_calories": 2650,
+  "baseline_protein_g": 155,
+  "notes": "TRANSITION FROM HYROX TO HYPERTROPHY: Previous mesocycles were Hyrox event-focused (April 29 race). This block pivots to lean mass accumulation and body recomp. All 11 tracked muscle groups except glutes are below MEV — the athlete has been undertraining for hypertrophy for 4+ weeks. Week 1 starts every muscle at MEV to re-establish an effective growth stimulus.\n\nACWR MANAGEMENT: Current ACWR is 0.0 (ATL 0, CTL 106.5, TSB +106.5). The athlete is extremely fresh after the Hyrox taper. Week 1 at MEV volume will bring ACWR back toward the 0.8–1.0 range without spiking. By week 3–4 ACWR should sit in the optimal 1.0–1.3 window as volume peaks. Monitor weekly — if ACWR exceeds 1.3, hold volume flat rather than adding.\n\nSHOULDER INJURY — NON-NEGOTIABLE CONSTRAINT: Right rotator cuff tear (moderate, active since 2026-04-14). BANNED movements in ALL sessions: overhead press (barbell and dumbbell), lateral raises, upright rows, behind-neck press, dips, wide-grip overhead pulling. Front delt direct work is eliminated; front delt stimulus comes EXCLUSIVELY from bench press and incline press secondary activation. Neutral-grip and underhand-grip pulling movements are tolerable — no wide overhand grip. Include band external rotations (2×15 per arm) and band pull-aparts (2×15) as warm-up on EVERY upper body session for rotator cuff rehab. Monitor shoulder pain — stop any movement causing sharp pain above 3/10. Seek ongoing physio assessment.\n\nSHOULDER BALANCE PROTOCOL: Rear delt direct work (face pulls, reverse pec deck, rear delt cable flies) is programmed on BOTH the Tuesday pull session and the Friday upper session. Weekly rear delt sets ≥ front delt sets in every week of this block. Week 1: rear delts 6 sets ≥ front delts 4 sets. Week 4 peak: rear delts 12 sets ≥ front delts 6 sets. Front delt MEV/MRV is intentionally capped below rear delt targets because bench press already provides substantial secondary front delt stimulus.\n\nNUTRITION RATIONALE: TDEE estimated at ~2650 kcal (Katch-McArdle BMR ~1670 kcal from 60.2 kg lean mass × 1.59 activity factor for 4 resistance sessions + 1–2 Zone 2). Accumulation weeks at slight surplus (+150 to +300 kcal) scaling with training volume demand. Deload drops ~250 kcal below TDEE since training stress is minimal. Protein at 2.18 g/kg (155g) held consistent across all weeks — upper end of the 1.8–2.2 g/kg range to maximise muscle protein synthesis during recomp.\n\nWEIGHT MONITORING: Currently 71.14 kg at 15.39% BF, trending +0.3 kg over 14 days. Target slow lean gain of 0.15–0.3 kg/week. If weight gain exceeds 0.5 kg/week for 2+ consecutive weeks, reduce calorie target by 100 kcal. If weight stalls for 2+ weeks, increase by 100 kcal.\n\nVOLUME STARTING POINTS (Week 1 — all at MEV): chest 8, lats 10, upper_back 10, front_delts 4 (indirect only), rear_delts 6, triceps 6, biceps 8, quads 8, hamstrings 6, glutes 5, lower_back 4, abs 8. Total weekly sets ~83. By week 4 peak: ~108 total weekly sets. Never exceeds MRV for any muscle group.",
+  "weekly_split": [
+    {
+      "day": "Mon",
+      "focus": "Push — Chest / Triceps (front delt indirect via bench only)",
+      "muscle_groups": [
+        "chest",
+        "front_delts",
+        "triceps"
+      ]
+    },
+    {
+      "day": "Tue",
+      "focus": "Pull — Lats / Upper Back / Rear Delts / Biceps",
+      "muscle_groups": [
+        "lats",
+        "upper_back",
+        "rear_delts",
+        "biceps"
+      ]
+    },
+    {
+      "day": "Wed",
+      "focus": "Zone 2 Cardio (30–40 min, HR 120–135 bpm)",
+      "muscle_groups": []
+    },
+    {
+      "day": "Thu",
+      "focus": "Legs — Quads / Hamstrings / Glutes / Lower Back / Abs",
+      "muscle_groups": [
+        "quads",
+        "hamstrings",
+        "glutes",
+        "lower_back",
+        "abs"
+      ]
+    },
+    {
+      "day": "Fri",
+      "focus": "Upper — Rear Delts & Arms (shoulder imbalance correction priority)",
+      "muscle_groups": [
+        "rear_delts",
+        "upper_back",
+        "biceps",
+        "triceps"
+      ]
+    },
+    {
+      "day": "Sat",
+      "focus": "Zone 2 Cardio or Active Recovery (optional, 25–35 min)",
+      "muscle_groups": []
+    },
+    {
+      "day": "Sun",
+      "focus": "Full Rest",
+      "muscle_groups": []
+    }
+  ],
+  "phases": [
+    {
+      "name": "Accumulation — Volume Build",
+      "type": "accumulation",
+      "start_date": "2026-05-04",
+      "end_date": "2026-06-07",
+      "focus": "Hypertrophy — progressive volume build from MEV toward MAV. All muscles currently below MEV are brought to MEV in week 1 and progressively overloaded by 1–2 sets per muscle per week. Rear delt volume always ≥ front delt volume for shoulder balance correction. No overhead pressing due to active rotator cuff tear. RPE progresses from 6–7 in week 1 to 8–9 by week 4. Compounds first, isolation second. Mind-muscle connection emphasised throughout.",
+      "training_days_per_week": 4,
+      "zone2_sessions_per_week": 2,
+      "weeks": [
+        {
+          "week": 1,
+          "start_date": "2026-05-04",
+          "end_date": "2026-05-10",
+          "volume_modifier": 1,
+          "intensity_modifier": 1,
+          "calorie_target": 2800,
+          "protein_target_g": 155,
+          "notes": "Introduction week — all muscles start at MEV. ACWR rises from 0 toward 0.8–1.0. Focus on movement quality, tempo control (3-1-2 eccentric-pause-concentric), and mind-muscle connection. RPE 6–7 on all working sets — stop 3–4 reps from failure. Shoulder rehab warm-up (band external rotations 2×15/arm, band pull-aparts 2×15) before every upper body session. Push day: flat bench press with controlled ROM (no flaring elbows), dumbbell chest flies, cable flies, tricep pushdowns, overhead tricep extensions (cable — shoulder-safe). NO overhead press, NO lateral raises, NO dips. Front delts get ~4 sets indirect stimulus from bench pressing only. Pull day: neutral-grip lat pulldown, cable rows, chest-supported dumbbell rows, face pulls 3 sets, rear delt cable flies 3 sets (rear delt total = 6 sets ≥ front delt 4 sets ✓), barbell curls, hammer curls. Legs day: back squat (start conservative at ~50kg given 65kg PR was 6 months ago), leg press, Romanian deadlifts (neutral grip — shoulder-safe), leg curls, hip thrusts, hanging knee raises or cable crunches for abs, back extensions for lower back. Friday upper: reverse pec deck 3 sets, face pulls 3 sets (rear delt total for week = 6 from Tue + 6 from Fri... wait, I have 3+3 = 6 total rear delt sets from Tue, plus 3+3 = 6 from Fri = wait no, 3 face pulls + 3 rear delt flies on Tue = 6 on Tue, then 3 reverse pec deck + 3 face pulls on Fri = 6 on Fri, total 12. That's too many for week 1 MEV of 6). Let me reconsider the distribution. Rear delt MEV is 6 sets. Week 1 should have 6 total: 3 on Tuesday (face pulls + rear delt fly combined) and 3 on Friday (reverse pec deck or face pulls). Incline dumbbell curls, spider curls, rope pushdowns, overhead cable extensions. Calorie surplus +150 above TDEE to begin supporting muscle protein synthesis."
+        },
+        {
+          "week": 2,
+          "start_date": "2026-05-11",
+          "end_date": "2026-05-17",
+          "volume_modifier": 1.1,
+          "intensity_modifier": 1.02,
+          "calorie_target": 2850,
+          "protein_target_g": 155,
+          "notes": "First volume increase: +1–2 sets per muscle group above week 1 MEV baseline. Add one set to each compound lift and one additional isolation set where recovery from week 1 was good. RPE 7–8 on compounds, 7 on isolations. Monitor shoulder response to bench pressing — if any discomfort, switch to floor press or neutral-grip dumbbell press. Small load increases (1–2.5 kg) on movements where form was solid in week 1. ACWR should be entering the 0.8–1.0 range. Volume targets: chest 10, lats 12, upper_back 12, front_delts 5 (indirect), rear_delts 8 (must be ≥ front_delts ✓), triceps 8, biceps 10, quads 10, hamstrings 8, glutes 6, lower_back 5, abs 10. Surplus increases to +200 above TDEE."
+        },
+        {
+          "week": 3,
+          "start_date": "2026-05-18",
+          "end_date": "2026-05-24",
+          "volume_modifier": 1.2,
+          "intensity_modifier": 1.05,
+          "calorie_target": 2900,
+          "protein_target_g": 155,
+          "notes": "Mid-block volume push — approaching MAV for most muscle groups. RPE 7–8 on working sets. This is where growth stimulus gets serious. Add another 1–2 sets per muscle group. Monitor sleep quality and HRV — if HRV drops >15% below 7-day average for 2+ consecutive days, hold volume flat rather than adding. Volume targets: chest 12, lats 14, upper_back 14, front_delts 6 (indirect — cap here), rear_delts 10 (≥ front_delts ✓), triceps 10, biceps 12, quads 12, hamstrings 10, glutes 8, lower_back 6, abs 12. ACWR should be in the 1.0–1.2 range. Surplus at +250 above TDEE. Begin tracking subjective recovery: rate sleep quality, joint stiffness, and motivation 1–10 each morning. Any score below 5 for 2+ consecutive days → hold volume."
+        },
+        {
+          "week": 4,
+          "start_date": "2026-05-25",
+          "end_date": "2026-05-31",
+          "volume_modifier": 1.3,
+          "intensity_modifier": 1.08,
+          "calorie_target": 2950,
+          "protein_target_g": 155,
+          "notes": "Peak volume week — highest training demand of the block. Volume at or near MAV for most groups, approaching MRV for smaller muscles. RPE 8–9 on compounds, 8 on isolations. Highest calorie surplus (+300 above TDEE) to support maximal recovery. Volume targets: chest 14, lats 16, upper_back 16, front_delts 6 (capped — bench secondary stimulus counted), rear_delts 12 (≥ front_delts ✓), triceps 12, biceps 14, quads 14, hamstrings 12, glutes 10, lower_back 7, abs 14. None exceeds MRV. ACWR should peak around 1.2–1.3 — if it exceeds 1.3, reduce volume on the Friday session first. Watch for joint fatigue (especially right shoulder), excessive DOMS lasting >48h, or sleep disruption — all signals to cap or pull back volume on affected muscles. This is the hardest week — mental fortitude matters."
+        },
+        {
+          "week": 5,
+          "start_date": "2026-06-01",
+          "end_date": "2026-06-07",
+          "volume_modifier": 1.25,
+          "intensity_modifier": 1.1,
+          "calorie_target": 2900,
+          "protein_target_g": 155,
+          "notes": "Intensity focus week with slight volume rollback from week 4 peak. Volume drops ~1 set per muscle group from peak, but load on the bar increases — push for rep PRs or small weight increases on key compounds (bench press, squat, RDL, rows). RPE 8–9 across the board. This is the peak intensity week before the deload — the nervous system is primed from 4 weeks of progressive overload. Volume targets: chest 12, lats 14, upper_back 14, front_delts 6 (maintained from week 4), rear_delts 10 (≥ front_delts ✓), triceps 10, biceps 12, quads 12, hamstrings 10, glutes 8, lower_back 6, abs 12. Surplus at +250. ACWR should settle around 1.1–1.2 as CTL catches up to ATL. Prepare mentally for the deload — next week is earned recovery."
+        }
+      ]
+    },
+    {
+      "name": "Deload — Systemic Recovery",
+      "type": "deload",
+      "start_date": "2026-06-08",
+      "end_date": "2026-06-14",
+      "focus": "Full systemic recovery. Volume drops to ~50% of week 4 peak. Intensity drops to ~65% of recent working weights. Light pump work only — no sets within 5 reps of failure. Purpose: connective tissue repair, CNS reset, hormonal recovery, and joint deloading (especially right shoulder). Training frequency drops to 3 days — Friday upper session is dropped entirely. One Zone 2 session only. Sleep 8+ hours every night. This week sets up the next mesocycle for a fresh start at higher baselines.",
+      "training_days_per_week": 3,
+      "zone2_sessions_per_week": 1,
+      "weeks": [
+        {
+          "week": 6,
+          "start_date": "2026-06-08",
+          "end_date": "2026-06-14",
+          "volume_modifier": 0.5,
+          "intensity_modifier": 0.65,
+          "calorie_target": 2400,
+          "protein_target_g": 155,
+          "notes": "Full deload week. Volume at ~50% of week 4 peak: chest 7, lats 8, upper_back 8, front_delts 3, rear_delts 6 (≥ front_delts ✓ — rear delts stay at MEV even during deload), triceps 6, biceps 7, quads 7, hamstrings 6, glutes 5, lower_back 4, abs 7. Intensity at ~65% of recent working weights — movements should feel easy and controlled. 2–3 sets per exercise maximum. RPE 4–5 on all sets. No sets to failure. Training split reduces to 3 days: Monday push (light), Tuesday pull (light), Thursday legs (light). Friday upper session is dropped. One Zone 2 cardio session only (Wednesday, 25–30 min). Saturday and Sunday full rest. Calories drop to ~250 below TDEE — training energy expenditure is minimal so surplus is not needed. Protein stays at 155g to maintain muscle protein synthesis. Continue shoulder rehab warm-up on upper body days. Use this week to assess shoulder progress — note any improvements or persistent issues for the next mesocycle plan. Reassess body weight, body fat, and recovery markers at end of week to set baselines for the next block."
+        }
+      ]
+    }
+  ]
+}

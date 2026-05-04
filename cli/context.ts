@@ -86,15 +86,10 @@ const latestWeight = weightLog.entries.at(-1)
 const vo2 = latestMetric('vo2_max')
 const rhr = latestMetric('resting_hr_bpm')
 const bf = latestMetric('body_fat_pct')
-const fitbod = latestMetric('fitbod')
-
 lines.push(`  Weight:      ${latestWeight?.weight_kg ?? '—'} kg  (goal: lean mass to 80–82 kg)`)
 lines.push(`  Body Fat:    ${bf != null ? bf + '%' : '—'}  (goal: ≤14%)`)
 lines.push(`  VO2 Max:     ${vo2 ?? '—'}  (supportive — maintain ≥43)`)
 lines.push(`  Resting HR:  ${rhr != null ? rhr + ' bpm' : '—'}  (goal: <50 bpm)`)
-if (fitbod) {
-  lines.push(`  Fitbod:      Overall ${fitbod.overall} · Push ${fitbod.push} · Pull ${fitbod.pull} · Legs ${fitbod.legs}  (target: ≥65)`)
-}
 
 // ── Recent weight trend ───────────────────────────────────────────────────────
 const recentWeights = weightLog.entries.filter((e: any) => withinDays(e.date, 7))

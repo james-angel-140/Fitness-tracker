@@ -33,7 +33,6 @@ export interface StatsSnapshot {
   resting_hr_bpm?: number
   pace_5k?: string | null
   pace_10k?: string | null
-  fitbod?: { overall: number; push: number; pull: number; legs: number }
   notes?: string
 }
 
@@ -208,7 +207,6 @@ function latestMetric<K extends keyof StatsSnapshot>(key: K): StatsSnapshot[K] |
 export const latestVo2 = latestMetric('vo2_max')
 export const latestRhr = latestMetric('resting_hr_bpm')
 export const latestBodyFat = latestMetric('body_fat_pct')
-export const latestFitbod = latestMetric('fitbod')
 
 export const latestZone2Run = workouts
   .filter((w) => w.cardio_subtype === 'zone2-run' && w.avg_pace_per_km)
@@ -240,6 +238,7 @@ function findPR(lift: string): LiftRecord {
 
 const benchPR = findPR('Barbell Bench Press')
 const deadliftPR = findPR('Deadlift')
+const squatPR = findPR('Back Squat')
 const legPressPR = findPR('Leg Press')
 const pullupPR = findPR('Pull-up')
 
@@ -275,9 +274,9 @@ export const scoreInputs = {
     resting_hr_bpm: latestStats.resting_hr_bpm ?? 55,
   },
   strength: {
-    fitbod_overall: latestStats.fitbod?.overall ?? 50,
     bench_press_kg: benchPR.current_best_kg ?? 60,
     deadlift_kg: deadliftPR.current_best_kg ?? 70,
+    squat_kg: squatPR.current_best_kg ?? 60,
     leg_press_kg: legPressPR.current_best_kg ?? 100,
     pullup_reps: Number(pullupPR.current_best_reps),
     body_weight_kg: latestWeightAvg7,

@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import {
   latestWeightAvg7, latestZone2Run, sleepLog, todayLoad,
-  latestVo2, latestRhr, latestBodyFat, latestFitbod,
+  latestVo2, latestRhr, latestBodyFat, currentScore, scoreInputs,
   goalWeightKg, goalBodyFatPct,
 } from '@/lib/data'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
@@ -128,13 +128,12 @@ export function StatTiles() {
         good="up"
       />
       <Tile
-        label="Fitbod Score"
-        value={latestFitbod != null ? String(latestFitbod.overall) : '—'}
-        sub={latestFitbod != null ? `Push ${latestFitbod.push} · Pull ${latestFitbod.pull} · Legs ${latestFitbod.legs}` : 'Overall strength'}
+        label="Strength Score"
+        value={`${currentScore.strength.contribution} / 40`}
+        sub={`Bench ${scoreInputs.strength.bench_press_kg}kg · DL ${scoreInputs.strength.deadlift_kg}kg · Squat ${scoreInputs.strength.squat_kg}kg`}
         trend={
-          latestFitbod == null ? undefined
-          : latestFitbod.overall >= 65 ? 'up'
-          : latestFitbod.overall >= 58 ? 'neutral'
+          currentScore.strength.contribution >= 28 ? 'up'
+          : currentScore.strength.contribution >= 18 ? 'neutral'
           : 'down'
         }
         good="up"

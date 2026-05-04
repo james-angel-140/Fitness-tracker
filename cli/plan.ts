@@ -100,15 +100,10 @@ function buildContext(): string {
   const vo2 = latestMetric('vo2_max')
   const rhr = latestMetric('resting_hr_bpm')
   const bf = latestMetric('body_fat_pct')
-  const fitbod = latestMetric('fitbod')
-
   lines.push(`Weight: ${latestWeight?.weight_kg ?? '—'} kg`)
   lines.push(`Body Fat: ${bf != null ? bf + '%' : '—'}`)
   lines.push(`VO2 Max: ${vo2 ?? '—'}`)
   lines.push(`Resting HR: ${rhr != null ? rhr + ' bpm' : '—'}`)
-  if (fitbod) {
-    lines.push(`Fitbod: Overall ${fitbod.overall} · Push ${fitbod.push} · Pull ${fitbod.pull} · Legs ${fitbod.legs}`)
-  }
 
   const recentWeights = weightLog.entries.filter((e: any) => daysAgo(e.date) <= 14)
   if (recentWeights.length >= 2) {

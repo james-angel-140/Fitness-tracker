@@ -19,20 +19,12 @@ import {
 
 // ─── Types for the data files ─────────────────────────────────────────────────
 
-interface FitbodScores {
-  overall: number;
-  push: number;
-  pull: number;
-  legs: number;
-}
-
 interface StatsSnapshot {
   date: string;
   weight_kg: number;
   body_fat_pct?: number;
   vo2_max?: number;
   resting_hr_bpm?: number;
-  fitbod?: FitbodScores;
 }
 
 interface WeightEntry {
@@ -139,6 +131,7 @@ function pr(lift: string): LiftRecord {
 
 const benchPR = pr('Barbell Bench Press');
 const deadliftPR = pr('Deadlift');
+const squatPR = pr('Back Squat');
 const legPressPR = pr('Leg Press');
 const pullupPR = pr('Pull-up');
 
@@ -156,14 +149,13 @@ function latestMetric<K extends keyof StatsSnapshot>(key: K): StatsSnapshot[K] |
 const vo2_max = latestMetric('vo2_max');
 const resting_hr_bpm = latestMetric('resting_hr_bpm');
 const body_fat_pct = latestMetric('body_fat_pct');
-const fitbod = latestMetric('fitbod');
 
 if (!vo2_max) throw new Error('vo2_max not found in any stats snapshot');
 if (!resting_hr_bpm) throw new Error('resting_hr_bpm not found in any stats snapshot');
 if (!body_fat_pct) throw new Error('body_fat_pct not found in any stats snapshot');
-if (!fitbod) throw new Error('fitbod scores not found in any stats snapshot');
 if (!benchPR.current_best_kg) throw new Error('Bench press PR has no weight recorded');
 if (!deadliftPR.current_best_kg) throw new Error('Deadlift PR has no weight recorded');
+if (!squatPR.current_best_kg) throw new Error('Back squat PR has no weight recorded');
 if (!legPressPR.current_best_kg) throw new Error('Leg press PR has no weight recorded');
 
 const zone2PaceMinPerKm = latestZone2Run?.avg_pace_per_km
@@ -177,9 +169,9 @@ const inputs: ScoreInputs = {
     resting_hr_bpm,
   },
   strength: {
-    fitbod_overall: fitbod.overall,
     bench_press_kg: benchPR.current_best_kg,
     deadlift_kg: deadliftPR.current_best_kg,
+    squat_kg: squatPR.current_best_kg,
     leg_press_kg: legPressPR.current_best_kg,
     pullup_reps: Number(pullupPR.current_best_reps),
     body_weight_kg: weight7DayAvg,
@@ -221,7 +213,7 @@ console.log(`
   Data from: stats ${latestStats.date} · weight ${latestWeight.date}${latestZone2Run ? ` · zone2 ${latestZone2Run.date}` : ' · zone2 (estimated)'}
 
 ──────────────────────────────────────────────────────
-  CARDIO  ${fmt(result.cardio.contribution, 4)} / 35   ${bar(result.cardio.contribution, 35)}
+  CARDIO  ${fmt(result.cardio.contribution, 4)} / 15   ${bar(result.cardio.contribution, 15)}
 ──────────────────────────────────────────────────────
 
   VO2 Max           ${inputs.cardio.vo2_max}          →  ${fmt(result.cardio.vo2_max_score)} / 100
@@ -232,14 +224,14 @@ console.log(`
   STRENGTH  ${fmt(result.strength.contribution, 4)} / 40   ${bar(result.strength.contribution, 40)}
 ──────────────────────────────────────────────────────
 
-  Fitbod Overall    ${inputs.strength.fitbod_overall}           →  ${fmt(result.strength.fitbod_overall_score)} / 100
   Bench Press       ${inputs.strength.bench_press_kg}kg / ${inputs.strength.body_weight_kg}kg = ${(inputs.strength.bench_press_kg / inputs.strength.body_weight_kg).toFixed(2)}×  →  ${fmt(result.strength.bench_press_score)} / 100
   Deadlift          ${inputs.strength.deadlift_kg}kg / ${inputs.strength.body_weight_kg}kg = ${(inputs.strength.deadlift_kg / inputs.strength.body_weight_kg).toFixed(2)}×  →  ${fmt(result.strength.deadlift_score)} / 100
+  Back Squat        ${inputs.strength.squat_kg}kg / ${inputs.strength.body_weight_kg}kg = ${(inputs.strength.squat_kg / inputs.strength.body_weight_kg).toFixed(2)}×  →  ${fmt(result.strength.squat_score)} / 100
   Leg Press         ${inputs.strength.leg_press_kg}kg / ${inputs.strength.body_weight_kg}kg = ${(inputs.strength.leg_press_kg / inputs.strength.body_weight_kg).toFixed(2)}×  →  ${fmt(result.strength.leg_press_score)} / 100
   Pull-ups          ${inputs.strength.pullup_reps} reps         →  ${fmt(result.strength.pullup_score)} / 100
 
 ──────────────────────────────────────────────────────
-  BODY COMP  ${fmt(result.body_comp.contribution, 4)} / 25   ${bar(result.body_comp.contribution, 25)}
+  BODY COMP  ${fmt(result.body_comp.contribution, 4)} / 35   ${bar(result.body_comp.contribution, 35)}
 ──────────────────────────────────────────────────────
 
   Body Fat          ${inputs.body_comp.body_fat_pct}%          →  ${fmt(result.body_comp.body_fat_score)} / 100
