@@ -56,15 +56,88 @@ if (programFiles.length === 0) {
 }
 const program: any = JSON.parse(readFileSync(join(DATA_DIR, 'programs', programFiles[0]), 'utf-8'))
 
-// ─── Find next 7 non-rest days from the active program ────────────────────────
+// ─── Derive next DAYS_AHEAD non-rest days from mesocycle weekly_split ─────────
+//
+// The new mesocycle format has a weekly_split (Mon–Sun with focus/muscle_groups)
+// rather than per-date days[]. We project the split onto actual calendar dates
+// and find the current week's phase/nutrition context for each day.
 
-const allDays: { date: string; focus: string; session: string }[] = (program.phases ?? [])
-  .flatMap((phase: any) => phase.days ?? [])
+const WEEKDAY_ABBR = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-const upcomingDays = allDays
-  .filter(d => d.date >= TODAY)
-  .filter(d => !/^rest/i.test(d.focus))
-  .slice(0, DAYS_AHEAD)
+function getUpcomingDaysFromMesocycle(): { date: string; focus: string; session: string }[] {
+  const weeklySplit: any[] = program.weekly_split ?? []
+
+  if (weeklySplit.length === 0) {
+    // Fallback: old format with phase.days[] arrays
+    return (program.phases ?? [])
+      .flatMap((phase: any) => phase.days ?? [])
+      .filter((d: any) => d.date >= TODAY)
+      .filter((d: any) => !/^rest/i.test(d.focus))
+      .slice(0, DAYS_AHEAD)
+  }
+
+  // Build a lookup: day abbreviation → split entry
+  const splitByDay = new Map<string, any>()
+  for (const entry of weeklySplit) {
+    splitByDay.set(entry.day, entry)
+  }
+
+  // Find the current mesocycle week and phase for a given date
+  function getWeekContext(dateStr: string): { phase: any; week: any } | null {
+    for (const phase of program.phases ?? []) {
+      for (const week of phase.weeks ?? []) {
+        if (dateStr >= week.start_date && dateStr <= week.end_date) {
+          return { phase, week }
+        }
+      }
+    }
+    return null
+  }
+
+  const days: { date: string; focus: string; session: string }[] = []
+  const startDate = new Date(TODAY)
+
+  for (let i = 0; i < 14 && days.length < DAYS_AHEAD; i++) {
+    const d = new Date(startDate)
+    d.setDate(startDate.getDate() + i)
+    const dateStr = d.toISOString().slice(0, 10)
+    const dayAbbr = WEEKDAY_ABBR[d.getDay()]
+    const splitEntry = splitByDay.get(dayAbbr)
+
+    if (!splitEntry || /^rest/i.test(splitEntry.focus)) continue
+
+    const ctx = getWeekContext(dateStr)
+    const contextLines: string[] = []
+
+    if (ctx) {
+      contextLines.push(`Phase: ${ctx.phase.name} [${ctx.phase.type}] — ${ctx.phase.focus}`)
+      contextLines.push(`Week ${ctx.week.week}: volume ×${ctx.week.volume_modifier}  intensity ×${ctx.week.intensity_modifier}`)
+      contextLines.push(`Nutrition: ${ctx.week.calorie_target} kcal / ${ctx.week.protein_target_g}g protein today`)
+      if (ctx.phase.type === 'deload') {
+        contextLines.push(`DELOAD: 50% of normal sets, no failure, RPE ≤6`)
+      } else if (ctx.phase.type === 'intensification') {
+        contextLines.push(`INTENSIFICATION: slightly lower volume, push intensity`)
+      } else {
+        contextLines.push(`ACCUMULATION: build volume, RPE 7–8`)
+      }
+      if (ctx.week.notes) contextLines.push(`Week notes: ${ctx.week.notes}`)
+    }
+
+    if (splitEntry.muscle_groups?.length > 0) {
+      contextLines.push(`Target muscles: ${splitEntry.muscle_groups.join(', ')}`)
+    }
+
+    days.push({
+      date: dateStr,
+      focus: splitEntry.focus,
+      session: contextLines.join('\n'),
+    })
+  }
+
+  return days
+}
+
+const upcomingDays = getUpcomingDaysFromMesocycle()
 
 if (upcomingDays.length === 0) {
   console.log('No upcoming non-rest sessions found in the active program.')
@@ -240,9 +313,10 @@ Exercise selection rules (apply in order):
 5. Alternate antagonist pairs where possible (e.g. row after press, leg curl after squat)
 6. Use exact exercise names from the library — do not invent names outside the list
 7. For bodyweight exercises (Pull Up, Dip): set is_bodyweight true and suggested_weight_kg null
-8. Progressive overload: if last session was completed strongly at same weight → suggest +2.5kg; else hold weight
-9. Skip explicit warm-up sets — working sets only
-10. For Hyrox simulation days use type "hybrid" and list the main race stations as exercises`
+8. Pull sessions MUST include at least one direct rear delt exercise (Face Pull, Cable Rear Delt Fly, or Reverse Pec Deck)
+9. Progressive overload: if last session was completed strongly at same weight → suggest +2.5kg; else hold weight
+10. Scale target_sets using the mesocycle volume_modifier from the session context (e.g. ×1.2 = ~20% more sets; ×0.5 deload = half sets)
+11. Skip explicit warm-up sets — working sets only`
 }
 
 // ─── Generate one session ──────────────────────────────────────────────────────

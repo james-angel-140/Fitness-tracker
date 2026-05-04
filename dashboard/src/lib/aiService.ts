@@ -4,7 +4,7 @@
 //   3. Local keyword extraction fallback (always available)
 
 import { getSuggestion } from '@/lib/progressiveOverload'
-import { workouts, prs, muscleVolume, patternVolume, pushPullRatio7d, pushPullStatus } from '@/lib/data'
+import { workouts, prs, muscleVolume, patternVolume, pushPullRatio7d, pushPullStatus, activeMesocycleWeek } from '@/lib/data'
 import taxonomyRaw from '@data/exercise-taxonomy.json'
 
 // Pre-generated sessions — bundled at build time, available with no API call
@@ -90,12 +90,32 @@ function buildPrompt(sessionText: string, focus: string, date: string): string {
 
   const prSummary = prs.map((p) => `  ${p.lift}: ${p.current_best_kg ?? 'BW'}kg × ${p.current_best_reps}`).join('\n')
 
+  // ── Active mesocycle week context ──────────────────────────────────────────
+  const mesoLines: string[] = []
+  if (activeMesocycleWeek) {
+    const w = activeMesocycleWeek
+    mesoLines.push(`Mesocycle: ${w.mesocycleName}`)
+    mesoLines.push(`Phase: ${w.phaseName} [${w.phaseType}]  —  Week ${w.weekNumber} of ${w.totalWeeks}`)
+    mesoLines.push(`Volume modifier: ×${w.volume_modifier}  (scale set counts relative to baseline)`)
+    mesoLines.push(`Intensity modifier: ×${w.intensity_modifier}  (scale weights relative to recent working weight)`)
+    mesoLines.push(`Nutrition target this week: ${w.calorie_target} kcal/day · ${w.protein_target_g}g protein`)
+    if (w.phaseType === 'deload') {
+      mesoLines.push(`DELOAD WEEK: Use ~50% of normal set counts. No sets to failure. Pump work only. Keep RPE ≤6.`)
+    } else if (w.phaseType === 'intensification') {
+      mesoLines.push(`INTENSIFICATION: Volume slightly lower than peak, but push weights harder. More singles/doubles/triples on big lifts acceptable.`)
+    } else {
+      mesoLines.push(`ACCUMULATION: Priority is volume. Reach target sets for each muscle. RPE 7–8 on working sets.`)
+    }
+    if (w.notes) mesoLines.push(`Week notes: ${w.notes}`)
+  }
+  const mesoContext = mesoLines.length > 0 ? `\n## Mesocycle Context\n${mesoLines.join('\n')}` : ''
+
   return `You are a fitness AI coach. Design an optimal workout for the session below.
 
 ## Session (${date})
 Focus: ${focus}
 Context / constraints:
-${sessionText}
+${sessionText}${mesoContext}
 
 ## Exercise Library — use ONLY these exercises
 ${libraryLines}
@@ -143,13 +163,14 @@ Exercise selection rules (apply in order):
 1. Match the session focus — push day = push/press patterns, pull day = row/pull patterns, legs = squat/hinge patterns
 2. Prioritise muscles marked BELOW MEV — they need volume most
 3. Avoid muscles marked NEAR MRV — they are already approaching max recoverable volume
-4. If push-dominant: lean toward more pull exercises this session; if pull-dominant: lean toward push
-5. Alternate antagonist pairs where possible (e.g. row after press, leg curl after squat)
-6. Use exact exercise names from the library — do not invent names outside the list
-7. For bodyweight exercises (Pull Up, Dip): set is_bodyweight true and suggested_weight_kg null
-8. Progressive overload: if last session was completed strongly at same weight → suggest +2.5kg; else hold weight
-9. Skip explicit warm-up sets — working sets only
-10. For Hyrox simulation days use type "hybrid" and list the main race stations as exercises`
+4. If push-dominant: add more pull exercises; if pull-dominant: add more push
+5. Pull sessions MUST include at least one direct rear delt exercise (Face Pull, Cable Rear Delt Fly, or Reverse Pec Deck) — shoulder health priority
+6. Alternate antagonist pairs where possible (e.g. row after press, leg curl after squat)
+7. Use exact exercise names from the library — do not invent names outside the list
+8. For bodyweight exercises (Pull Up, Dip): set is_bodyweight true and suggested_weight_kg null
+9. Progressive overload: if last session was completed strongly at same weight → suggest +2.5kg; else hold weight
+10. Scale target_sets using the mesocycle volume_modifier — if modifier is 1.2, add ~20% more sets vs a baseline session; if 0.5 (deload), halve the sets
+11. Skip explicit warm-up sets — working sets only`
 }
 
 // ─── Call the Vite middleware ─────────────────────────────────────────────────

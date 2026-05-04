@@ -88,12 +88,12 @@ const rhr = latestMetric('resting_hr_bpm')
 const bf = latestMetric('body_fat_pct')
 const fitbod = latestMetric('fitbod')
 
-lines.push(`  Weight:      ${latestWeight?.weight_kg ?? '—'} kg  (goal: 75 kg)`)
-lines.push(`  Body Fat:    ${bf != null ? bf + '%' : '—'}  (goal: 14%)`)
-lines.push(`  VO2 Max:     ${vo2 ?? '—'}  (target: 45+ post-Hyrox)`)
+lines.push(`  Weight:      ${latestWeight?.weight_kg ?? '—'} kg  (goal: lean mass to 80–82 kg)`)
+lines.push(`  Body Fat:    ${bf != null ? bf + '%' : '—'}  (goal: ≤14%)`)
+lines.push(`  VO2 Max:     ${vo2 ?? '—'}  (supportive — maintain ≥43)`)
 lines.push(`  Resting HR:  ${rhr != null ? rhr + ' bpm' : '—'}  (goal: <50 bpm)`)
 if (fitbod) {
-  lines.push(`  Fitbod:      Overall ${fitbod.overall} · Push ${fitbod.push} · Pull ${fitbod.pull} · Legs ${fitbod.legs}  (floor: 58)`)
+  lines.push(`  Fitbod:      Overall ${fitbod.overall} · Push ${fitbod.push} · Pull ${fitbod.pull} · Legs ${fitbod.legs}  (target: ≥65)`)
 }
 
 // ── Recent weight trend ───────────────────────────────────────────────────────
@@ -313,17 +313,23 @@ if (programs.length === 0) {
   lines.push(`  Program: ${prog.name ?? prog.id ?? 'Unknown'}`)
   if (prog.goal) lines.push(`  Goal:    ${prog.goal}`)
   if (prog.phases) {
-    // Find which phase we're in today
     for (const phase of prog.phases) {
       const start = new Date(phase.start_date)
       const end = new Date(phase.end_date)
       if (TODAY >= start && TODAY <= end) {
-        lines.push(`  Current phase: ${phase.name} (${phase.start_date} → ${phase.end_date})`)
+        lines.push(`  Current phase: ${phase.name} [${phase.type ?? ''}] (${phase.start_date} → ${phase.end_date})`)
         lines.push(`  Phase focus: ${phase.focus ?? '—'}`)
-        // Find today's planned session
-        const todayPlan = phase.sessions?.find((s: any) => s.date === todayStr)
-        if (todayPlan) {
-          lines.push(`  Today's planned session: ${todayPlan.focus ?? todayPlan.session ?? '—'}`)
+        // Find current week within the phase
+        const currentWeek = (phase.weeks ?? []).find((w: any) => todayStr >= w.start_date && todayStr <= w.end_date)
+        if (currentWeek) {
+          lines.push(`  Week ${currentWeek.week}: vol ×${currentWeek.volume_modifier}  int ×${currentWeek.intensity_modifier}  ${currentWeek.calorie_target} kcal  ${currentWeek.protein_target_g}g protein`)
+          if (currentWeek.notes) lines.push(`  Week notes: ${currentWeek.notes}`)
+        }
+        // Show today's split from weekly_split
+        const dayOfWeek = TODAY.toLocaleDateString('en-US', { weekday: 'short' })
+        const splitDay = (prog.weekly_split ?? []).find((d: any) => d.day === dayOfWeek)
+        if (splitDay) {
+          lines.push(`  Today's planned focus (${dayOfWeek}): ${splitDay.focus}`)
         }
         break
       }
@@ -396,7 +402,8 @@ const overMRV: string[] = []
 const muscleLines: string[] = []
 
 const MUSCLE_LABELS: Record<string, string> = {
-  chest: 'Chest', lats: 'Lats', upper_back: 'Upper back', shoulders: 'Shoulders',
+  chest: 'Chest', lats: 'Lats', upper_back: 'Upper back',
+  front_delts: 'Front delts', rear_delts: 'Rear delts',
   triceps: 'Triceps', biceps: 'Biceps', quads: 'Quads', hamstrings: 'Hamstrings',
   glutes: 'Glutes', lower_back: 'Lower back', abs: 'Abs',
 }

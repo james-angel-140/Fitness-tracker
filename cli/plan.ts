@@ -1,22 +1,26 @@
 /**
  * plan.ts
  *
- * Generates a rolling AI-powered training plan using the Claude API.
+ * Generates a new mesocycle using the Claude API.
  *
  * Sends to Claude:
- *   - Current fitness context (sleep, HRV, training load, stats)
- *   - Existing program + when it was last generated
- *   - Goals and upcoming events
- *   - Sport science steering instructions
+ *   - Current stats, body comp, strength levels, PRs
+ *   - 7-day sleep & HRV recovery data
+ *   - 14-day training history + ACWR/CTL load metrics
+ *   - Per-muscle volume status (MEV/MAV/MRV) over last 28 days
+ *   - Active injuries and constraints
+ *   - Existing mesocycle (for continuity)
+ *   - Goal context (lean mass, shoulder health priority)
  *
- * Returns a structured JSON plan matching schema/program.ts,
- * written to data/programs/ai-plan-YYYY-MM-DD.json
+ * Returns a Mesocycle JSON written to data/programs/mesocycle-YYYY-MM-DD.json
  *
  * Usage:
  *   npm run plan
+ *   npm run plan -- "I want to add more leg frequency this block"
  *
- * Requires:
- *   ANTHROPIC_API_KEY environment variable
+ * After accepting: removes old mesocycle file, preloads sessions, optionally deploys.
+ *
+ * Requires: ANTHROPIC_API_KEY environment variable
  */
 
 import 'dotenv/config'
@@ -29,16 +33,10 @@ import Anthropic from '@anthropic-ai/sdk'
 const DATA_DIR = join(__dirname, '../data')
 const TODAY = new Date()
 const TODAY_STR = TODAY.toISOString().slice(0, 10)
-
-// Extra context passed via CLI, e.g: npm run plan -- "heavy night out, feeling rough"
 const EXTRA_CONTEXT = process.argv.slice(2).join(' ').trim()
-
-// ─── Check API key ────────────────────────────────────────────────────────────
 
 if (!process.env.ANTHROPIC_API_KEY) {
   console.error('Error: ANTHROPIC_API_KEY environment variable is not set.')
-  console.error('Get your key at: https://console.anthropic.com/settings/keys')
-  console.error('Then run: export ANTHROPIC_API_KEY=sk-ant-...')
   process.exit(1)
 }
 
@@ -47,9 +45,13 @@ const client = new Anthropic()
 // ─── Load data ────────────────────────────────────────────────────────────────
 
 const stats: any[] = JSON.parse(readFileSync(join(DATA_DIR, 'stats-snapshots.json'), 'utf-8'))
+const taxonomy: any = JSON.parse(readFileSync(join(DATA_DIR, 'exercise-taxonomy.json'), 'utf-8'))
 const weightLog: any = JSON.parse(readFileSync(join(DATA_DIR, 'body-weight-log.json'), 'utf-8'))
 const sleepLog: any = JSON.parse(readFileSync(join(DATA_DIR, 'sleep-log.json'), 'utf-8'))
 const prs: any[] = JSON.parse(readFileSync(join(DATA_DIR, 'personal-records.json'), 'utf-8'))
+const injuries: any[] = existsSync(join(DATA_DIR, 'injuries.json'))
+  ? JSON.parse(readFileSync(join(DATA_DIR, 'injuries.json'), 'utf-8'))
+  : []
 
 const workoutFiles = readdirSync(join(DATA_DIR, 'workouts'))
   .filter(f => f.endsWith('.json'))
@@ -60,20 +62,7 @@ const allWorkouts: any[] = workoutFiles.map(f =>
 
 const existingPrograms = readdirSync(join(DATA_DIR, 'programs'))
   .filter(f => f.endsWith('.json'))
-  .map(f => ({
-    filename: f,
-    data: JSON.parse(readFileSync(join(DATA_DIR, 'programs', f), 'utf-8')),
-  }))
-
-const eventFiles = existsSync(join(DATA_DIR, 'events'))
-  ? readdirSync(join(DATA_DIR, 'events'))
-      .filter(f => f.endsWith('.json'))
-      .map(f => JSON.parse(readFileSync(join(DATA_DIR, 'events', f), 'utf-8')))
-  : []
-
-const injuries: any[] = existsSync(join(DATA_DIR, 'injuries.json'))
-  ? JSON.parse(readFileSync(join(DATA_DIR, 'injuries.json'), 'utf-8'))
-  : []
+  .map(f => ({ filename: f, data: JSON.parse(readFileSync(join(DATA_DIR, 'programs', f), 'utf-8')) }))
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -96,7 +85,6 @@ function estimateRpe(w: any): number {
   if (w.cardio_subtype === 'zone2-run') return 4
   if (w.cardio_subtype === 'hiit') return 8
   if (w.cardio_subtype === 'run') return 7
-  if (w.cardio_subtype === 'stationary-bike') return 5
   return 6
 }
 
@@ -104,7 +92,6 @@ function estimateRpe(w: any): number {
 
 function buildContext(): string {
   const lines: string[] = []
-
   lines.push(`Today: ${TODAY_STR}`)
 
   // ── Stats ──
@@ -115,18 +102,30 @@ function buildContext(): string {
   const bf = latestMetric('body_fat_pct')
   const fitbod = latestMetric('fitbod')
 
-  lines.push(`Weight: ${latestWeight?.weight_kg ?? '—'} kg (goal: 75 kg)`)
-  lines.push(`Body Fat: ${bf != null ? bf + '%' : '—'} (goal: 14%)`)
-  lines.push(`VO2 Max: ${vo2 ?? '—'} (target: 45+)`)
-  lines.push(`Resting HR: ${rhr != null ? rhr + ' bpm' : '—'} (goal: <50 bpm)`)
+  lines.push(`Weight: ${latestWeight?.weight_kg ?? '—'} kg`)
+  lines.push(`Body Fat: ${bf != null ? bf + '%' : '—'}`)
+  lines.push(`VO2 Max: ${vo2 ?? '—'}`)
+  lines.push(`Resting HR: ${rhr != null ? rhr + ' bpm' : '—'}`)
   if (fitbod) {
-    lines.push(`Fitbod: Overall ${fitbod.overall} · Push ${fitbod.push} · Pull ${fitbod.pull} · Legs ${fitbod.legs} (floor: 58)`)
+    lines.push(`Fitbod: Overall ${fitbod.overall} · Push ${fitbod.push} · Pull ${fitbod.pull} · Legs ${fitbod.legs}`)
   }
 
-  const recentWeights = weightLog.entries.filter((e: any) => daysAgo(e.date) <= 7)
+  const recentWeights = weightLog.entries.filter((e: any) => daysAgo(e.date) <= 14)
   if (recentWeights.length >= 2) {
     const change = r1(recentWeights.at(-1).weight_kg - recentWeights[0].weight_kg)
-    lines.push(`Weight trend (7d): ${change > 0 ? '+' : ''}${change} kg`)
+    lines.push(`Weight trend (14d): ${change > 0 ? '+' : ''}${change} kg  (${recentWeights[0].weight_kg} → ${recentWeights.at(-1).weight_kg} kg)`)
+  }
+
+  // ── Key PRs ──
+  lines.push('\n## PERSONAL RECORDS (key lifts)')
+  const keyLifts = ['Barbell Bench Press', 'Deadlift', 'Leg Press', 'Pull-up', 'Back Squat', 'Romanian Deadlift', 'Barbell Hip Thrust']
+  for (const lift of keyLifts) {
+    const pr = prs.find((p: any) => p.lift === lift)
+    if (pr && pr.current_best_kg != null) {
+      lines.push(`  ${pr.lift}: ${pr.current_best_kg}kg × ${pr.current_best_reps} (${pr.current_best_date})`)
+    } else if (pr) {
+      lines.push(`  ${pr.lift}: ${pr.current_best_reps} reps (${pr.current_best_date})`)
+    }
   }
 
   // ── Sleep & recovery ──
@@ -143,15 +142,7 @@ function buildContext(): string {
       const parts = [`${e.date}: ${e.sleep_hr ?? e.duration_hr}h`]
       if (e.hrv_ms != null) parts.push(`HRV ${e.hrv_ms}ms`)
       if (e.resting_hr != null) parts.push(`RHR ${e.resting_hr}bpm`)
-      if (e.deep_hr) parts.push(`deep ${e.deep_hr}h`)
-      if (e.rem_hr) parts.push(`REM ${e.rem_hr}h`)
       lines.push('  ' + parts.join(', '))
-    }
-    // HRV warning
-    const latest = recentSleep.at(-1)
-    if (latest?.hrv_ms != null && avgHrv != null) {
-      const drop = ((avgHrv - latest.hrv_ms) / avgHrv) * 100
-      if (drop > 15) lines.push(`  ⚠ HRV dropped ${Math.round(drop)}% below average — recovery concern`)
     }
   } else {
     lines.push('No sleep data in last 7 days.')
@@ -168,7 +159,7 @@ function buildContext(): string {
       const parts = [`${w.date}: ${label}, ${w.duration_min ?? '?'} min`]
       if (w.rpe) parts.push(`RPE ${w.rpe}`)
       if (w.avg_hr) parts.push(`avg HR ${w.avg_hr}bpm`)
-      if (w.distance_km) parts.push(`${w.distance_km}km`)
+      if (w.exercises?.length) parts.push(`${w.exercises.length} exercises`)
       if (w.notes) parts.push(w.notes)
       lines.push('  ' + parts.join(' — '))
     }
@@ -196,54 +187,85 @@ function buildContext(): string {
   const atl = r1(rollingAvg(TODAY_STR, 7))
   const ctl = r1(rollingAvg(TODAY_STR, 28))
   const acwr = ctl > 0 ? r1(atl / ctl) : 0
+  const tsb = r1(ctl - atl)
   lines.push(`ATL (7-day avg TRIMP): ${atl}`)
   lines.push(`CTL (28-day avg TRIMP): ${ctl}`)
-  lines.push(`ACWR: ${acwr} (optimal range: 0.8–1.3)`)
+  lines.push(`ACWR: ${acwr} (optimal 0.8–1.3; above 1.3 = elevated injury risk)`)
+  lines.push(`TSB (form): ${tsb} (positive = fresh, negative = fatigue)`)
 
-  // ── Personal records ──
-  lines.push('\n## PERSONAL RECORDS')
-  const keyLifts = ['Barbell Bench Press', 'Deadlift', 'Leg Press', 'Pull-up', 'Back Squat']
-  for (const lift of keyLifts) {
-    const pr = prs.find((p: any) => p.lift === lift)
-    if (pr && pr.current_best_kg != null) {
-      lines.push(`  ${pr.lift}: ${pr.current_best_kg}kg × ${pr.current_best_reps} (${pr.current_best_date})`)
-    } else if (pr) {
-      lines.push(`  ${pr.lift}: ${pr.current_best_reps} reps (${pr.current_best_date})`)
+  // ── Muscle volume status ──
+  lines.push('\n## MUSCLE VOLUME STATUS (last 28 days → 4-week avg sets/week)')
+
+  const exerciseLookup = new Map<string, any>()
+  for (const ex of taxonomy.exercises) {
+    exerciseLookup.set(ex.name.toLowerCase(), ex)
+    for (const alias of ex.aliases ?? []) {
+      exerciseLookup.set(alias.toLowerCase(), ex)
     }
   }
+
+  const muscleSets28d = new Map<string, number>()
+  const patternSets7d = new Map<string, number>()
+
+  for (const w of allWorkouts) {
+    if (w.type !== 'strength' && w.type !== 'hybrid') continue
+    for (const ex of w.exercises ?? []) {
+      const entry = exerciseLookup.get(ex.name.toLowerCase())
+      if (!entry) continue
+      const n = (ex.sets ?? []).length
+      if (daysAgo(w.date) <= 28) {
+        for (const muscle of entry.primary ?? []) {
+          muscleSets28d.set(muscle, (muscleSets28d.get(muscle) ?? 0) + n)
+        }
+      }
+      if (daysAgo(w.date) <= 7) {
+        patternSets7d.set(entry.pattern, (patternSets7d.get(entry.pattern) ?? 0) + n)
+      }
+    }
+  }
+
+  const landmarks: Record<string, any> = taxonomy.volume_landmarks ?? {}
+  const underMEV: string[] = []
+  const overMRV: string[] = []
+
+  for (const [muscle, lm] of Object.entries(landmarks).filter(([k]) => !k.startsWith('_'))) {
+    const s28 = muscleSets28d.get(muscle) ?? 0
+    const weekly = r1(s28 / 4)
+    let status: string
+    if (weekly < (lm as any).mev) { status = '⚠ BELOW MEV'; underMEV.push(muscle) }
+    else if (weekly > (lm as any).mrv) { status = '↑ ABOVE MRV'; overMRV.push(muscle) }
+    else { status = '✓ in range' }
+    lines.push(`  ${muscle.padEnd(14)} ${String(weekly).padStart(4)} sets/wk  (MEV ${(lm as any).mev}–MRV ${(lm as any).mrv})  ${status}`)
+  }
+
+  const pushSets = patternSets7d.get('push') ?? 0
+  const pullSets = patternSets7d.get('pull') ?? 0
+  const ratio = pullSets > 0 ? r1(pushSets / pullSets) : null
+  const { optimal_min, optimal_max } = taxonomy.push_pull_ratio ?? { optimal_min: 0.8, optimal_max: 1.2 }
+  lines.push('')
+  lines.push(`Movement patterns (7d): Push ${pushSets} · Pull ${pullSets} · Hinge ${patternSets7d.get('hinge') ?? 0} · Squat ${patternSets7d.get('squat') ?? 0}`)
+  if (ratio !== null) {
+    const ratioStatus = ratio > optimal_max ? `⚠ push-dominant (${ratio}×)` : ratio < optimal_min ? `pull-dominant (${ratio}×)` : `✓ balanced (${ratio}×)`
+    lines.push(`Push:Pull ratio: ${ratioStatus}`)
+  }
+  if (underMEV.length > 0) lines.push(`\n  ⚠ Below MEV: ${underMEV.join(', ')} — need more volume`)
+  if (overMRV.length > 0) lines.push(`  ↑ Above MRV: ${overMRV.join(', ')} — watch recovery`)
 
   // ── Injuries ──
   const activeInjuries = injuries.filter((i: any) => i.status !== 'resolved')
   if (activeInjuries.length > 0) {
-    lines.push('\n## INJURIES (must be respected in every session)')
+    lines.push('\n## INJURIES (non-negotiable constraints)')
     for (const inj of activeInjuries) {
       lines.push(`  ⚠ ${inj.body_part} — ${inj.injury_type} (${inj.severity}, ${inj.status}, onset ${inj.date_onset})`)
-      if (inj.affected_movements?.length > 0) {
-        lines.push(`    Avoid: ${inj.affected_movements.join(', ')}`)
-      }
-      if (inj.rehab_exercises?.length > 0) {
-        lines.push(`    Rehab: ${inj.rehab_exercises.join(', ')}`)
-      }
+      if (inj.affected_movements?.length > 0) lines.push(`    Avoid: ${inj.affected_movements.join(', ')}`)
+      if (inj.rehab_exercises?.length > 0) lines.push(`    Rehab: ${inj.rehab_exercises.join(', ')}`)
       if (inj.notes) lines.push(`    Notes: ${inj.notes}`)
     }
   }
 
-  // ── Upcoming events ──
-  if (eventFiles.length > 0) {
-    lines.push('\n## UPCOMING EVENTS')
-    for (const event of eventFiles) {
-      const daysUntil = Math.ceil((new Date(event.date).getTime() - TODAY.getTime()) / 86_400_000)
-      lines.push(`${event.name} — ${event.date} (${daysUntil} days away)`)
-      lines.push(`  Goal: ${event.goal}`)
-      if (event.training_focus) lines.push(`  Training focus: ${event.training_focus}`)
-      if (event.taper_plan) lines.push(`  Taper plan: ${event.taper_plan}`)
-      if (event.prep_notes) lines.push(`  Prep notes: ${event.prep_notes}`)
-    }
-  }
-
-  // ── Existing program ──
+  // ── Existing mesocycle ──
   if (existingPrograms.length > 0) {
-    lines.push('\n## EXISTING PROGRAM (for reference and continuity)')
+    lines.push('\n## EXISTING MESOCYCLE (for continuity)')
     for (const prog of existingPrograms) {
       lines.push(`File: ${prog.filename}`)
       lines.push(JSON.stringify(prog.data, null, 2))
@@ -253,120 +275,150 @@ function buildContext(): string {
   return lines.join('\n')
 }
 
-// ─── Program JSON schema for structured output ────────────────────────────────
+// ─── Mesocycle JSON schema ────────────────────────────────────────────────────
 
-const PROGRAM_SCHEMA = {
+const MESOCYCLE_SCHEMA = {
   type: 'object',
   properties: {
-    id:                 { type: 'string' },
-    name:               { type: 'string' },
-    goal:               { type: 'string' },
-    start_date:         { type: 'string' },
-    end_date:           { type: 'string' },
-    days_per_week:      { type: 'number' },
-    rest_days_per_week: { type: 'number' },
-    taper_start_date:   { type: 'string' },
-    notes:              { type: 'string' },
+    id:                  { type: 'string' },
+    name:                { type: 'string' },
+    goal:                { type: 'string' },
+    start_date:          { type: 'string' },
+    end_date:            { type: 'string' },
+    baseline_calories:   { type: 'number' },
+    baseline_protein_g:  { type: 'number' },
+    notes:               { type: 'string' },
+    weekly_split: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          day:            { type: 'string' },
+          focus:          { type: 'string' },
+          muscle_groups:  { type: 'array', items: { type: 'string' } },
+        },
+        required: ['day', 'focus', 'muscle_groups'],
+        additionalProperties: false,
+      },
+    },
     phases: {
       type: 'array',
       items: {
         type: 'object',
         properties: {
-          name:          { type: 'string' },
-          start_date:    { type: 'string' },
-          end_date:      { type: 'string' },
-          duration_days: { type: 'number' },
-          focus:         { type: 'string' },
-          days: {
+          name:                     { type: 'string' },
+          type:                     { type: 'string', enum: ['accumulation', 'intensification', 'deload'] },
+          start_date:               { type: 'string' },
+          end_date:                 { type: 'string' },
+          focus:                    { type: 'string' },
+          training_days_per_week:   { type: 'number' },
+          zone2_sessions_per_week:  { type: 'number' },
+          weeks: {
             type: 'array',
             items: {
               type: 'object',
               properties: {
-                day_of_week: { type: 'string' },
-                date:        { type: 'string' },
-                focus:       { type: 'string' },
-                session:     { type: 'string' },
+                week:                 { type: 'number' },
+                start_date:           { type: 'string' },
+                end_date:             { type: 'string' },
+                volume_modifier:      { type: 'number' },
+                intensity_modifier:   { type: 'number' },
+                calorie_target:       { type: 'number' },
+                protein_target_g:     { type: 'number' },
+                notes:                { type: 'string' },
               },
-              required: ['day_of_week', 'date', 'focus', 'session'],
+              required: ['week', 'start_date', 'end_date', 'volume_modifier', 'intensity_modifier', 'calorie_target', 'protein_target_g'],
               additionalProperties: false,
             },
           },
         },
-        required: ['name', 'start_date', 'end_date', 'duration_days', 'focus', 'days'],
+        required: ['name', 'type', 'start_date', 'end_date', 'focus', 'training_days_per_week', 'zone2_sessions_per_week', 'weeks'],
         additionalProperties: false,
       },
     },
   },
-  required: ['id', 'name', 'goal', 'start_date', 'end_date', 'days_per_week', 'rest_days_per_week', 'phases'],
+  required: ['id', 'name', 'goal', 'start_date', 'end_date', 'baseline_calories', 'baseline_protein_g', 'weekly_split', 'phases'],
   additionalProperties: false,
 }
 
 // ─── System prompt ────────────────────────────────────────────────────────────
 
-const SYSTEM_PROMPT = `You are an elite exercise physiologist and sports scientist. Your job is to generate personalized, data-driven training plans that peak the athlete for their goals and upcoming events.
+const SYSTEM_PROMPT = `You are an expert exercise physiologist and hypertrophy coach. Your job is to design data-driven mesocycles for lean mass accumulation and body recomposition.
 
-## Load Management (ATL/CTL/ACWR)
-Use the athlete's training load data to drive all scheduling decisions:
-- Optimal ACWR: 0.8–1.3. Above 1.3 = elevated injury risk, reduce load before adding stimulus
-- CTL should rise gradually during build phases — avoid large week-on-week spikes
-- If ACWR is already high at plan generation time, start the plan conservatively and let load settle before building
+## Goal
+The athlete's primary goal is to maximise lean muscle mass while staying lean (body recomp). No upcoming events. Cardio is supportive — 1–2 Zone 2 sessions per week only, never the focus.
 
-## Training Priorities
-Derive the athlete's training priorities directly from their goals, upcoming events, and current fitness data. Don't apply generic sport templates — read what matters most given where they are right now, how far out the event is, and what their weakest links are. Structure phases around those priorities.
+## Shoulder Health (critical constraint)
+The athlete has a history of anterior shoulder impingement caused by front delt dominance. The weekly split and volume targets must always ensure:
+- Rear delt direct work (face pulls, rear delt flies, reverse pec deck) is included every pull session
+- rear_delts weekly sets must be equal to or greater than front_delts weekly sets
+- Front delt MEV/MRV is intentionally lower than rear delt targets because bench press and OHP already provide secondary front delt stimulus
+- Flag in the notes if any proposed week has rear_delts volume below MEV
 
-## Recovery
-Let the recovery data drive rest day placement and session intensity. Use HRV trends, sleep quality, and ACWR together — not any single metric in isolation. The plan should be responsive to the athlete's actual recovery capacity, not a fixed rule.
+## Mesocycle Structure
+Design a 5–6 week block with this structure:
+1. Accumulation (4–5 weeks): start near MEV, add 1–2 sets per muscle per week, peak near MAV/MRV by week 4
+2. Deload (1 week): ~50% of peak volume, 60–70% of peak intensity, slight calorie reduction
 
-## Session Design
-- **Zone 2 cardio:** strict HR 120–130 bpm. Pace follows HR — never chase pace. Include duration target.
-- **Strength sessions:** the athlete uses Fitbod for exercise selection and progressive overload. Your job is to direct the session type and focus — e.g. "Lower body — posterior chain focus" or "Upper body — push focus (chest, shoulders, triceps)" or "Upper body — pull focus (back, biceps)". Fitbod handles the rest.
-- **All other sessions** (simulations, intervals, etc.): be specific — include structure, targets, and intent.
+## Nutrition Cycling
+Set calorie and protein targets per week that align with training demand:
+- Accumulation: slight surplus above TDEE (+150–300 kcal). More volume weeks = slightly higher calories.
+- Deload: slight reduction (~200–300 below TDEE) since training stress drops
+- Protein: 1.8–2.2g per kg body weight daily, consistent across all weeks
+- baseline_calories and baseline_protein_g should reflect estimated TDEE for this athlete
 
-## Plan Continuity
-An existing program will be provided for reference. Your default position should be to keep it — don't change things for the sake of it. Only deviate from the existing plan when the data gives you a clear reason to:
-- ACWR is outside the 0.8–1.3 window and the current plan would make it worse
-- Recovery signals (HRV, sleep) suggest the planned load is too high for the coming days
-- Extra context provided by the athlete (illness, travel, soreness, life events) changes what's appropriate
-- The event timeline has shifted enough that the phase structure no longer makes sense
+## Weekly Split
+Design a 4-day training split that:
+- Has dedicated push, pull, and leg days
+- Includes a second upper day focused on rear delts and arms (to fix the imbalance)
+- Zone 2 cardio on 1–2 non-strength days
+- At least 1 full rest day
 
-If the existing plan is broadly sound and load is in range, carry it forward with minimal changes. Preference continuity over novelty.
+## Volume Progression
+Use the athlete's actual muscle volume data to determine starting sets for week 1:
+- If a muscle is below MEV, week 1 starts at MEV
+- If already above MEV, continue from current level
+- Add 1–2 sets per muscle per week during accumulation
+- Never exceed MRV in any week
 
-## Injury Management
-If the athlete has active injuries, they are non-negotiable constraints — not suggestions:
-- Never prescribe movements listed under "affected_movements" for that injury
-- For strength sessions, explicitly name the movements to avoid and suggest safe alternatives (e.g. rotator cuff tear → replace overhead press with incline press or cable flyes; replace lateral raises with cable face pulls or band pull-aparts)
-- Flag in the session description which movements are modified and why
-- If the injury affects a key Hyrox station (e.g. shoulder → ski erg, sled push), note the modification and adjust effort targets accordingly
-- Rehab exercises, if listed, should be incorporated as a warm-up or accessory block in relevant sessions
+## Load Management
+- ACWR should stay 0.8–1.3 throughout the block
+- If current ACWR is elevated, start week 1 conservatively
+- volume_modifier: 1.0 = baseline, build to ~1.3 at peak, drop to ~0.5 for deload
+- intensity_modifier: 1.0 = ~70–75% 1RM, build to ~1.1 at peak, drop to ~0.65 for deload
 
 ## Output Rules
-- Generate a complete plan from today to the event date, organised into meaningful phases
-- Each phase must have a clear strategic purpose
-- Session entries must be specific and actionable — include enough detail that the athlete knows exactly what to do and why
-- Date every session with the actual ISO date (YYYY-MM-DD)
-- Recommend the optimal number of sessions per week based on the data — don't default to a fixed number
-- The id field must be: "ai-plan-${TODAY_STR}"`
+- id must be "mesocycle-${TODAY_STR}"
+- Dates must be real calendar dates starting from today
+- Each week needs start_date and end_date as actual ISO dates
+- The weekly_split array should cover all 7 days (Mon–Sun) including rest and cardio days
+- Each week's notes should briefly explain the focus and any key adjustments for that week`
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// ─── CLI helpers ──────────────────────────────────────────────────────────────
 
 function ask(rl: readline.Interface, prompt: string): Promise<string> {
   return new Promise(resolve => rl.question(prompt, answer => resolve(answer.trim())))
 }
 
-function showPlanSummary(plan: any, message: Anthropic.Message) {
-  const totalSessions = plan.phases.reduce((s: number, p: any) => s + p.days.length, 0)
+function showSummary(meso: any, message: Anthropic.Message) {
+  const totalWeeks = meso.phases.reduce((s: number, p: any) => s + (p.weeks?.length ?? 0), 0)
   console.log(`\n${'─'.repeat(60)}`)
-  console.log(`${plan.name}`)
-  console.log(`${plan.start_date} → ${plan.end_date}`)
-  console.log(`${plan.phases.length} phases · ${totalSessions} sessions`)
+  console.log(meso.name)
+  console.log(`${meso.start_date} → ${meso.end_date}  (${totalWeeks} weeks)`)
+  console.log(`Baseline: ${meso.baseline_calories} kcal/day · ${meso.baseline_protein_g}g protein`)
   console.log(`${'─'.repeat(60)}`)
 
-  for (const phase of plan.phases) {
-    console.log(`\n  ${phase.name} (${phase.start_date} → ${phase.end_date})`)
+  for (const phase of meso.phases) {
+    console.log(`\n  ${phase.name} [${phase.type}]  ${phase.start_date} → ${phase.end_date}`)
     console.log(`  ${phase.focus}`)
-    for (const day of phase.days) {
-      console.log(`    ${day.date} ${day.day_of_week}: ${day.focus}`)
+    for (const week of phase.weeks ?? []) {
+      console.log(`    Week ${week.week} (${week.start_date}): vol ×${week.volume_modifier}  int ×${week.intensity_modifier}  ${week.calorie_target} kcal  ${week.protein_target_g}g protein`)
     }
+  }
+
+  console.log('\n  Weekly split:')
+  for (const day of meso.weekly_split ?? []) {
+    console.log(`    ${day.day}: ${day.focus}`)
   }
 
   console.log(`\nTokens: ${message.usage.input_tokens} in / ${message.usage.output_tokens} out`)
@@ -375,23 +427,20 @@ function showPlanSummary(plan: any, message: Anthropic.Message) {
 
 // ─── Generate ─────────────────────────────────────────────────────────────────
 
-async function generatePlan(extraContext: string): Promise<{
-  plan: any
+async function generateMesocycle(extraContext: string): Promise<{
+  meso: any
   filename: string
   outputPath: string
   message: Anthropic.Message
 }> {
   const context = buildContext()
 
-  console.log(`Generating training plan with Claude Opus...`)
+  console.log(`Generating mesocycle with Claude Opus...`)
   console.log(`Today: ${TODAY_STR}`)
   if (extraContext) console.log(`Extra context: "${extraContext}"`)
   console.log('')
 
-  let dotInterval: ReturnType<typeof setInterval> | null = setInterval(
-    () => process.stdout.write('.'),
-    800
-  )
+  const dotInterval = setInterval(() => process.stdout.write('.'), 800)
 
   let message: Anthropic.Message
   try {
@@ -400,27 +449,18 @@ async function generatePlan(extraContext: string): Promise<{
       max_tokens: 16000,
       thinking: { type: 'adaptive' },
       system: SYSTEM_PROMPT,
-      messages: [
-        {
-          role: 'user',
-          content: `Here is my current fitness data. Generate an optimised training plan from today (${TODAY_STR}) through my next event, accounting for my current load, recovery state, and any existing program structure.${extraContext ? `\n\n## ADDITIONAL CONTEXT FROM ATHLETE\n${extraContext}` : ''}\n\n${context}`,
-        },
-      ],
+      messages: [{
+        role: 'user',
+        content: `Generate a new mesocycle starting from today (${TODAY_STR}). Use my current data to determine appropriate starting volumes, nutrition targets, and phase structure.${extraContext ? `\n\n## ADDITIONAL CONTEXT FROM ATHLETE\n${extraContext}` : ''}\n\n${context}`,
+      }],
       output_config: {
-        format: {
-          type: 'json_schema',
-          schema: PROGRAM_SCHEMA,
-        },
+        format: { type: 'json_schema', schema: MESOCYCLE_SCHEMA },
       },
     })
-
     message = await stream.finalMessage()
   } finally {
-    if (dotInterval) {
-      clearInterval(dotInterval)
-      dotInterval = null
-      console.log('\n')
-    }
+    clearInterval(dotInterval)
+    console.log('\n')
   }
 
   const textBlock = message.content.find((b): b is Anthropic.TextBlock => b.type === 'text')
@@ -429,34 +469,32 @@ async function generatePlan(extraContext: string): Promise<{
     process.exit(1)
   }
 
-  let plan: any
+  let meso: any
   try {
-    plan = JSON.parse(textBlock.text)
+    meso = JSON.parse(textBlock.text)
   } catch (e) {
-    console.error('Failed to parse response as JSON:', e)
+    console.error('Failed to parse JSON response:', e)
     console.error('Raw response:', textBlock.text.slice(0, 500))
     process.exit(1)
   }
 
-  const filename = `ai-plan-${TODAY_STR}.json`
+  const filename = `mesocycle-${TODAY_STR}.json`
   const outputPath = join(DATA_DIR, 'programs', filename)
-  writeFileSync(outputPath, JSON.stringify(plan, null, 2))
+  writeFileSync(outputPath, JSON.stringify(meso, null, 2))
   console.log(`Draft saved: data/programs/${filename}`)
 
-  return { plan, filename, outputPath, message }
+  return { meso, filename, outputPath, message }
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
   let extraContext = EXTRA_CONTEXT
-  let { plan, filename, outputPath, message } = await generatePlan(extraContext)
+  let { meso, filename, outputPath, message } = await generateMesocycle(extraContext)
 
-  showPlanSummary(plan, message)
+  showSummary(meso, message)
 
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
-
-  // Ensure readline is closed on unexpected exit
   process.on('exit', () => rl.close())
 
   try {
@@ -464,38 +502,31 @@ async function main() {
       const answer = (await ask(rl, 'Accept (a) / Deny (d) / Suggest changes (s): ')).toLowerCase()
 
       if (answer === 'a' || answer === 'accept') {
-        // Remove all other program files — the accepted AI plan becomes the only one
+        // Remove all other program files — accepted mesocycle becomes the active one
         const programsDir = join(DATA_DIR, 'programs')
-        const others = readdirSync(programsDir)
-          .filter(f => f.endsWith('.json') && f !== filename)
+        const others = readdirSync(programsDir).filter(f => f.endsWith('.json') && f !== filename)
         for (const f of others) {
           unlinkSync(join(programsDir, f))
           console.log(`  Removed: data/programs/${f}`)
         }
-        console.log(`\nActive plan set: data/programs/${filename}`)
+        console.log(`\nActive mesocycle: data/programs/${filename}`)
 
-        // Pre-generate sessions for the next 7 days so they're ready on mobile
+        // Preload sessions for the next 7 days
         console.log('\nPreloading sessions for next 7 days...')
         const preloadResult = spawnSync('npx', ['tsx', join(__dirname, 'preload-sessions.ts')], {
           stdio: 'inherit',
           cwd: join(__dirname, '..'),
         })
         if (preloadResult.status !== 0) {
-          console.warn('Session preload failed — sessions will fall back to keyword extraction on mobile.')
+          console.warn('Session preload failed — sessions will use AI at runtime.')
         }
 
         const deployAnswer = (await ask(rl, '\nDeploy to dashboard now? (y/n): ')).toLowerCase()
         if (deployAnswer === 'y' || deployAnswer === 'yes') {
           console.log('\nBuilding and deploying dashboard...')
-          const result = spawnSync('npm', ['run', 'deploy'], {
-            stdio: 'inherit',
-            cwd: join(__dirname, '..'),
-          })
-          if (result.status === 0) {
-            console.log('Dashboard deployed.')
-          } else {
-            console.error('Deploy failed — check output above.')
-          }
+          const result = spawnSync('npm', ['run', 'deploy'], { stdio: 'inherit', cwd: join(__dirname, '..') })
+          if (result.status === 0) console.log('Dashboard deployed.')
+          else console.error('Deploy failed — check output above.')
         }
         break
 
@@ -505,27 +536,14 @@ async function main() {
         break
 
       } else if (answer === 's' || answer === 'suggest') {
-        const feedback = await ask(rl, 'Your feedback (press Enter when done): ')
-        if (!feedback) {
-          console.log('No feedback entered — try again.')
-          continue
-        }
-
-        // Combine original context with new feedback
-        extraContext = [extraContext, feedback].filter(Boolean).join('\n')
-
-        // Discard current draft before regenerating
+        const feedback = await ask(rl, 'Your feedback: ')
+        if (!feedback) { console.log('No feedback entered.'); continue }
         unlinkSync(outputPath)
-        console.log(`\nRegenerating with your feedback...\n`)
-
-        const result = await generatePlan(extraContext)
-        plan = result.plan
-        filename = result.filename
-        outputPath = result.outputPath
-        message = result.message
-
-        showPlanSummary(plan, message)
-
+        extraContext = [extraContext, feedback].filter(Boolean).join('\n')
+        console.log('\nRegenerating with your feedback...\n')
+        const result = await generateMesocycle(extraContext)
+        meso = result.meso; filename = result.filename; outputPath = result.outputPath; message = result.message
+        showSummary(meso, message)
       } else {
         console.log('Please enter a, d, or s.')
       }
