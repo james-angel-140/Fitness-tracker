@@ -1,0 +1,11 @@
+# Cloudflare Tunnel config for fitness-tracker
+# After running: cloudflared tunnel create fitness-tracker
+# Copy this file to ~/.cloudflared/fitness-tracker.yml and fill in your values.
+
+tunnel: TUNNEL_ID_HERE
+credentials-file: /Users/jamesangel/.cloudflared/TUNNEL_ID_HERE.json
+
+ingress:
+  - hostname: YOUR_DOMAIN_HERE   # e.g. fitness.yourdomain.com
+    service: http://localhost:3001
+  - service: http_status:404

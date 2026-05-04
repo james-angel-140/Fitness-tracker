@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.jamesangel.fitness-server</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <!-- Uses the tsx installed in the project's node_modules -->
+    <string>/Users/jamesangel/Documents/Development/Fitness-tracker/node_modules/.bin/tsx</string>
+    <string>/Users/jamesangel/Documents/Development/Fitness-tracker/server/index.ts</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/jamesangel/Documents/Development/Fitness-tracker</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <!-- Loads ANTHROPIC_API_KEY, AUTH_USER, AUTH_PASS from root .env -->
+    <key>DOTENV_CONFIG_PATH</key>
+    <string>/Users/jamesangel/Documents/Development/Fitness-tracker/.env</string>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/jamesangel/Library/Logs/fitness-server.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>/Users/jamesangel/Library/Logs/fitness-server.log</string>
+</dict>
+</plist>

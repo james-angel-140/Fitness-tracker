@@ -17,7 +17,9 @@
     "typecheck": "tsc --noEmit",
     "dashboard": "npm -w dashboard run dev",
     "dashboard:build": "npm -w dashboard run build",
-    "deploy": "npm -w dashboard run build && npm -w dashboard run deploy"
+    "deploy": "VITE_BASE=/Fitness-tracker/ npm -w dashboard run build && npm -w dashboard run deploy",
+    "server": "tsx server/index.ts",
+    "server:build": "npm run dashboard:build && echo '✓ Build complete — restart server to serve new files'"
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.88.0",
@@ -25,5 +27,9 @@
     "dotenv": "^17.4.1",
     "tsx": "^4.19.0",
     "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "express": "^5.2.1"
   }
 }

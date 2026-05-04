@@ -68,7 +68,8 @@ function aiMiddlewarePlugin() {
 }
 
 export default defineConfig({
-  base: '/Fitness-tracker/',
+  // For self-hosting use base '/'. For GitHub Pages: VITE_BASE=/Fitness-tracker/ npm run build
+  base: process.env.VITE_BASE ?? '/',
   plugins: [react(), aiMiddlewarePlugin()],
   resolve: {
     alias: {
